@@ -13,3 +13,6 @@
 *.jpeg binary
 *.gif binary
 *.svg binary
+
+# Windows에서 CRLF 강제 적용
+*.md text eol=crlf
