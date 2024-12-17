@@ -39,6 +39,10 @@ const GlobalStyles = createGlobalStyle`
     --blue-0085FF: #0085FF;    
   }
 
+  html {
+    font-size: 62.5%; // 1rem = 10px
+  }
+
   *,
   ::before,
   ::after {
@@ -76,6 +80,7 @@ const GlobalStyles = createGlobalStyle`
     color: var(--black);
     word-break: keep-all;
     font-family: "Pretendard", sans-serif;
+    font-size: 1.6rem;
   }
 `;
 

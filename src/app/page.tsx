@@ -1,4 +1,4 @@
-import StarFill from '../../public/icons/star-fill.svg';
+import StarFill from '@/assets/icons/star-fill.svg';
 export default function Home() {
   return (
     <>
