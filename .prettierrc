@@ -1,9 +1,13 @@
 {
+  "organizeImports": true,
   "semi": true,
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "all",
   "printWidth": 120,
   "endOfLine": "auto",
-  "jsxSingleQuote": true
+  "jsxSingleQuote": true,
+  "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+  "importOrderSortSpecifiers": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }
