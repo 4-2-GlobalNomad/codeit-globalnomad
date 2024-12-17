@@ -3,7 +3,7 @@
 import { createGlobalStyle } from 'styled-components';
 import { reset } from 'styled-reset';
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyles = createGlobalStyle`
   ${reset}
 
   :root {
@@ -39,6 +39,12 @@ const GlobalStyle = createGlobalStyle`
     --blue-0085FF: #0085FF;    
   }
 
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+  }
+
   a {
     text-decoration: none;
     color: inherit;
@@ -67,10 +73,10 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    color: var(--black-1B1B1B);
+    color: var(--black);
     word-break: keep-all;
     font-family: "Pretendard", sans-serif;
   }
 `;
 
-export default GlobalStyle;
+export default GlobalStyles;
