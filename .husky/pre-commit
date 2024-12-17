@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx prettier --write --cache . && git add .
-npm run lint
+npx prettier --write --cache .
+git diff --name-only | xargs git add -p
