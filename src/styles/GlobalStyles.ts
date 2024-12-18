@@ -10,33 +10,33 @@ const GlobalStyles = createGlobalStyle`
     --black: #1B1B1B;
     --nomad-black: #112211;
     
-    --gray-4B4B4B: #4B4B4B;
-    --gray-79747E: #79747E;
-    --gray-A1A1A1: #A1A1A1;
-    --gray-A4A1AA: #A4A1AA;
-    --gray-ADAEB8: #ADAEB8;
-    --gray-CBC9CF: #CBC9CF;
-    --gray-DDDDDD: #DDDDDD;
-    --gray-EEEEEE: #EEEEEE;
-    --gray-FAFAFA: #FAFAFA;
+    --gray-900: #4B4B4B;
+    --gray-800: #79747E;
+    --gray-700: #A1A1A1;
+    --gray-600: #A4A1AA;
+    --gray-500: #ADAEB8;
+    --gray-400: #CBC9CF;
+    --gray-300: #DDDDDD;
+    --gray-200: #EEEEEE;
+    --gray-100: #FAFAFA;
 
-    --green-0B3B2D: #0B3B2D;
-    --green-CED8D5: #CED8D5;
+    --green-200: #0B3B2D;
+    --green-100: #CED8D5;
 
-    --red-FF472E: #FF472E;
-    --red-FFC2BA: #FFC2BA;
-    --red-FFE4E0: #FFE4E0;
+    --red-300: #FF472E;
+    --red-200: #FFC2BA;
+    --red-100: #FFE4E0;
     
-    --green-00AC07: #00AC07;
+    --light-green: #00AC07;
 
-    --orange-FF7C1D: #FF7C1D;
-    --orange-fff4E8: #FFF4E8;
+    --orange-200: #FF7C1D;
+    --orange-100: #FFF4E8;
 
-    --yellow-FFC23D: #FFC23D;
+    --yellow: #FFC23D;
 
-    --blue-E5F3FF: #E5F3FF;
-    --blue-2EB4FF: #2EB4FF;
-    --blue-0085FF: #0085FF;    
+    --blue-300: #E5F3FF;
+    --blue-200: #2EB4FF;
+    --blue-100: #0085FF;    
   }
 
   html {
