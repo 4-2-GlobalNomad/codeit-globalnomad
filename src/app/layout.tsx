@@ -1,5 +1,6 @@
-import StyledComponentsRegistry from '@/lib/registry';
-import GlobalStyles from '@/styles/GlobalStyles';
+// sort-imports-ignore
+import '@/styles/reset.css';
+import '@/styles/global.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -21,12 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body className={pretendard.className}>
-        <StyledComponentsRegistry>
-          <GlobalStyles />
-          {children}
-        </StyledComponentsRegistry>
-      </body>
+      <body className={pretendard.className}>{children}</body>
     </html>
   );
 }
