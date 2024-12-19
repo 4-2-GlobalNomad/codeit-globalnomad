@@ -7,7 +7,14 @@
   "printWidth": 120,
   "endOfLine": "auto",
   "jsxSingleQuote": true,
-  "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+  "importOrder": [
+    "^@/styles/reset.css$",
+    "^@/styles/global.css$",
+    "^@core/(.*)$",
+    "^@server/(.*)$",
+    "^@ui/(.*)$",
+    "^[./]"
+  ],
   "importOrderSortSpecifiers": true,
   "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }

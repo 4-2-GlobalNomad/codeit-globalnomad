@@ -1,10 +1,10 @@
 import type { NextConfig } from 'next';
 
+const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin');
+const withVanillaExtract = createVanillaExtractPlugin();
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  compiler: {
-    styledComponents: true,
-  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+
+  transpilePackages: ['@company/design-system'],
 };
 
-export default nextConfig;
+module.exports = withVanillaExtract(nextConfig);
