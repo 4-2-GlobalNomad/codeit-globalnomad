@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-query-devtools": "^5.62.7",
+    "@vanilla-extract/recipes": "^0.5.5",
     "axios": "^1.7.9",
     "next": "15.1.0",
     "react": "^18.3.1",

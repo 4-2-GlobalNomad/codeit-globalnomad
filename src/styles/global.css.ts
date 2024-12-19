@@ -62,12 +62,6 @@ export const global = createGlobalTheme(':root', {
     tiny: '22px',
     xxTiny: '18px',
   },
-  fontWeight: {
-    bold: '700',
-    semibold: '600',
-    medium: '500',
-    regular: '400',
-  },
 });
 
 globalStyle('html', {
