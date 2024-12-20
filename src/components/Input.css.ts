@@ -8,8 +8,6 @@ export const inputContainer = style({
   width: '100%',
   border: `1px solid ${global.color.gray[800]}`,
   backgroundColor: '#fff',
-  padding: '1.6rem 2rem',
-  borderRadius: '0.6rem',
 });
 
 export const leftIconDiv = style({
