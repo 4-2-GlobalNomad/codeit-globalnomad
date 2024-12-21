@@ -53,7 +53,9 @@ interface IconInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export default function Input(props: IconInputProps) {
   const { icon, iconPosition, borderRadius = '0.4rem', padding = '1.6rem 1.5rem', ...others } = props;
 
-  if (!others.type) others.type = 'text';
+  if (!others.type) {
+    others.type = 'text';
+  }
 
   others.style = {
     fontSize: global.fontSize.small,
