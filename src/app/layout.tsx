@@ -1,5 +1,6 @@
-import StyledComponentsRegistry from '@/lib/registry';
-import GlobalStyles from '@/styles/GlobalStyles';
+// sort-imports-ignore
+import '@/styles/reset.css';
+import '@/styles/global.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -10,7 +11,7 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: '코드잇 프론트엔트 10기 PART4-2팀 GlobalNomad',
+  title: 'GlobalNomad 10기 PART4-2팀',
   description: '사용자가 판매자와 체험자 모두 될 수 있는 체험 상품을 예약하는 기능을 제공하는 서비스입니다.',
 };
 
@@ -21,12 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body className={pretendard.className}>
-        <StyledComponentsRegistry>
-          <GlobalStyles />
-          {children}
-        </StyledComponentsRegistry>
-      </body>
+      <body className={pretendard.className}>{children}</body>
     </html>
   );
 }

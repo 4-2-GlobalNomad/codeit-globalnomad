@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-query-devtools": "^5.62.7",
+    "@vanilla-extract/recipes": "^0.5.5",
     "axios": "^1.7.9",
     "next": "15.1.0",
     "react": "^18.3.1",
@@ -27,6 +28,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@vanilla-extract/next-plugin": "^2.4.7",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.20",
     "eslint-config-prettier": "^9.1.0",
