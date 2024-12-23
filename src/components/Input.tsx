@@ -9,28 +9,22 @@ import * as styles from './Input.css';
  * <Props 설명> 
  * 1. icon: 아이콘 컴포넌트
  * 2. iconPosition: 아이콘 위치
- * 3. borderRadius: 기본이 0.4rem
- * 4. padding: 기본이 1.6rem 1.5rem
+ * 3. variant: border-radius, padding 등의 스타일을 변경할 때 사용 (login, signup 페이지만 'authPage' 로 스타일 변경)
  * 
  * <사용법>
  * 1. 아이콘이 없는 경우
  * <Input placeholder='입력' />
  * 
  * 2. 아이콘이 있는 경우
- * <Input
-          style={{ paddingLeft: '1.2rem' }}
-          placeholder='내가 원하는 체험은'
-          icon={<Search />}
-          iconPosition='left'
-        />
+ * <Input style={{ paddingLeft: '0.8rem' }} placeholder='내가 원하는 체험은' icon={<Search />} iconPosition='left' />
+ * 
  * 3. 비밀번호 입력 시, 아이콘 변경
         <Input
           type={type}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           style={{ paddingRight: '1.2rem' }}
-          borderRadius='0.6rem'
-          padding='1.6rem 2rem'
+          variant={'authPage'}
           placeholder='비밀번호를 입력해주세요'
           icon={
             type === 'password' ? (
@@ -46,12 +40,11 @@ import * as styles from './Input.css';
 interface IconInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
-  borderRadius?: '0.4rem' | '0.6rem';
-  padding?: '1.6rem 1.5rem' | '1.6rem 2rem';
+  variant?: 'default' | 'authPage';
 }
 
 export default function Input(props: IconInputProps) {
-  const { icon, iconPosition, borderRadius = '0.4rem', padding = '1.6rem 1.5rem', ...others } = props;
+  const { icon, iconPosition, variant = 'default', ...others } = props;
 
   if (!others.type) {
     others.type = 'text';
@@ -66,7 +59,7 @@ export default function Input(props: IconInputProps) {
   };
 
   return (
-    <div className={styles.inputContainer} style={{ borderRadius, padding }}>
+    <div className={`${styles.inputContainer} ${styles.variantStyles[variant]}`}>
       <div className={styles.leftIconDiv}>{icon && iconPosition === 'left' && icon}</div>
       <input className={styles.inputField} {...others} />
       <div className={styles.rightIconDiv}>{icon && iconPosition === 'right' && icon}</div>
