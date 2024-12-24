@@ -28,7 +28,8 @@ const DropDownA: React.FC<DropDownAProps> = ({ options, onSelect }) => {
                   key={index}
                   className={styles.item}
                   onClick={() => {
-                    onSelect(option), setIsOpen(false);
+                    onSelect(option);
+                    setIsOpen(false);
                   }}
                 >
                   {option}
