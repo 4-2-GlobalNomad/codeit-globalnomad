@@ -43,7 +43,7 @@ export const Header: React.FC = () => {
         </div>
       )}
       {/* 알람 모달 */}
-      {isModalOpen && <AlarmModal alarms={[]} onClose={() => setModalOpen(false)} />}
+      {isModalOpen && <AlarmModal onClose={() => setModalOpen(false)} />}
     </header>
   );
 };

@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { global } from '@/styles/global.css';
 
 export const header = style({
   display: 'flex',
@@ -6,8 +7,8 @@ export const header = style({
   alignItems: 'center',
   width: '100%',
   height: '7rem',
-  padding: '2rem 36rem',
-  borderBottom: '0.1rem solid #DDDDDD',
+  padding: '2rem 23rem',
+  borderBottom: `0.1rem solid ${global.color.gray[300]}`,
   backgroundColor: '#FFFFFF',
 });
 
@@ -44,7 +45,7 @@ export const icon = style({});
 export const divider = style({
   width: '0.1rem',
   height: '2.2rem',
-  backgroundColor: '#DDDDDD',
+  backgroundColor: `${global.color.gray[300]}`,
   margin: '0 1rem',
 });
 
@@ -52,7 +53,7 @@ export const avatar = style({
   width: '4rem',
   height: '4rem',
   borderRadius: '50%',
-  border: '0.1rem solid #DDDDDD',
+  border: `0.1rem solid ${global.color.gray[300]}`,
 });
 
 export const authButtons = style({

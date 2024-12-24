@@ -30,6 +30,13 @@ export const closeButton = style({
   fontSize: '18px',
 });
 
+export const noAlarms = style({
+  textAlign: 'center',
+  color: '#999',
+  fontSize: '1rem',
+  marginTop: '1rem',
+});
+
 export const alarmItem = style({
   display: 'flex',
   justifyContent: 'space-between',
@@ -57,4 +64,10 @@ export const approve = style({
 
 export const reject = style({
   color: '#FF3B30',
+});
+
+export const time = style({});
+
+export const deleteButton = style({
+  backgroundColor: '#FFFFFF',
 });
