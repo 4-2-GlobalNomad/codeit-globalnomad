@@ -8,11 +8,11 @@ import * as styles from './ProfileSideNavMenu.css';
 
 interface ProfileSideNavMenuProps {
   setImageFile: (file: File) => void;
-  menuList: {
+  menuList: Array<{
     title: string;
     onClick: () => void;
     icon: React.ReactNode;
-  }[];
+  }>;
 }
 
 /**
