@@ -1,6 +1,4 @@
-import { fontStyle } from '@/styles/typography.css';
-import { style, styleVariants } from '@vanilla-extract/css';
-import { all } from 'axios';
+import { style } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
 export const profileSideNavMenu = style({
