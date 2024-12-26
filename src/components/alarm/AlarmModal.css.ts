@@ -3,8 +3,8 @@ import { global } from '@/styles/global.css';
 
 export const modal = style({
   position: 'absolute',
-  top: '15rem',
-  right: '20rem',
+  top: '8rem',
+  right: '34.5rem',
   width: '368px',
   height: '356px',
   borderRadius: '10px',

@@ -16,8 +16,10 @@ interface AlarmModalProps {
 
 export const AlarmModal: React.FC<AlarmModalProps> = ({ onClose }) => {
   const [alarms, setAlarms] = useState<Alarm[]>([]);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     const loadAlarms = async () => {
@@ -25,7 +27,7 @@ export const AlarmModal: React.FC<AlarmModalProps> = ({ onClose }) => {
       setError(null);
       try {
         const data = await fetchAlarms('10-2', undefined, 10);
-        setAlarms(data);
+        setAlarms(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error('알람 데이터를 가져오는 중 에러:', err);
         setError('알람 데이터를 가져오는 중 문제가 발생했습니다.');
@@ -56,7 +58,15 @@ export const AlarmModal: React.FC<AlarmModalProps> = ({ onClose }) => {
   }
 
   return (
-    <div className={styles.modal}>
+    <div
+      className={styles.modal}
+      onScroll={(e) => {
+        const target = e.currentTarget;
+        if (target.scrollHeight - target.scrollTop === target.clientHeight && !loading && hasMore) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      }}
+    >
       <div className={styles.header}>
         <span>알람 {alarms.length}개</span>
         <button className={styles.closeButton} onClick={onClose}>
