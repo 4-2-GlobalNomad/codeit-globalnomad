@@ -7,6 +7,7 @@ export const modal = style({
   right: '34.5rem',
   width: '368px',
   height: '356px',
+  overflow: 'hidden',
   borderRadius: '10px',
   border: `1px solid ${global.color.gray[400]}`,
   backgroundColor: '#CED8D5',
@@ -70,4 +71,10 @@ export const time = style({});
 
 export const deleteButton = style({
   backgroundColor: '#FFFFFF',
+});
+
+export const loading = style({
+  textAlign: 'center',
+  color: '#666',
+  marginTop: '20px',
 });
