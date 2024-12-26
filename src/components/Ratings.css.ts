@@ -1,19 +1,18 @@
 import { style } from '@vanilla-extract/css';
-
-// import global from '@/styles/global.css';
+import { global } from '@/styles/global.css';
 
 export const ratings = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '0.5rem',
 });
 
 export const defaultIcon = style({
-  height: '16px',
+  height: '1.6rem',
 });
 
 export const smallIcon = style({
-  height: '14px',
+  height: '1.4rem',
 });
 
 export const darkModeText = style({
@@ -21,13 +20,13 @@ export const darkModeText = style({
 });
 
 export const defaultModeText = style({
-  color: '#1B1B1B',
+  color: `1px solid ${global.color.black}`,
 });
 
 export const smallSizeText = style({
-  fontSize: '14px',
+  fontSize: '1.4rem',
 });
 
 export const defaultSizeText = style({
-  fontSize: '16px',
+  fontSize: '1.6rem',
 });
