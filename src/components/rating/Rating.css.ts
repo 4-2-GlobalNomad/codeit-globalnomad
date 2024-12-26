@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
-export const ratings = style({
+export const rating = style({
   display: 'flex',
   alignItems: 'center',
   gap: '0.5rem',
