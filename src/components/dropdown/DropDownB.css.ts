@@ -1,38 +1,36 @@
 import { style } from '@vanilla-extract/css';
+import { global } from '@/styles/global.css';
 
-export const dropdownContainerA = style({
+export const dropdownContainerB = style({
   position: 'relative',
   width: '15rem',
   background: 'white',
   borderRadius: '1.5rem',
 });
 
-export const dropdownListA = style({
+export const dropdownListB = style({
   borderRadius: '0.5rem',
   border: '0.0625rem solid #ccc',
   listStyleType: 'none',
   padding: '0',
   margin: '0',
-  position: 'absolute',
-  top: '100%',
-  left: '0',
-  zIndex: 1000,
 });
 
-export const dropdownButtonA = style({
+export const dropdownButtonB = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   background: 'white',
-  border: '1px solid #ccc',
+  border: `1px solid ${global.color.green[200]}`,
   borderRadius: '1rem',
   padding: '1rem 1rem',
   cursor: 'pointer',
   width: '10rem',
   position: 'relative',
+  color: global.color.green[200],
 });
 
-export const itemA = style({
+export const itemB = style({
   padding: '2rem',
   textAlign: 'center',
   cursor: 'pointer',
@@ -45,19 +43,20 @@ export const itemA = style({
   },
 });
 
-export const portalContainerA = style({
+export const portalContainerB = style({
   position: 'absolute',
-  top: '6rem',
+  top: '10rem',
   left: '0',
   zIndex: 1000,
 });
 
-export const iconA = style({
-  width: '5rem',
-  height: '5rem',
+export const iconB = style({
+  width: '2rem',
+  height: '1.5rem',
   marginLeft: '0.5rem',
   marginTop: '0.5rem',
   transition: 'transform 0.3s ease',
+  fill: global.color.green[200],
   selectors: {
     '&.open': {
       transform: 'rotate(180deg)',
@@ -65,6 +64,8 @@ export const iconA = style({
   },
 });
 
-export const listItemWithDividerA = style({
+export const open = style({ transform: 'rotate(180deg)' });
+
+export const listItemWithDividerB = style({
   selectors: { '&:not(:last-child)': { borderBottom: '0.0625rem solid #ccc' } },
 });

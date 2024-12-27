@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+import MeatballIcon from '../../assets/icons/meatball.svg';
 import * as styles from './DropDownA.css';
 
 interface DropDownAProps {
@@ -15,18 +16,18 @@ const DropDownA: React.FC<DropDownAProps> = ({ options, onSelect }) => {
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
   return (
-    <div className={styles.dropdownContainer}>
-      <button className={styles.dropdownButton} onClick={toggleDropdown}>
-        ...
+    <div className={styles.dropdownContainerA}>
+      <button onClick={toggleDropdown}>
+        <MeatballIcon className={styles.iconA} />
       </button>
       {isOpen &&
         ReactDOM.createPortal(
-          <div className={styles.portalContainer}>
-            <ul className={styles.dropdownList}>
+          <div className={styles.portalContainerA}>
+            <ul className={styles.dropdownListA}>
               {options.map((option, index) => (
                 <li
                   key={index}
-                  className={styles.item}
+                  className={`${styles.itemA} ${styles.listItemWithDividerA}`}
                   onClick={() => {
                     onSelect(option);
                     setIsOpen(false);
