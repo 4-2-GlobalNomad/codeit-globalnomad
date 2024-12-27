@@ -1,5 +1,4 @@
 import CardList from '@/components/profile-experience/CardList';
-import React from 'react';
 import * as styles from './page.css';
 
 export default function ExperiencesPage() {
