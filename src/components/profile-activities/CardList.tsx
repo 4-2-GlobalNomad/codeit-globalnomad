@@ -21,7 +21,6 @@ export default function CardList() {
           try {
             const data = await getMyActivities();
             setActivities(data);
-            console.log('Fetched activities:', data);
           } catch (error) {
             console.error('Failed to fetch activities:', error);
           }

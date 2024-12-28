@@ -2,7 +2,7 @@ import { fontSizes, fontWeights } from '@/styles/fontStyles.css';
 import { style } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
-export const experiencesPageContainer = style({
+export const activitiesPageContainer = style({
   marginBottom: '12rem',
 });
 
