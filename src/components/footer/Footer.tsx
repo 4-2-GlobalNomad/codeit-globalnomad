@@ -11,12 +11,8 @@ export const Footer = () => {
       <div className={styles.content}>
         <span>©codeit - 2023</span>
         <nav className={styles.text}>
-          <a href='/Privacy Policy' target='_blank' rel='noopener noreferrer'>
-            Privacy Policy
-          </a>
-          <a href='/FAQ' target='_blank' rel='noopener noreferrer'>
-            FAQ
-          </a>
+          <a>Privacy Policy</a>
+          <a>FAQ</a>
         </nav>
         <div className={styles.socialIcons}>
           <a href='https://facebook.com' target='_blank' rel='noopener noreferrer'>
