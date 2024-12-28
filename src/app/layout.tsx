@@ -4,6 +4,7 @@ import '@/styles/global.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import DynamicPortal from '@/components/dynamicportal/DynamicPortal';
+import { Footer } from '@/components/footer/Footer';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={pretendard.className}>
         <DynamicPortal />
         {children}
+        <Footer />
       </body>
     </html>
   );
