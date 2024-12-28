@@ -16,7 +16,7 @@ export const dropdownListA = style({
   position: 'absolute',
   top: '100%',
   left: '0',
-  zIndex: 1000,
+  zIndex: 999,
 });
 
 export const dropdownButtonA = style({
