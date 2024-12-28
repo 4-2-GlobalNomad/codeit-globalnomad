@@ -13,11 +13,11 @@
     "@tanstack/react-query-devtools": "^5.62.7",
     "@vanilla-extract/recipes": "^0.5.5",
     "axios": "^1.7.9",
+    "gitmoji-cli": "^9.5.0",
     "next": "15.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-query": "^3.39.3",
-    "styled-components": "^6.1.13",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
@@ -36,7 +36,6 @@
     "gitmoji-cli": "9.5.0",
     "husky": "^8.0.0",
     "prettier": "^3.4.2",
-    "styled-reset": "^4.5.2",
     "typescript": "^5"
   }
 }
