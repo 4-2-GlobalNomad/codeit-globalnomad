@@ -4,11 +4,11 @@ import * as styles from './Dialog.css';
 // 1. Modal 사용법 참고
 // 2. 3번 구문에 <Children /> 대신 <Dialog /> 대입
 // 예시:
-// {showModal && (
+// {showModal && createPortal(
 //     <Modal
 //         handleModalState={handleModalState}
 //         content={<Dialog handleModalState={handleModalState} message='Dialog의 안내 메세지 어쩌고 저쩌고.' />}
-//     />
+//     />, document.body
 //     )}
 
 export default function Dialog(props: { handleModalState: () => void; message: string }) {
