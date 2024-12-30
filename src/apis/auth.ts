@@ -4,7 +4,7 @@ interface LoginResponse {
   accessToken: string;
 }
 
-// 로그인
+// 토큰 받기
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
   const teamId = '10-2';
   const url = `https://sp-globalnomad-api.vercel.app/${teamId}/auth/login`;

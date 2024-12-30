@@ -1,6 +1,6 @@
 'use client';
 
-import { login } from '@/apis/Auth';
+import { login } from '@/apis/auth';
 import { LoginButton } from '@/components/login/LoginButton';
 import React, { useState } from 'react';
 
