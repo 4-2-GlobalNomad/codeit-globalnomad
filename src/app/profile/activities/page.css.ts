@@ -10,8 +10,8 @@ export const topLayout = style({
   display: 'flex',
   justifyContent: 'space-between',
   maxWidth: '80rem',
-  margin: '0 auto', 
-  marginTop: '7.2rem', 
+  margin: '0 auto',
+  marginTop: '7.2rem',
   marginBottom: '3.4rem',
 });
 
