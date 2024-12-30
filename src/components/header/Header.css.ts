@@ -28,11 +28,19 @@ export const title = style({
 });
 
 export const userInfo = style({
-  width: '150px',
+  width: '170px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
 });
+
+export const userGroup = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+});
+
+export const userName = style({});
 
 export const notificationButton = style({
   fontSize: '12px',

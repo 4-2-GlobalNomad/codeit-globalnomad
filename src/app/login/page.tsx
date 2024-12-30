@@ -14,9 +14,9 @@ export default function LoginPage() {
     try {
       const response = await login(email, password);
       localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('userInfo', JSON.stringify(response.user));
       alert('로그인 성공!');
-    } catch (error) {
-      console.error('로그인 실패:', error);
+    } catch {
       alert('로그인 실패. 다시 시도해 주세요.');
     }
   };
