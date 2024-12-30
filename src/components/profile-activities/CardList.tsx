@@ -10,9 +10,8 @@ import { useEffect, useRef } from 'react';
 import * as styles from './CardList.css';
 
 export default function CardList() {
-  const targetRef = useRef<HTMLDivElement>(null);
-
   const { data, fetchNextPage, isFetchingNextPage } = useMyActivities();
+  const targetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver((entries) => {
@@ -20,16 +19,19 @@ export default function CardList() {
         fetchNextPage();
       }
     });
-    if (targetRef && targetRef.current) {
-      intersectionObserver.observe(targetRef.current); // targetRef.current가 보일 때까지 IntersectionObserver를 통해 감시
+
+    const currentTarget = targetRef.current;
+
+    if (currentTarget) {
+      intersectionObserver.observe(currentTarget); // targetRef.current가 보일 때까지 IntersectionObserver를 통해 감시
     }
 
     return () => {
-      if (targetRef.current) {
-        intersectionObserver.unobserve(targetRef.current); // targetRef.current가 사라지면 IntersectionObserver를 해제
+      if (currentTarget) {
+        intersectionObserver.unobserve(currentTarget); // targetRef.current가 사라지면 IntersectionObserver를 해제
       }
     };
-  }, [targetRef, fetchNextPage]);
+  }, [fetchNextPage]);
   return (
     <section>
       {data?.pages.map((page) => (
