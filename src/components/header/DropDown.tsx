@@ -7,8 +7,17 @@ import * as styles from './DropDown.css';
 
 export const Dropdown: React.FC = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (storedUserInfo) {
+      const { nickname } = JSON.parse(storedUserInfo);
+      setUserName(nickname);
+    }
+  }, []);
 
   const handleOptionClick = (option: string) => {
     if (option === '마이페이지') {
@@ -41,7 +50,10 @@ export const Dropdown: React.FC = () => {
   return (
     <div className={styles.avatarContainer} ref={dropdownRef}>
       <div onClick={() => setDropdownOpen((prev) => !prev)}>
-        <Image src='/avatar.svg' alt='사용자 아바타' className={styles.avatar} width={40} height={40} />
+        <div className={styles.userGroup}>
+          <Image src='/avatar.svg' alt='사용자 아바타' className={styles.avatar} width={40} height={40} />
+          {userName && <span className={styles.userName}>{userName}</span>}
+        </div>
       </div>
       {isDropdownOpen && (
         <div className={styles.dropdown}>

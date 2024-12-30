@@ -14,10 +14,19 @@ export const avatar = style({
   transition: 'transform 0.2s ease-in-out',
 });
 
+export const userGroup = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+});
+
+export const userName = style({
+  fontWeight: '500',
+});
+
 export const dropdown = style({
   position: 'absolute',
-  top: '50px',
-  right: '0',
+  top: '60px',
   zIndex: 1000,
   backgroundColor: '#FFFFFF',
   border: '1px solid #ddd',

@@ -34,14 +34,6 @@ export const userInfo = style({
   justifyContent: 'space-between',
 });
 
-export const userGroup = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
-});
-
-export const userName = style({});
-
 export const notificationButton = style({
   fontSize: '12px',
   background: 'none',
