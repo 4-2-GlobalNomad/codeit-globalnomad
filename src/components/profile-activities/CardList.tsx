@@ -1,12 +1,11 @@
 'use client';
 
-import { fetchMyActivities } from '@/apis/my-activities';
 import MeatballIcon from '@/assets/icons/meatball.svg';
 import StarIcon from '@/assets/icons/star-fill.svg';
 import testImage from '@/assets/images/test-image-experience1.png';
+import { useMyActivities } from '@/hooks/use-my-activities';
 import { MyActivitiesList } from '@/types/my-activities-list';
 import { toNumberFormatOfKor } from '@/utils/to-number-format-of-kor.ts';
-import { useInfiniteQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 import * as styles from './CardList.css';
@@ -14,14 +13,7 @@ import * as styles from './CardList.css';
 export default function CardList() {
   const targetRef = useRef<HTMLDivElement>(null);
 
-  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ['my-activities'],
-    queryFn: ({ pageParam = null }) => fetchMyActivities(pageParam),
-    initialPageParam: null,
-    getNextPageParam: (lastPage) => {
-      return lastPage.cursorId;
-    },
-  });
+  const { data, fetchNextPage, isFetchingNextPage } = useMyActivities();
 
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver((entries) => {
