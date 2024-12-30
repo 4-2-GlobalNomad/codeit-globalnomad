@@ -7,7 +7,7 @@ export const cardSectionList = style({
   marginTop: '3rem',
   rowGap: '1.6rem',
   maxWidth: '80rem',
-  margin: '0 auto', // TODO: 페이지 레이아웃 수정 시 제거하기
+  margin: '0 auto',
   marginBottom: '1.6rem',
 });
 

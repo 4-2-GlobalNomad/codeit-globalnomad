@@ -8,10 +8,7 @@ export const fetchMyActivities = async (pageParam = null) => {
       throw new Error('No access token found');
     }
 
-    const url =
-      pageParam === null
-        ? `/my-activities?size=3` // TODO: size는 데이터 추가 시 변경
-        : `/my-activities?size=3&cursorId=${pageParam}`; // cursorId가 있을 경우 추가
+    const url = pageParam === null ? `/my-activities?size=3` : `/my-activities?size=3&cursorId=${pageParam}`;
 
     const response = await axiosInstance.get(url, {
       headers: {

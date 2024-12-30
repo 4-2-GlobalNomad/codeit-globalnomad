@@ -16,7 +16,9 @@ export default function CardList() {
 
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) fetchNextPage();
+      if (entries[0].isIntersecting) {
+        fetchNextPage();
+      }
     });
     if (targetRef && targetRef.current) {
       intersectionObserver.observe(targetRef.current); // targetRef.current가 보일 때까지 IntersectionObserver를 통해 감시
@@ -47,7 +49,6 @@ export default function CardList() {
               <div className={styles.cardContentLayout}>
                 <div className={styles.cardTopLayout}>
                   <div className={styles.starRatingLayout}>
-                    {/* TODO: rating 공용 컴포넌트 적용하기 */}
                     <StarIcon width={19} height={19} />
                     <span> {activity.rating.toFixed(1)}</span>
                     <span>({activity.reviewCount})</span>
@@ -56,7 +57,6 @@ export default function CardList() {
                 </div>
                 <div className={styles.cardBottomLayout}>
                   <p className={styles.priceText}>{toNumberFormatOfKor(activity.price)}</p>
-                  {/* TODO: dropdown 공용 컴포넌트 적용하기 */}
                   <button>
                     <MeatballIcon width={40} height={40} />
                   </button>
@@ -67,7 +67,6 @@ export default function CardList() {
         </div>
       ))}
       {isFetchingNextPage && (
-        // TODO: 로딩 스피너로 변경하기
         <div
           style={{
             background: 'black',
