@@ -50,6 +50,10 @@ export const divider = style({
   margin: '1px',
 });
 
+export const avatarContainer = style({
+  position: 'relative',
+});
+
 export const avatar = style({
   width: '40px',
   height: '40px',
