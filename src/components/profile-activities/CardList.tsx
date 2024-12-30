@@ -2,7 +2,6 @@
 
 import MeatballIcon from '@/assets/icons/meatball.svg';
 import StarIcon from '@/assets/icons/star-fill.svg';
-import testImage from '@/assets/images/test-image-experience1.png';
 import { useMyActivities } from '@/hooks/use-my-activities';
 import { MyActivitiesList } from '@/types/my-activities-list';
 import { toNumberFormatOfKor } from '@/utils/to-number-format-of-kor.ts';
@@ -37,7 +36,7 @@ export default function CardList() {
             <div className={styles.cardSection} key={activity.id}>
               <div className={styles.cardImageContainer}>
                 <Image
-                  src={activity.bannerImageUrl || testImage}
+                  src={activity.bannerImageUrl}
                   width={520}
                   height={272}
                   loading='lazy'
