@@ -1,4 +1,3 @@
-import exampleBanner from '@/assets/images/test-image-experience1.png';
 import Image from 'next/image';
 import * as styles from './ReservationCard.css';
 
@@ -37,7 +36,14 @@ export const status = {
 export default function ReservationCard(props: { data: ReservationData }) {
   return (
     <div className={styles.card}>
-      <Image className={styles.img} src={exampleBanner} loading='lazy' alt={'액티비티 대표 이미지'} />
+      <Image
+        className={styles.img}
+        src={props.data.activity.bannerImageUrl}
+        width={204}
+        height={204}
+        loading='lazy'
+        alt={'액티비티 대표 이미지'}
+      />
       <div className={styles.texts}>
         <p className={styles.status}>{status.pending.msg}</p>
         <p className={styles.title}>{props.data.activity.title}</p>
