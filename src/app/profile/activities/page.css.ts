@@ -10,8 +10,8 @@ export const topLayout = style({
   display: 'flex',
   justifyContent: 'space-between',
   maxWidth: '80rem',
-  margin: '0 auto', // TODO: 페이지 레이아웃 수정 시 제거하기
-  marginTop: '7.2rem', // TODO: 페이지 레이아웃 수정 시 제거하기
+  margin: '0 auto', 
+  marginTop: '7.2rem', 
   marginBottom: '3.4rem',
 });
 
