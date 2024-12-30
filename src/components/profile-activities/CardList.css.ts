@@ -8,6 +8,7 @@ export const cardSectionList = style({
   rowGap: '1.6rem',
   maxWidth: '80rem',
   margin: '0 auto', // TODO: 페이지 레이아웃 수정 시 제거하기
+  marginBottom: '1.6rem',
 });
 
 export const cardSection = style({
