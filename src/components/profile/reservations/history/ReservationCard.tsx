@@ -25,7 +25,7 @@ export interface ReservationData {
   updatedAt: string;
 }
 
-export const status = {
+export const STATUS = {
   pending: { msg: '예약 신청', color: '#2EB4FF', cancelAvailable: true, reviewAvailable: false },
   confirm: { msg: '예약 승인', color: '#FF7C1D', cancelAvailable: false, reviewAvailable: false },
   decline: { msg: '예약 거절', color: '#ff472e', cancelAvailable: false, reviewAvailable: false },
@@ -34,6 +34,20 @@ export const status = {
 };
 
 export default function ReservationCard(props: { data: ReservationData }) {
+  const status = props.data.status;
+  let msg = '';
+  let color = '';
+  if (
+    status === 'pending' ||
+    status === 'confirm' ||
+    status === 'decline' ||
+    status === 'canceled' ||
+    status === 'completed'
+  ) {
+    msg = STATUS[status].msg;
+    color = STATUS[status].color;
+  }
+
   return (
     <div className={styles.card}>
       <Image
@@ -45,7 +59,9 @@ export default function ReservationCard(props: { data: ReservationData }) {
         alt={'액티비티 대표 이미지'}
       />
       <div className={styles.texts}>
-        <p className={styles.status}>{status.pending.msg}</p>
+        <p className={styles.status} style={{ color: `${color}` }}>
+          {msg}
+        </p>
         <p className={styles.title}>{props.data.activity.title}</p>
         <p className={styles.subtitle}>
           {props.data.date} . {props.data.startTime}-{props.data.endTime} . {props.data.headCount}명
