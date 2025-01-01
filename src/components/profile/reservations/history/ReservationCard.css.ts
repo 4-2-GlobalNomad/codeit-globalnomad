@@ -24,7 +24,7 @@ export const img = style({
 export const texts = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '10px',
+  gap: '6px',
 });
 
 export const status = style({
@@ -39,6 +39,7 @@ export const title = style({
   fontSize: '2rem',
   lineHeight: '3.2rem',
   color: `${global.color.nomadBlack}`,
+  paddingBottom: '4px',
 });
 
 export const subtitle = style({
@@ -53,5 +54,5 @@ export const price = style({
   fontSize: '2.4rem',
   lineHeight: '3.2rem',
   color: `${global.color.black}`,
-  padding: '5px 0',
+  paddingTop: '16px',
 });

@@ -48,6 +48,13 @@ export default function ReservationCard(props: { data: ReservationData }) {
     color = STATUS[status].color;
   }
 
+  const date = props.data.date.split('-').map(Number).join('. ');
+  const price = (props.data.totalPrice / props.data.headCount).toLocaleString();
+  let title = props.data.activity.title;
+  if (title.length > 35) {
+    title = title.slice(0, 34) + ' ···';
+  }
+
   return (
     <div className={styles.card}>
       <Image
@@ -62,11 +69,11 @@ export default function ReservationCard(props: { data: ReservationData }) {
         <p className={styles.status} style={{ color: `${color}` }}>
           {msg}
         </p>
-        <p className={styles.title}>{props.data.activity.title}</p>
+        <p className={styles.title}>{title}</p>
         <p className={styles.subtitle}>
-          {props.data.date} . {props.data.startTime}-{props.data.endTime} . {props.data.headCount}명
+          {date} · {props.data.startTime} - {props.data.endTime} · {props.data.headCount}명
         </p>
-        <p className={styles.price}>￦{props.data.totalPrice / props.data.headCount}</p>
+        <p className={styles.price}>￦{price}</p>
       </div>
     </div>
   );
