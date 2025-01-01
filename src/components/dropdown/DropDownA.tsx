@@ -10,7 +10,7 @@ interface DropDownAProps {
   onSelect: (item: string) => void;
 }
 
-const DropDownA: React.FC<DropDownAProps> = ({ options, onSelect }) => {
+function DropDownA({ options, onSelect }: DropDownAProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownStyle, setDropdownStyle] = useState({});
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -54,6 +54,6 @@ const DropDownA: React.FC<DropDownAProps> = ({ options, onSelect }) => {
         )}
     </div>
   );
-};
+}
 
 export default DropDownA;

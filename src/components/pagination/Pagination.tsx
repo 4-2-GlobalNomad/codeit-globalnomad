@@ -10,7 +10,7 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsPerPage, onPageChange }) => {
+function Pagination({ currentPage, totalItems, itemsPerPage, onPageChange }: PaginationProps) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return (
@@ -39,6 +39,6 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalItems, itemsP
       </button>
     </div>
   );
-};
+}
 
 export default Pagination;

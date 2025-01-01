@@ -11,7 +11,7 @@ interface DropDownBProps {
   onSelect: (item: string) => void;
 }
 
-const DropDownB: React.FC<DropDownBProps> = ({ options, placeholder = '가격', onSelect }) => {
+function DropDownB({ options, placeholder = '가격', onSelect }: DropDownBProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [dropdownStyle, setDropdownStyle] = useState({});
@@ -61,6 +61,6 @@ const DropDownB: React.FC<DropDownBProps> = ({ options, placeholder = '가격', 
         )}
     </div>
   );
-};
+}
 
 export default DropDownB;
