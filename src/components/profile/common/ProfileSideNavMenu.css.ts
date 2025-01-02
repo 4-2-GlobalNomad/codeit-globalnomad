@@ -1,6 +1,10 @@
 import { style } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
+export const navContainer = style({
+  width: '100%',
+});
+
 export const profileSideNavMenu = style({
   display: 'flex',
   flexDirection: 'column',
@@ -10,9 +14,15 @@ export const profileSideNavMenu = style({
   backgroundColor: '#fff',
   border: `1px solid ${global.color.gray[300]}`,
   borderRadius: '1.2rem',
-  width: '38.4rem',
+  width: '100%',
   height: 'fit-content',
   boxShadow: '0px 4px 16px rgba(17, 34, 17, 0.05)',
+
+  '@media': {
+    'screen and (max-width: 767px)': {
+      display: 'none',
+    },
+  },
 });
 
 export const profileImageBox = style({
@@ -61,7 +71,7 @@ export const penIconImage = style({
 });
 
 export const navListBox = style({
-  width: '33.6rem',
+  padding: '0 6.25%',
   gap: '8px',
   display: 'flex',
   flexDirection: 'column',
