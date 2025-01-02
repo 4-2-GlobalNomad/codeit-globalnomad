@@ -1,4 +1,4 @@
-import CardList from '@/components/profile-activities/CardList';
+import CardList from '@/components/profile/my-activities/CardList';
 import * as styles from './page.css';
 
 export default function MyActivitiesPage() {
