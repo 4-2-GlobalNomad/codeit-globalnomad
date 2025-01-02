@@ -1,6 +1,6 @@
-import { axiosInstance } from './axios-instance';
+import { axiosInstance } from '@/apis/axios-instance';
 
-export const getMyActivities = async () => {
+export const fetchMyActivities = async (pageParam = null) => {
   try {
     const token = localStorage.getItem('accessToken');
 
@@ -8,14 +8,16 @@ export const getMyActivities = async () => {
       throw new Error('No access token found');
     }
 
-    const response = await axiosInstance.get('/my-activities', {
+    const url = pageParam === null ? `/my-activities?size=3` : `/my-activities?size=3&cursorId=${pageParam}`;
+
+    const response = await axiosInstance.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    return response.data.activities;
+    return response.data;
   } catch (error) {
     console.error('Error fetching getMyActivities:', error);
+    throw error;
   }
 };
