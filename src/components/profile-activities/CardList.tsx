@@ -4,7 +4,7 @@ import MeatballIcon from '@/assets/icons/meatball.svg';
 import StarIcon from '@/assets/icons/star-fill.svg';
 import { useMyActivities } from '@/hooks/use-my-activities';
 import { MyActivitiesList } from '@/types/my-activities-list';
-import { formatToKor } from '@/utils/to-number-format-of-kor.ts';
+import { formatToKor } from '@/utils/format-to-kor';
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 import * as styles from './CardList.css';
