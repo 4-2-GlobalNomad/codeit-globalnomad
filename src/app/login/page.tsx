@@ -21,6 +21,7 @@ export default function LoginPage() {
     try {
       const response = await login(email, password);
       localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
       localStorage.setItem('userInfo', JSON.stringify(response.user));
       alert('로그인 성공!');
     } catch {
