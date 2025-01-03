@@ -22,7 +22,7 @@ export default function ReservationPage() {
         <div className={styles.content}>
           <div className={styles.contentHeader}>
             <h2 className={styles.history}>예약 내역</h2>
-            <DropDownB options={options} placeholder='필터' onSelect={onSelect} />
+            {isExist && <DropDownB options={options} placeholder='필터' onSelect={onSelect} />}
           </div>
           <div className={styles.list}>
             {isExist || <EmptyCard />}
