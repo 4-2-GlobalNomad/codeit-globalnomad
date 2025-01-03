@@ -23,7 +23,9 @@ export const panel = style({
   padding: '50px',
 });
 
-export const content = style({});
+export const content = style({
+  width: '100%',
+});
 
 export const contentHeader = style({
   display: 'flex',
@@ -42,4 +44,5 @@ export const list = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '24px',
+  width: '100%',
 });
