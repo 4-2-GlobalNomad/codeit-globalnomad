@@ -2,6 +2,8 @@ import { style } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
 export const card = style({
+  position: 'relative',
+
   backgroundColor: '#ffffff',
   height: '204px',
   width: '792px',
@@ -55,4 +57,19 @@ export const price = style({
   lineHeight: '3.2rem',
   color: `${global.color.black}`,
   paddingTop: '16px',
+});
+
+export const button = style({
+  position: 'absolute',
+  right: '30px',
+  bottom: '20px',
+
+  width: '144px',
+  height: '43px',
+  backgroundColor: `${global.color.nomadBlack}`,
+  borderRadius: '6px',
+
+  color: '#ffffff',
+  fontSize: '16px',
+  fontWeight: '700',
 });

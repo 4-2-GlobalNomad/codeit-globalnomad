@@ -1,5 +1,10 @@
+import Modal from '@/components/modal/Modal';
 import Image from 'next/image';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
+import CancelModal from './CancelModal';
 import * as styles from './ReservationCard.css';
+import ReviewModal from './ReviewModal';
 
 // interface StatusObj {
 //   msg: string;
@@ -34,9 +39,17 @@ export const STATUS = {
 };
 
 export default function ReservationCard(props: { data: ReservationData }) {
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const handleCancelModalState = () => setShowCancelModal(!showCancelModal);
+
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const handleReviewModalState = () => setShowReviewModal(!showReviewModal);
+
   const status = props.data.status;
   let msg = '';
   let color = '';
+  let cancelAvailable = false;
+  let reviewAvailable = false;
   if (
     status === 'pending' ||
     status === 'confirm' ||
@@ -46,6 +59,8 @@ export default function ReservationCard(props: { data: ReservationData }) {
   ) {
     msg = STATUS[status].msg;
     color = STATUS[status].color;
+    cancelAvailable = STATUS[status].cancelAvailable;
+    reviewAvailable = STATUS[status].reviewAvailable;
   }
 
   const date = props.data.date.split('-').map(Number).join('. ');
@@ -75,6 +90,32 @@ export default function ReservationCard(props: { data: ReservationData }) {
         </p>
         <p className={styles.price}>￦{price}</p>
       </div>
+      {cancelAvailable && (
+        <button className={styles.button} onClick={handleCancelModalState}>
+          예약 취소
+        </button>
+      )}
+      {reviewAvailable && (
+        <button className={styles.button} onClick={handleReviewModalState}>
+          리뷰 작성
+        </button>
+      )}
+      {showCancelModal &&
+        createPortal(
+          <Modal
+            handleModalState={handleCancelModalState}
+            content={<CancelModal handleModalState={handleCancelModalState} />}
+          />,
+          document.body,
+        )}
+      {showReviewModal &&
+        createPortal(
+          <Modal
+            handleModalState={handleReviewModalState}
+            content={<ReviewModal handleModalState={handleReviewModalState} data={props.data} />}
+          />,
+          document.body,
+        )}
     </div>
   );
 }
