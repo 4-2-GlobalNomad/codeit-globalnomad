@@ -1,6 +1,7 @@
 'use client';
 
 import MyActivitiesCreate from '@/components/profile/my-activities-create/MyActivitiesCreate';
+import { StyledEngineProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import React, { useState } from 'react';
@@ -20,7 +21,9 @@ export default function MyActivitiesCreatePage() {
           </button>
         </div>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <MyActivitiesCreate usage={selectedCategory} options={categories} setOption={setSelectedCategory} />
+          <StyledEngineProvider injectFirst>
+            <MyActivitiesCreate usage={selectedCategory} options={categories} setOption={setSelectedCategory} />
+          </StyledEngineProvider>
         </LocalizationProvider>
       </form>
     </div>
