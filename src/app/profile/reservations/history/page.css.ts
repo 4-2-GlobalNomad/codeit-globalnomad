@@ -46,3 +46,7 @@ export const list = style({
   gap: '24px',
   width: '100%',
 });
+
+export const ref = style({
+  height: '5px',
+});
