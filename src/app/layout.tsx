@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import DynamicPortal from '@/components/dynamicportal/DynamicPortal';
 import { Footer } from '@/components/footer/Footer';
+import { Header } from '@/components/header/Header';
 import TanStackProvider from '@/providers/TanStackProvider';
 import { Header } from '@/components/header/Header';
 
@@ -28,6 +29,7 @@ export default function RootLayout({
     <html lang='ko'>
       <body className={pretendard.className}>
         <TanStackProvider>
+          <Header />
           <DynamicPortal />
           {children}
           <Footer />
