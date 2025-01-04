@@ -10,6 +10,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.62.11",
     "@tanstack/react-query-devtools": "^5.62.7",
     "@vanilla-extract/recipes": "^0.5.5",
     "axios": "^1.7.9",
@@ -17,7 +18,6 @@
     "next": "15.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-query": "^3.39.3",
     "zustand": "^5.0.2"
   },
   "devDependencies": {

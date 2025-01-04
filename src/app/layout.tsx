@@ -6,6 +6,8 @@ import localFont from 'next/font/local';
 import DynamicPortal from '@/components/dynamicportal/DynamicPortal';
 import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
+import TanStackProvider from '@/providers/TanStackProvider';
+
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -26,10 +28,13 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className={pretendard.className}>
-        <Header />
-        <DynamicPortal />
-        {children}
-        <Footer />
+        <TanStackProvider>
+          <Header />
+          <DynamicPortal />
+          {children}
+          <Footer />
+        </TanStackProvider>
+
       </body>
     </html>
   );

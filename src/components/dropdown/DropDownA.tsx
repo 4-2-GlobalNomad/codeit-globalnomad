@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import MeatballIcon from '../../assets/icons/meatball.svg';
 import * as styles from './DropDownA.css';
@@ -10,19 +10,31 @@ interface DropDownAProps {
   onSelect: (item: string) => void;
 }
 
-const DropDownA: React.FC<DropDownAProps> = ({ options, onSelect }) => {
+function DropDownA({ options, onSelect }: DropDownAProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownStyle, setDropdownStyle] = useState({});
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const toggleDropdown = () => setIsOpen((prev) => !prev);
+  const toggleDropdown = () => {
+    if (!isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownStyle({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        position: 'absolute',
+      });
+    }
+    setIsOpen((prev) => !prev);
+  };
 
   return (
     <div className={styles.dropdownContainerA}>
-      <button onClick={toggleDropdown}>
+      <button onClick={toggleDropdown} ref={buttonRef}>
         <MeatballIcon className={styles.iconA} />
       </button>
       {isOpen &&
         ReactDOM.createPortal(
-          <div className={styles.portalContainerA}>
+          <div style={dropdownStyle} className={styles.portalContainerA}>
             <ul className={styles.dropdownListA}>
               {options.map((option, index) => (
                 <li
@@ -42,6 +54,6 @@ const DropDownA: React.FC<DropDownAProps> = ({ options, onSelect }) => {
         )}
     </div>
   );
-};
+}
 
 export default DropDownA;
