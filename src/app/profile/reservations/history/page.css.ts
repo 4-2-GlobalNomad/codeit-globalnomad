@@ -3,7 +3,7 @@ import { global } from '@/styles/global.css';
 
 export const background = style({
   backgroundColor: `${global.color.gray[100]}`,
-  height: '2000px',
+  height: 'fit-content',
   paddingTop: '80px',
 });
 
@@ -24,7 +24,7 @@ export const panel = style({
 });
 
 export const content = style({
-  width: '100%',
+  width: '792px',
 });
 
 export const contentHeader = style({
