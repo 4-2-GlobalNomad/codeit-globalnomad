@@ -29,9 +29,9 @@ export default function RootLayout({
       <body className={pretendard.className}>
         <TanStackProvider>
           <DynamicPortal />
+          <Header />
           {children}
           <Footer />
-          <Header />
         </TanStackProvider>
       </body>
     </html>

@@ -2,13 +2,6 @@ import { Alarm } from '@/components/alarm/AlarmModal';
 import axios from 'axios';
 import { axiosInstance } from './axios-instance';
 
-const apiClient = axios.create({
-  baseURL: 'https://sp-globalnomad-api.vercel.app',
-  headers: {
-    Accept: 'application/json',
-  },
-});
-
 // 알람 데이터 가져오기
 export const fetchAlarms = async (
   teamId: string,
@@ -55,7 +48,7 @@ export const deleteAlarm = async (teamId: '10-2', notificationId: number): Promi
   }
 
   try {
-    const response = await apiClient.delete(`/${teamId}/my-notifications/${notificationId}`, {
+    const response = await axiosInstance.delete(`/my-notifications/${notificationId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
