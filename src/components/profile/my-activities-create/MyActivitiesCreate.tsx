@@ -36,7 +36,10 @@ export default function MyActivitiesCreate({ usage, options, setOption }: Props)
     <section className={styles.inputSectionContainer}>
       <Input placeholder='제목' />
       <div className={styles.selectBoxContainer} ref={dropDownRef}>
-        <div onClick={toggleDropdown} className={styles.categoryLayout}>
+        <div
+          onClick={toggleDropdown}
+          className={`${styles.categoryLayout} ${selectedOption !== '카테고리' ? styles.selectedOptionStyle : ''}`}
+        >
           <span>{selectedOption}</span>
           <ArrowDown className={`${styles.arrow} ${isDropdownOpen ? styles.rotated : ''}`} />
         </div>
@@ -53,14 +56,14 @@ export default function MyActivitiesCreate({ usage, options, setOption }: Props)
       </div>
       <textarea className={styles.descriptionInput} placeholder='설명' />
       <div className={styles.inputContainer}>
-        <label className={styles.labelTitle}>가격</label>
+        <h2 className={styles.inputTitle}>가격</h2>
         <Input placeholder='가격' />
       </div>
       <div className={styles.inputContainer}>
-        <label className={styles.labelTitle}>주소</label>
+        <h2 className={styles.inputTitle}>주소</h2>
         <Input placeholder='주소를 입력해주세요' />
       </div>
-      <label className={styles.labelTitle}>예약 가능한 시간대</label>
+      <h2 className={styles.inputTitle}>예약 가능한 시간대</h2>
       <div>
         <div className={styles.datePickerLabelContainer}>
           <div className={`${styles.datePickerLabel}`}>날짜</div>
@@ -81,24 +84,24 @@ export default function MyActivitiesCreate({ usage, options, setOption }: Props)
           </div>
         </div>
       </div>
-      <label className={styles.labelTitle}>배너 이미지</label>
-      <div className={styles.fileUploadContainer}>
+      <h2 className={styles.inputTitle}>배너 이미지</h2>
+      <label htmlFor='file-upload' className={styles.fileUploadContainer}>
         <input className={styles.fileUploadInput} id='file-upload' type='file' />
         <div className={styles.fileUploadtext}>
           <IconPlus />
           <span>이미지 등록</span>
         </div>
-      </div>
-      <label className={styles.labelTitle}>소개 이미지</label>
+      </label>
+      <h2 className={styles.inputTitle}>소개 이미지</h2>
       <div className={styles.subImageLayout}>
         <div className={styles.subImageContainer}>
-          <div className={styles.fileUploadContainer}>
+          <label htmlFor='file-upload' className={styles.fileUploadContainer}>
             <input className={styles.fileUploadInput} id='file-upload' type='file' />
             <div className={styles.fileUploadtext}>
               <IconPlus />
               <span>이미지 등록</span>
             </div>
-          </div>
+          </label>
         </div>
         <p className={styles.descPhrase}>*이미지는 최대 4개까지 등록 가능합니다.</p>
       </div>

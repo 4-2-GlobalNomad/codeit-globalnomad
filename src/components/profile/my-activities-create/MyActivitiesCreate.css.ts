@@ -9,7 +9,7 @@ export const selectBoxContainer = style({
   position: 'relative',
 });
 
-export const labelTitle = style([{}, fontSizes.text2xl, fontWeights.bold]);
+export const inputTitle = style([{}, fontSizes.text2xl, fontWeights.bold]);
 
 export const subImageLayout = style({
   display: 'flex',
@@ -132,6 +132,10 @@ export const selectBoxItem = style({
     background: global.color.nomadBlack,
     color: '#fff',
   },
+});
+
+export const selectedOptionStyle = style({
+  color: global.color.black,
 });
 
 export const checkMark = style({

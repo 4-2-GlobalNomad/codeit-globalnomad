@@ -53,7 +53,7 @@ export default function Input(props: IconInputProps) {
   others.style = {
     fontSize: global.fontSize.small,
     lineHeight: global.lineHeights.small,
-    color: global.color.gray[600],
+    color: global.color.black,
     fontWeight: '400',
     ...others.style,
   };
