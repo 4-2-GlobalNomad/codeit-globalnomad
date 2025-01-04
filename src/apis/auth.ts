@@ -2,6 +2,13 @@ import axios from 'axios';
 
 interface LoginResponse {
   accessToken: string;
+  refreshToken: string;
+  user: {
+    id: number;
+    email: string;
+    nickname: string;
+    profileImageUrl: string;
+  };
 }
 
 // 토큰 받기
