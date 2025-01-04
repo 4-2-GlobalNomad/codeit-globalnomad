@@ -171,15 +171,22 @@ export const datePickerLabelContainer = style({
   gridTemplateColumns: '50.31% 22.44% 27.23%',
 });
 
+export const horizon = style({
+  width: '100%',
+  border: `1px solid ${global.color.gray[300]}`,
+  margin: '2.1rem 0',
+});
+
 export const dateTimePickerContainer = style({
   display: 'grid',
   gridTemplateColumns: '1fr 1fr auto',
   gap: '2rem',
   height: '5.6rem',
   alignItems: 'center',
+  marginBottom: '2.1rem',
 });
 
-export const TimeAddButton = style({
+export const TimeButton = style({
   cursor: 'pointer',
 });
 

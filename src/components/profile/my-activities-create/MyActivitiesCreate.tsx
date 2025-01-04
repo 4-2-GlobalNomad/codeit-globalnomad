@@ -1,5 +1,6 @@
 import ArrowDown from '@/assets/icons/arrow-down.svg';
-import TimeAddButton from '@/assets/icons/btn-add.svg';
+import AddTimeBtn from '@/assets/icons/btn-add-time.svg';
+import MinusTimeBtn from '@/assets/icons/btn-minus-time.svg';
 import CheckMark from '@/assets/icons/check-mark.svg';
 import IconPlus from '@/assets/icons/plus.svg';
 import Input from '@/components/Input';
@@ -30,6 +31,17 @@ export default function MyActivitiesCreate({ usage, options, setOption }: Props)
     setSelectedOption(option);
     setOption(option);
     setIsDropdownOpen(false);
+  };
+
+  // 예약 가능한 시간대 추가
+  const [availableTime, setAvailableTime] = useState([0]);
+
+  const handleAddTime = () => {
+    setAvailableTime([...availableTime, availableTime.length]);
+  };
+
+  const handleDeleteTime = (indexToDelete: number) => {
+    setAvailableTime((prev) => prev.filter((_, index) => index !== indexToDelete));
   };
 
   return (
@@ -70,19 +82,31 @@ export default function MyActivitiesCreate({ usage, options, setOption }: Props)
           <div className={`${styles.datePickerLabel}`}>시작 시간</div>
           <div className={styles.datePickerLabel}>종료 시간</div>
         </div>
-        <div className={styles.dateTimePickerContainer}>
-          <DatePicker className={styles.datePickerContainer} /> {/* 날짜 선택 */}
-          <div className={styles.timePickerContainer}>
-            <div>
-              <TimePicker defaultValue={dayjs('2025-01-04T09:00')} />
+
+        {availableTime.map((_, index) => (
+          <div key={index}>
+            {index === 1 && <div className={styles.horizon}></div>}
+            <div className={styles.dateTimePickerContainer}>
+              <DatePicker className={styles.datePickerContainer} />
+              <div className={styles.timePickerContainer}>
+                <div>
+                  <TimePicker defaultValue={dayjs('2025-01-04T09:00')} />
+                </div>
+                <div>~</div>
+                <TimePicker defaultValue={dayjs('2025-01-04T09:00')} />
+              </div>
+              {index === 0 ? (
+                <div className={styles.TimeButton} onClick={handleAddTime}>
+                  <AddTimeBtn />
+                </div>
+              ) : (
+                <div className={styles.TimeButton} onClick={() => handleDeleteTime(index)}>
+                  <MinusTimeBtn />
+                </div>
+              )}
             </div>
-            <div>~</div>
-            <TimePicker defaultValue={dayjs('2025-01-04T09:00')} />
           </div>
-          <div className={styles.TimeAddButton}>
-            <TimeAddButton />
-          </div>
-        </div>
+        ))}
       </div>
       <h2 className={styles.inputTitle}>배너 이미지</h2>
       <label htmlFor='file-upload' className={styles.fileUploadContainer}>
