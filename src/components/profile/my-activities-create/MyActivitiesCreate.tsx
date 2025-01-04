@@ -63,14 +63,14 @@ export default function MyActivitiesCreate({ usage, options, setOption }: Props)
       <label className={styles.labelTitle}>예약 가능한 시간대</label>
       <div>
         <div className={styles.datePickerLabelContainer}>
-          <div className={`${styles.datePickerLabel} ${styles.dateLabel}`}>날짜</div>
+          <div className={`${styles.datePickerLabel}`}>날짜</div>
           <div className={`${styles.datePickerLabel}`}>시작 시간</div>
           <div className={styles.datePickerLabel}>종료 시간</div>
         </div>
         <div className={styles.dateTimePickerContainer}>
           <DatePicker className={styles.datePickerContainer} /> {/* 날짜 선택 */}
           <div className={styles.timePickerContainer}>
-            <div className={styles.startTimeContainer}>
+            <div>
               <TimePicker defaultValue={dayjs('2025-01-04T09:00')} />
             </div>
             <div>~</div>

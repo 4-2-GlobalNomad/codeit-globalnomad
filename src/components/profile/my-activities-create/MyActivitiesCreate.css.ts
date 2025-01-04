@@ -167,10 +167,6 @@ export const datePickerLabelContainer = style({
   gridTemplateColumns: '50.31% 22.44% 27.23%',
 });
 
-export const dateLabel = style({});
-
-export const startTimeContainer = style({});
-
 export const dateTimePickerContainer = style({
   display: 'grid',
   gridTemplateColumns: '1fr 1fr auto',
