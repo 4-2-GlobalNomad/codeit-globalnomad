@@ -19,9 +19,10 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await login(email, password);
-      localStorage.setItem('accessToken', response.accessToken);
-      localStorage.setItem('userInfo', JSON.stringify(response.user));
+      const { accessToken, refreshToken, user } = await login(email, password);
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('userInfo', JSON.stringify(user));
       alert('로그인 성공!');
     } catch {
       alert('로그인 실패. 다시 시도해 주세요.');

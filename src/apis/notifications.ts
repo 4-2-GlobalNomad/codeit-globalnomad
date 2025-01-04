@@ -1,5 +1,13 @@
 import { Alarm } from '@/components/alarm/AlarmModal';
 import axios from 'axios';
+import { axiosInstance } from './axios-instance';
+
+const apiClient = axios.create({
+  baseURL: 'https://sp-globalnomad-api.vercel.app',
+  headers: {
+    Accept: 'application/json',
+  },
+});
 
 const apiClient = axios.create({
   baseURL: 'https://sp-globalnomad-api.vercel.app',
@@ -25,7 +33,7 @@ export const fetchAlarms = async (
   }
 
   try {
-    const response = await apiClient.get(`/${teamId}/my-notifications`, {
+    const response = await axiosInstance.get(`/my-notifications`, {
       params: {
         cursorId: cursorId ?? 0,
         size,
