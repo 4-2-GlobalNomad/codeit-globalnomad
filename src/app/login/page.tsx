@@ -18,7 +18,6 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       const { accessToken, refreshToken, user } = await login(email, password);
       localStorage.setItem('accessToken', accessToken);
