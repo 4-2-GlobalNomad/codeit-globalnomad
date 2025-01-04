@@ -29,7 +29,7 @@ export default function RootLayout({
         <TanStackProvider>
           <DynamicPortal />
           {children}
-          <Footer />
+          {/* <Footer /> */}
         </TanStackProvider>
       </body>
     </html>
