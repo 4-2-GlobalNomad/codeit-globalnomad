@@ -41,30 +41,24 @@ export const login = async (email: string, password: string): Promise<LoginRespo
 };
 
 //토큰 갱신
-export const refreshAccessToken = async (): Promise<void> => {
+export const refreshAccessToken = async (): Promise<string> => {
   const refreshToken = localStorage.getItem('refreshToken');
-
   if (!refreshToken) {
     throw new Error('Refresh Token이 없습니다.');
   }
-
   try {
     const response = await axios.post(
-      `https://sp-globalnomad-api.vercel.app/10-2/auth/tokens`,
-      { refreshToken },
+      'https://sp-globalnomad-api.vercel.app/10-2/auth/tokens',
+      {},
       {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          accept: 'application/json',
+          Authorization: `Bearer ${refreshToken}`,
         },
       },
     );
-    const { accessToken, refreshToken: newRefreshToken } = response.data;
-
-    localStorage.setItem('accessToken', accessToken);
-    if (newRefreshToken) {
-      localStorage.setItem('refreshToken', newRefreshToken);
-    }
+    const { accessToken } = response.data;
+    return accessToken;
   } catch (error) {
     console.error('토큰 갱신 실패:', error);
     throw new Error('토큰 갱신 실패');

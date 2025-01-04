@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import DynamicPortal from '@/components/dynamicportal/DynamicPortal';
 import { Footer } from '@/components/footer/Footer';
+import TanStackProvider from '@/providers/TanStackProvider';
 import { Header } from '@/components/header/Header';
 
 const pretendard = localFont({
@@ -26,10 +27,12 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className={pretendard.className}>
-        <Header />
-        <DynamicPortal />
-        {children}
-        <Footer />
+        <TanStackProvider>
+          <DynamicPortal />
+          {children}
+          <Footer />
+          <Header />
+        </TanStackProvider>
       </body>
     </html>
   );
