@@ -13,8 +13,8 @@ export const cardSectionList = style({
 
 export const cardSection = style({
   display: 'grid',
-  gridTemplateColumns: '20.4rem 1fr',
-  columnGap: '2.4rem',
+  gridTemplateColumns: '25.5% 1fr',
+  columnGap: '2%',
   backgroundColor: '#fff',
   boxShadow: '0px 4px 16px rgba(17, 34, 17, 0.05)',
   borderRadius: '2.4rem',
@@ -22,7 +22,7 @@ export const cardSection = style({
 });
 
 export const cardImageContainer = style({
-  width: '204px',
+  width: '100%',
   height: '204px',
   overflow: 'hidden',
   objectFit: 'contain',
@@ -39,7 +39,7 @@ export const cardContentLayout = style({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  padding: '1.2rem 0 1.3rem',
+  padding: '1.2rem 1.2rem  1.3rem 0',
 });
 
 export const cardTopLayout = style({

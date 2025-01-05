@@ -9,13 +9,6 @@ const apiClient = axios.create({
   },
 });
 
-const apiClient = axios.create({
-  baseURL: 'https://sp-globalnomad-api.vercel.app',
-  headers: {
-    Accept: 'application/json',
-  },
-});
-
 // 알람 데이터 가져오기
 export const fetchAlarms = async (
   teamId: string,

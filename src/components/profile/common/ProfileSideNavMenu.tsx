@@ -10,7 +10,7 @@ interface ProfileSideNavMenuProps {
   setImageFile: (file: File) => void;
   menuList: Array<{
     title: string;
-    onClick: () => void;
+    onClick?: () => void;
     icon: React.ReactNode;
   }>;
 }
@@ -112,7 +112,7 @@ export default function ProfileSideNavMenu(props: ProfileSideNavMenuProps) {
           <Pen className={styles.penIconImage} />
         </label>
       </div>
-      <nav>
+      <nav className={styles.navContainer}>
         <ul className={styles.navListBox}>
           {props.menuList.map((item, index) => {
             return (
