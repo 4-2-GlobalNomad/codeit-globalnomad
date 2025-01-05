@@ -17,7 +17,7 @@ export const AlarmModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [cursorId, setCursorId] = useState<number | null>(0);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
 
   const loadAlarms = useCallback(async () => {
     if (loading || !hasMore) {
@@ -35,9 +35,8 @@ export const AlarmModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       if (!notifications.length || alarms.length + notifications.length >= totalCount) {
         setHasMore(false);
       }
-    } catch (err) {
-      console.error('알람 데이터를 가져오는 중 에러:', err);
-      setError('알람 데이터를 가져오는 중 문제가 발생했습니다.');
+    } catch {
+      // 에러 무시
     } finally {
       setLoading(false);
     }

@@ -2,16 +2,13 @@ import { fontSizes, fontWeights } from '@/styles/fontStyles.css';
 import { style } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
-export const activitiesPageContainer = style({
+export const myActivitiesPageContainer = style({
   marginBottom: '12rem',
 });
 
 export const topLayout = style({
   display: 'flex',
   justifyContent: 'space-between',
-  maxWidth: '80rem',
-  margin: '0 auto',
-  marginTop: '7.2rem',
   marginBottom: '3.4rem',
 });
 
@@ -23,6 +20,8 @@ export const createButton = style([
     color: '#fff',
     padding: '0.8rem 1.6rem',
     borderRadius: '0.4rem',
+    whiteSpace: 'nowrap',
+    maxHeight: '4.8rem',
   },
   fontSizes.textLg,
 ]);

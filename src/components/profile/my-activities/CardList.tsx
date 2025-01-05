@@ -41,8 +41,7 @@ export default function CardList() {
               <div className={styles.cardImageContainer}>
                 <Image
                   src={activity.bannerImageUrl}
-                  width={520}
-                  height={272}
+                  fill
                   loading='lazy'
                   alt={'체험 이미지'}
                   className={styles.responsiveImage}
