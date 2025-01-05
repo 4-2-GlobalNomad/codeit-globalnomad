@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import ArrowIcon from '../../assets/icons/arrow.svg';
 import * as styles from './DropDownB.css';
@@ -11,11 +11,24 @@ interface DropDownBProps {
   onSelect: (item: string) => void;
 }
 
-const DropDownB: React.FC<DropDownBProps> = ({ options, placeholder = '가격', onSelect }) => {
+function DropDownB({ options, placeholder = '가격', onSelect }: DropDownBProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
+  const [dropdownStyle, setDropdownStyle] = useState({});
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const toggleDropdown = () => setIsOpen((prev) => !prev);
+  const toggleDropdown = () => {
+    if (!isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownStyle({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        position: 'absolute',
+      });
+    }
+    setIsOpen((prev) => !prev);
+  };
+
   const handleSelect = (item: string) => {
     setSelected(item);
     onSelect(item);
@@ -24,14 +37,14 @@ const DropDownB: React.FC<DropDownBProps> = ({ options, placeholder = '가격', 
 
   return (
     <div className={styles.dropdownContainerB}>
-      <button className={styles.dropdownButtonB} onClick={toggleDropdown}>
+      <button className={styles.dropdownButtonB} onClick={toggleDropdown} ref={buttonRef}>
         <span>{selected || placeholder}</span>
         <ArrowIcon className={`${styles.iconB} ${isOpen ? styles.open : ''}`} />
       </button>
 
       {isOpen &&
         ReactDOM.createPortal(
-          <div className={styles.portalContainerB}>
+          <div style={dropdownStyle} className={styles.portalContainerB}>
             <ul className={styles.dropdownListB}>
               {options.map((option, index) => (
                 <li
@@ -48,6 +61,6 @@ const DropDownB: React.FC<DropDownBProps> = ({ options, placeholder = '가격', 
         )}
     </div>
   );
-};
+}
 
 export default DropDownB;

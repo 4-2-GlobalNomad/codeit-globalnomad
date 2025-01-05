@@ -28,7 +28,7 @@ export const title = style({
 });
 
 export const userInfo = style({
-  width: '150px',
+  width: '170px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
@@ -48,6 +48,10 @@ export const divider = style({
   height: '22px',
   backgroundColor: `${global.color.gray[300]}`,
   margin: '1px',
+});
+
+export const avatarContainer = style({
+  position: 'relative',
 });
 
 export const avatar = style({

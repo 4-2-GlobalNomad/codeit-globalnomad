@@ -4,7 +4,7 @@ import MeatballIcon from '@/assets/icons/meatball.svg';
 import StarIcon from '@/assets/icons/star-fill.svg';
 import { useMyActivities } from '@/hooks/use-my-activities';
 import { MyActivitiesList } from '@/types/my-activities-list';
-import { toNumberFormatOfKor } from '@/utils/to-number-format-of-kor.ts';
+import { formatToKor } from '@/utils/format-to-kor';
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 import * as styles from './CardList.css';
@@ -57,7 +57,7 @@ export default function CardList() {
                   <h3 className={styles.h3Title}>{activity.title}</h3>
                 </div>
                 <div className={styles.cardBottomLayout}>
-                  <p className={styles.priceText}>{toNumberFormatOfKor(activity.price)}</p>
+                  <p className={styles.priceText}>{formatToKor(activity.price)}</p>
                   <button>
                     <MeatballIcon width={40} height={40} />
                   </button>
