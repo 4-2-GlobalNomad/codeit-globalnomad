@@ -7,7 +7,6 @@ import DynamicPortal from '@/components/dynamicportal/DynamicPortal';
 import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
 import TanStackProvider from '@/providers/TanStackProvider';
-import { Header } from '@/components/header/Header';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -33,7 +32,6 @@ export default function RootLayout({
           <DynamicPortal />
           {children}
           <Footer />
-          <Header />
         </TanStackProvider>
       </body>
     </html>
