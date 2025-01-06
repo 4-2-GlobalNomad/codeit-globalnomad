@@ -1,5 +1,6 @@
 import { style, styleVariants } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
+import { fontSizes } from '@/styles/fontStyles.css';
 
 export const variantStyles = styleVariants({
   default: {
@@ -20,6 +21,16 @@ export const inputContainer = style({
   width: '100%',
   border: `1px solid ${global.color.gray[800]}`,
   backgroundColor: '#fff',
+});
+
+export const errorStyle = style({
+  borderColor: `${global.color.red[300]}`,
+});
+
+export const errorMessage = style({
+  fontSize: fontSizes.textXs,
+  color: global.color.red[300],
+  marginTop: '0.8rem',
 });
 
 export const leftIconDiv = style({
