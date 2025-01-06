@@ -4,11 +4,12 @@ import DropDownB from '@/components/dropdown/DropDownB';
 import EmptyCard from '@/components/profile/reservations/history/EmptyCard';
 import ReservationCard, { ReservationData } from '@/components/profile/reservations/history/ReservationCard';
 import { useMyReservations } from '@/hooks/use-my-reservations';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as styles from './page.css';
 
 export default function ReservationPage() {
-  const { data, fetchNextPage } = useMyReservations();
+  const [filter, setFilter] = useState<string | null>(null);
+  const { data, fetchNextPage } = useMyReservations(filter);
   const targetRef = useRef<HTMLDivElement>(null);
 
   const options = ['예약 신청', '예약 취소', '예약 승인', '예약 거절', '체험 완료'];
@@ -33,12 +34,16 @@ export default function ReservationPage() {
         intersectionObserver.unobserve(currentTarget);
       }
     };
-  }, [fetchNextPage]);
+  }, [fetchNextPage, filter]);
 
   // 드롭다운 필터
   // 필터 해제: 필터 적용된 인풋창 다시 한번 클릭하면 해제
   const onSelect = (i: string) => {
-    console.log(i);
+    if (filter == null) {
+      setFilter(i);
+    } else {
+      setFilter(null); // 드롭다운 클릭 x 항목까지 선택해야 동작함... div 한겹 더싸서 onclick으로?
+    }
   };
 
   return (

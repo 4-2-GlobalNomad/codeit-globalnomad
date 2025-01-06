@@ -1,6 +1,6 @@
 import { axiosInstance } from '@/apis/axios-instance';
 
-export const fetchMyReservations = async (pageParam: null | number) => {
+export const fetchMyReservations = async (pageParam: null | number, queryKey: string[], isFiltered: boolean) => {
   try {
     const token = localStorage.getItem('accessToken');
 
@@ -8,8 +8,10 @@ export const fetchMyReservations = async (pageParam: null | number) => {
       throw new Error('access token을 찾을 수 없음');
     }
 
-    const url = pageParam === null ? `/my-reservations` : `/my-reservations?cursorId=${pageParam}`;
-    // status 추가 필요
+    const cursorUrl = isFiltered ? `/${queryKey}&cursorId=${pageParam}` : `/${queryKey}?cursorId=${pageParam}`;
+    const url = pageParam === null ? `/${queryKey}` : cursorUrl;
+
+    console.log('url: ', url);
 
     const response = await axiosInstance.get(url, {
       headers: {
