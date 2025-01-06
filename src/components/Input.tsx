@@ -44,7 +44,7 @@ interface IconInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   variant?: 'default' | 'authPage';
   error?: boolean;
   errorMessage?: string;
-  register?: (name: string, options?: RegisterOptions) => UseFormRegisterReturn;
+  register?: (name: string, options?: RegisterOptions) => UseFormRegisterReturn; // react-hook-form의 register 함수
 }
 
 export default function Input(props: IconInputProps) {

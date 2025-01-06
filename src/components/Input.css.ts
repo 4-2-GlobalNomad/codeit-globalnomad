@@ -1,6 +1,6 @@
+import { fontSizes } from '@/styles/fontStyles.css';
 import { style, styleVariants } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
-import { fontSizes } from '@/styles/fontStyles.css';
 
 export const variantStyles = styleVariants({
   default: {
@@ -21,6 +21,12 @@ export const inputContainer = style({
   width: '100%',
   border: `1px solid ${global.color.gray[800]}`,
   backgroundColor: '#fff',
+
+  selectors: {
+    '&:focus-within': {
+      border: `1px solid ${global.color.green[200]}`,
+    },
+  },
 });
 
 export const errorStyle = style({
@@ -41,12 +47,14 @@ export const inputField = style({
   gridColumn: '2',
   border: 'none',
 
-  ':focus': {
-    outline: 'none',
-  },
+  selectors: {
+    '&:focus': {
+      outline: 'none',
+    },
 
-  '::placeholder': {
-    color: global.color.gray[600],
+    '&::placeholder': {
+      color: global.color.gray[600],
+    },
   },
 });
 
