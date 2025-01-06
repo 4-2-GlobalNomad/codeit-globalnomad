@@ -3,10 +3,19 @@ import { globalStyle, style } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
 export const selectBoxContainer = style({
-  border: `1px solid ${global.color.gray[800]}`,
-  height: '5.4rem',
+  // border: `1px solid ${global.color.gray[800]}`,
+  // height: '5.4rem',
   borderRadius: '0.4rem',
   position: 'relative',
+});
+
+export const errorStyle = style({
+  border: `1px solid ${global.color.red[300]}`,
+});
+
+export const errorMessageStyle = style({
+  marginTop: '0.8rem',
+  color: global.color.red[300],
 });
 
 export const inputTitle = style([{}, fontSizes.text2xl, fontWeights.bold]);
@@ -99,13 +108,24 @@ export const datePickerLabel = style([
 ]);
 
 export const categoryLayout = style({
-  display: 'flex',
-  alignItems: 'center',
-  height: '100%',
-  justifyContent: 'space-between',
-  padding: '0.4rem 1.2rem 0.4rem 1.6rem',
-  color: global.color.gray[600],
   cursor: 'pointer',
+});
+
+export const categoryInput = style({
+  width: '100%',
+  height: '100%',
+  cursor: 'pointer',
+  border: 'none',
+
+  selectors: {
+    '&::placeholder': {
+      color: global.color.gray[600],
+      fontWeight: '400',
+    },
+    '&:focus': {
+      outline: 'none',
+    },
+  },
 });
 
 export const selectBoxList = style({
@@ -136,6 +156,22 @@ export const selectBoxItem = style({
 
 export const selectedOptionStyle = style({
   color: global.color.black,
+  display: 'flex',
+  height: '5.4rem',
+  alignItems: 'center',
+  borderRadius: '0.4rem',
+  overflow: 'hidden',
+  padding: '1.5rem 1.6rem',
+
+  selectors: {
+    '&:focus-within': {
+      border: `1px solid ${global.color.green[200]}`,
+    },
+  },
+});
+
+export const defaultStyle = style({
+  border: `1px solid ${global.color.gray[800]}`,
 });
 
 export const checkMark = style({
