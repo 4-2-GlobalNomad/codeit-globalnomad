@@ -31,6 +31,12 @@ export const inputContainer = style({
 
 export const errorStyle = style({
   borderColor: `${global.color.red[300]}`,
+
+  selectors: {
+    '&:focus-within': {
+      border: `1px solid ${global.color.red[300]}`,
+    },
+  },
 });
 
 export const errorMessage = style({
