@@ -3,18 +3,21 @@ import { globalStyle, style } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
 export const selectBoxContainer = style({
-  // border: `1px solid ${global.color.gray[800]}`,
-  // height: '5.4rem',
   borderRadius: '0.4rem',
   position: 'relative',
 });
 
 export const errorStyle = style({
   border: `1px solid ${global.color.red[300]}`,
+  selectors: {
+    '&:focus-within': {
+      border: `1px solid ${global.color.red[300]}`,
+    },
+  },
 });
 
 export const errorMessageStyle = style({
-  marginTop: '0.8rem',
+  margin: '0.8rem 0 2.1rem',
   color: global.color.red[300],
 });
 
@@ -71,6 +74,7 @@ export const rotated = style({
 
 export const descriptionInput = style({
   resize: 'none',
+  width: '100%',
   height: '34.6rem',
   borderRadius: '0.4rem',
   padding: '1.6rem 0.8rem 0 1.6rem',
@@ -162,6 +166,7 @@ export const selectedOptionStyle = style({
   borderRadius: '0.4rem',
   overflow: 'hidden',
   padding: '1.5rem 1.6rem',
+  cursor: 'pointer',
 
   selectors: {
     '&:focus-within': {
@@ -170,7 +175,7 @@ export const selectedOptionStyle = style({
   },
 });
 
-export const defaultStyle = style({
+export const defaultInputStyle = style({
   border: `1px solid ${global.color.gray[800]}`,
 });
 

@@ -11,10 +11,10 @@ import React, { useRef, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
   Controller,
+  FieldError,
   FieldErrors,
   FieldValues,
   RegisterOptions,
-  SubmitErrorHandler,
   SubmitHandler,
   UseFormRegisterReturn,
   useForm,
@@ -22,12 +22,11 @@ import {
 import * as styles from './MyActivitiesCreate.css';
 
 interface MyActivitiesCreateProps {
-  usage: null | string;
   options: string[];
-  setOption: React.Dispatch<React.SetStateAction<string | null>>;
   register: (name: string, options?: RegisterOptions) => UseFormRegisterReturn;
-  errors: FieldErrors<FieldValues>;
-  handleSubmit: (handler: SubmitHandler<FieldValues>) => (e?: React.BaseSyntheticEvent) => Promise<void>;
+  errors: FieldErrors<FieldValues> & {
+    availableDateTimeList?: FieldError[];
+  };
   clearErrors: (name?: string | string[] | undefined) => void;
   control: ReturnType<typeof useForm>['control'];
 }
@@ -38,37 +37,14 @@ type ReservationDateTime = {
   endTime: dayjs.Dayjs | null;
 };
 
-export default function MyActivitiesCreate({
-  usage,
-  options,
-  setOption,
-  register,
-  errors,
-  control,
-  handleSubmit,
-  clearErrors,
-}: MyActivitiesCreateProps) {
+export default function MyActivitiesCreate({ options, register, errors, control }: MyActivitiesCreateProps) {
   const dropDownRef = useRef(null);
-  const [selectedOption, setSelectedOption] = useState(usage);
   const [isDropdownOpen, setIsDropdownOpen] = useDetectClose(dropDownRef, false) as [
     boolean,
     React.Dispatch<React.SetStateAction<boolean>>,
   ];
 
   const toggleDropdown = () => setIsDropdownOpen((prev: boolean) => !prev);
-
-  // 예약 가능한 시간대 추가
-  const [availableDateTimeList, setAvailableTime] = useState<ReservationDateTime[]>([
-    { date: null, startTime: null, endTime: null },
-  ]);
-
-  const handleAddTime = () => {
-    setAvailableTime([{ date: null, startTime: null, endTime: null }, ...availableDateTimeList]);
-  };
-
-  const handleDeleteTime = (indexToDelete: number) => {
-    setAvailableTime((prev) => prev.filter((_, index) => index !== indexToDelete));
-  };
 
   return (
     <section className={styles.inputSectionContainer}>
@@ -84,22 +60,16 @@ export default function MyActivitiesCreate({
       <Controller
         name='category'
         control={control}
-        defaultValue={selectedOption}
-        rules={{ required: '카테고리는 필수 선택 사항입니다.' }}
+        defaultValue={null}
+        rules={{ required: true }}
         render={({ field }) => (
           <div>
             <div className={`${styles.selectBoxContainer} `} ref={dropDownRef}>
               <div
                 onClick={toggleDropdown}
-                className={`${errors.category ? styles.errorStyle : styles.defaultStyle} ${styles.selectedOptionStyle} `}
+                className={`${errors.category ? styles.errorStyle : styles.defaultInputStyle} ${styles.selectedOptionStyle} `}
               >
-                <input
-                  placeholder='카테고리'
-                  className={styles.categoryInput}
-                  value={selectedOption ?? ''}
-                  readOnly
-                  onChange={() => setSelectedOption(selectedOption)}
-                />
+                <input placeholder='카테고리' className={styles.categoryInput} value={field.value ?? ''} readOnly />
                 <ArrowDown className={`${styles.arrow} ${isDropdownOpen ? styles.rotated : ''}`} />
               </div>
               {errors.category && <p className={styles.errorMessageStyle}>카테고리는 필수 선택 사항입니다.</p>}
@@ -109,14 +79,13 @@ export default function MyActivitiesCreate({
                     <li
                       key={index}
                       tabIndex={0} // 포커스 가능하도록 설정
-                      aria-selected={selectedOption === option}
+                      aria-selected={field.value === option}
                       onClick={() => {
-                        setOption(option); // UI에 선택된 옵션 반영
                         field.onChange(option); // react-hook-form에 값 전달
-                        setSelectedOption(option);
                         toggleDropdown(); // 드롭다운 닫기
                       }}
                       className={styles.selectBoxItem}
+                      role='option'
                     >
                       <CheckMark className={styles.checkMark} />
                       {option}
@@ -128,72 +97,143 @@ export default function MyActivitiesCreate({
           </div>
         )}
       />
-
-      <textarea className={styles.descriptionInput} placeholder='설명' />
+      <div>
+        <textarea
+          className={`${styles.descriptionInput}` + (errors.description ? ` ${styles.errorStyle}` : '')}
+          placeholder='설명'
+          {...register('description', { required: true })}
+        />
+        {errors.description && <p className={styles.errorMessageStyle}>설명은 필수 입력 사항입니다.</p>}
+      </div>
       <div className={styles.inputContainer}>
         <h2 className={styles.inputTitle}>가격</h2>
-        <Input placeholder='가격' />
+        <div>
+          <Input
+            placeholder='가격'
+            {...register('price', { required: '가격은 필수 입력 사항입니다.' })}
+            error={Boolean(errors.price)}
+            errorMessage={errors.price?.message as string | undefined}
+          />
+        </div>
       </div>
       <div className={styles.inputContainer}>
         <h2 className={styles.inputTitle}>주소</h2>
-        <Input placeholder='주소를 입력해주세요' />
+        <div>
+          <Input
+            placeholder='주소'
+            {...register('address', { required: '주소는 필수 입력 사항입니다.' })}
+            error={Boolean(errors.address)}
+            errorMessage={errors.address?.message as string | undefined}
+          />
+        </div>
       </div>
       <h2 className={styles.inputTitle}>예약 가능한 시간대</h2>
-      <div>
-        <div className={styles.datePickerLabelContainer}>
-          <div className={`${styles.datePickerLabel}`}>날짜</div>
-          <div className={`${styles.datePickerLabel}`}>시작 시간</div>
-          <div className={styles.datePickerLabel}>종료 시간</div>
-        </div>
 
-        {availableDateTimeList.map((availableDateTime, index) => (
-          <div key={index}>
-            {index === 1 && <div className={styles.horizon}></div>}
-            <div className={styles.dateTimePickerContainer}>
-              <DatePicker
-                className={styles.datePickerContainer}
-                value={availableDateTime.date}
-                onChange={(v) => {
-                  if (v !== null) {
-                    availableDateTime.date = v;
-                  }
-                }}
-                slotProps={{ textField: { placeholder: 'YYYY/MM/DD' } }}
-              />
-              <div className={styles.timePickerContainer}>
-                <div>
-                  <TimePicker
-                    value={availableDateTime.startTime}
-                    onChange={(v) => {
-                      if (v !== null) {
-                        availableDateTime.startTime = v;
-                      }
-                    }}
-                  />
-                </div>
-                <div>~</div>
-                <TimePicker
-                  value={availableDateTime.endTime}
-                  onChange={(v) => {
-                    if (v !== null) {
-                      availableDateTime.endTime = v;
-                    }
-                  }}
-                />
+      <Controller
+        name='availableDateTimeList'
+        control={control}
+        defaultValue={[{ date: null, startTime: null, endTime: null }]}
+        rules={{
+          validate: (value) => {
+            console.log('validate 재 실행');
+            const errors: (string | null)[] = [];
+            let isError = false;
+
+            for (let index = 0; index < value.length; index++) {
+              const item = value[index];
+              let error = null;
+              if (!item.date) {
+                error = `날짜를 입력해주세요.`;
+              } else if (!item.startTime) {
+                error = `시작 시간을 입력해주세요.`;
+              } else if (!item.endTime) {
+                error = `종료 시간을 입력해주세요.`;
+              } else if (item.startTime && item.endTime && item.startTime >= item.endTime) {
+                error = `종료 시간은 시작 시간 이후여야 합니다.`;
+              }
+
+              if (error !== null) isError = true;
+
+              errors.push(error);
+            }
+
+            return !isError ? true : JSON.stringify(errors);
+          },
+        }}
+        render={({ field, fieldState: { error } }) => {
+          const errors = error && error.message ? JSON.parse(error.message) : null;
+          console.log(errors);
+          return (
+            <div>
+              <div className={styles.datePickerLabelContainer}>
+                <div className={`${styles.datePickerLabel}`}>날짜</div>
+                <div className={`${styles.datePickerLabel}`}>시작 시간</div>
+                <div className={styles.datePickerLabel}>종료 시간</div>
               </div>
-              {index === 0 ? (
-                <div className={styles.TimeButton} onClick={handleAddTime}>
-                  <AddTimeBtn />
+              {field.value.map((availableDateTime: ReservationDateTime, index: number) => (
+                <div key={index}>
+                  {index === 1 && <div className={styles.horizon}></div>}
+                  <div className={styles.dateTimePickerContainer}>
+                    <DatePicker
+                      className={styles.datePickerContainer}
+                      value={availableDateTime.date}
+                      onChange={(v) => {
+                        field.value[index].date = v;
+                        field.onChange([...field.value]);
+                      }}
+                      slotProps={{ textField: { placeholder: 'YYYY/MM/DD' } }}
+                    />
+                    <div className={styles.timePickerContainer}>
+                      <div>
+                        <TimePicker
+                          value={availableDateTime.startTime}
+                          onChange={(v) => {
+                            field.value[index].startTime = v;
+                            field.onChange([...field.value]);
+                          }}
+                        />
+                      </div>
+                      <div>~</div>
+                      <TimePicker
+                        value={availableDateTime.endTime}
+                        onChange={(v) => {
+                          field.value[index].endTime = v;
+                          field.onChange([...field.value]);
+                        }}
+                      />
+                    </div>
+
+                    {index === 0 ? (
+                      <div
+                        className={styles.TimeButton}
+                        onClick={() => {
+                          console.log('추가 버튼');
+                          field.onChange([{ date: null, startTime: null, endTime: null }, ...field.value]);
+                        }}
+                      >
+                        <AddTimeBtn />
+                      </div>
+                    ) : (
+                      <div
+                        className={styles.TimeButton}
+                        onClick={() => {
+                          field.onChange(field.value.filter((v: ReservationDateTime, i: number) => i !== index));
+                        }}
+                      >
+                        <MinusTimeBtn />
+                      </div>
+                    )}
+                  </div>
+                  {errors !== null && errors[index] !== null && (
+                    <p className={styles.errorMessageStyle}>{errors[index]}</p>
+                  )}
                 </div>
-              ) : (
-                <div className={styles.TimeButton} onClick={() => handleDeleteTime(index)}>
-                  <MinusTimeBtn />
-                </div>
-              )}
+              ))}
             </div>
-          </div>
-        ))}
-      </div>
+          );
+        }}
+      />
+
       <h2 className={styles.inputTitle}>배너 이미지</h2>
       <label htmlFor='file-upload' className={styles.fileUploadContainer}>
         <input className={styles.fileUploadInput} id='file-upload' type='file' />

@@ -1,6 +1,5 @@
 'use client';
 
-import Input from '@/components/Input';
 import MyActivitiesCreate from '@/components/profile/my-activities-create/MyActivitiesCreate';
 import { StyledEngineProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -20,6 +19,8 @@ export default function MyActivitiesCreatePage() {
     control,
   } = useForm();
 
+  const categories = ['문화 · 예술', '식음료', '스포츠', '투어', '관광', '웰빙'];
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     if (!data.title) {
       setError('title', { type: 'manual', message: '제목은 필수 입력 사항입니다.' });
@@ -29,14 +30,47 @@ export default function MyActivitiesCreatePage() {
       setError('category', { type: 'manual', message: '카테고리는 필수 선택 사항입니다.' });
     }
 
-    if (data.title && data.category) {
-      clearErrors(); // 모든 에러 제거
-      console.log('Submitted data:', data);
+    if (!data.description) {
+      setError('description', { type: 'manual', message: '내용은 필수 입력 사항입니다.' });
+    }
+
+    if (!data.price) {
+      setError('price', { type: 'manual', message: '가격은 필수 입력 사항입니다.' });
+    }
+
+    if (!data.address) {
+      setError('address', { type: 'manual', message: '주소는 필수 입력 사항입니다.' });
+    }
+
+    const newErrors: Array<{ index: number; message: string }> = [];
+
+    if (!Array.isArray(data.availableDateTimeList) || data.availableDateTimeList.length === 0) {
+      newErrors.push({ index: -1, message: '예약 가능한 시간은 최소 1개 이상 필요합니다.' });
+    } else {
+      data.availableDateTimeList.forEach((item, index) => {
+        if (!item.date || !item.startTime || !item.endTime) {
+          newErrors.push({ index, message: '모든 시간대 항목을 완전히 입력해주세요.' });
+        }
+      });
+
+      if (newErrors.length > 0 || Object.keys(errors).length > 0) {
+        return; // 에러가 있으면 중단
+      }
+
+      if (
+        data.title &&
+        data.category &&
+        data.description &&
+        data.price &&
+        data.address &&
+        Array.isArray(data.availableDateTimeList) &&
+        data.availableDateTimeList.length > 0 &&
+        data.availableDateTimeList.every((item) => item.date && item.startTime && item.endTime)
+      ) {
+        clearErrors(); // 모든 에러 제거
+      }
     }
   };
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const categories = ['문화 · 예술', '식음료', '스포츠', '투어', '관광', '웰빙'];
-
   return (
     <div className={styles.activitiesPageContainer}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -49,13 +83,10 @@ export default function MyActivitiesCreatePage() {
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='ko'>
           <StyledEngineProvider injectFirst>
             <MyActivitiesCreate
-              usage={selectedCategory}
               options={categories}
-              setOption={setSelectedCategory}
               register={register}
               errors={errors}
               clearErrors={clearErrors}
-              handleSubmit={handleSubmit}
               control={control}
             />
           </StyledEngineProvider>
