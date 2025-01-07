@@ -3,12 +3,14 @@ import { global } from '@/styles/global.css';
 
 export const dropdownContainerB = style({
   position: 'relative',
-  width: '15rem',
+  width: '12rem',
   background: 'white',
   borderRadius: '1.5rem',
 });
 
 export const dropdownListB = style({
+  width: '100%',
+  backgroundColor: 'rgba(255, 255, 255, 0.8)',
   borderRadius: '0.5rem',
   border: '0.0625rem solid #ccc',
   listStyleType: 'none',
@@ -25,12 +27,13 @@ export const dropdownButtonB = style({
   borderRadius: '1rem',
   padding: '1rem 1rem',
   cursor: 'pointer',
-  width: '10rem',
+  width: '100%',
   position: 'relative',
   color: global.color.green[200],
 });
 
 export const itemB = style({
+  whiteSpace: 'nowrap',
   padding: '2rem',
   textAlign: 'center',
   cursor: 'pointer',
@@ -44,6 +47,7 @@ export const itemB = style({
 });
 
 export const portalContainerB = style({
+  width: '12rem',
   position: 'absolute',
   top: '10rem',
   left: '0',
@@ -64,7 +68,7 @@ export const iconB = style({
   },
 });
 
-export const open = style({ transform: 'rotate(180deg)' });
+export const open = style({ transform: 'rotate(180deg)', position: 'relative', top: '-0.5rem', left: '-0.4rem' });
 
 export const listItemWithDividerB = style({
   selectors: { '&:not(:last-child)': { borderBottom: '0.0625rem solid #ccc' } },
