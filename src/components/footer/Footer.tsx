@@ -10,7 +10,7 @@ import * as styles from './Footer.css';
 
 export const Footer = () => {
   const pathname = usePathname();
-  const isLoginPage = pathname === '/login';
+  const isLoginPage = pathname === '/login' || pathname === '/signup';
 
   if (isLoginPage) {
     return null;
