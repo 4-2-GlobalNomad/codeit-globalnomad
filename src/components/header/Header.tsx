@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { AlarmModal } from '../alarm/AlarmModal';
+import { Dropdown } from './DropDown';
 import * as styles from './Header.css';
 
 export const Header: React.FC = () => {
@@ -30,7 +31,7 @@ export const Header: React.FC = () => {
             <AlarmIcon />
           </button>
           <div className={styles.divider}></div>
-          <Image src='/avatar.svg' alt='사용자 아바타' className={styles.avatar} width={40} height={40} />
+          <Dropdown />
         </div>
       ) : (
         // 비 로그인

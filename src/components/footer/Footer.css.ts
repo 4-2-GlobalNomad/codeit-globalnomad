@@ -2,8 +2,7 @@ import { style } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
 export const footer = style({
-  position: 'fixed',
-  bottom: 0,
+  bottom: '0',
   backgroundColor: `${global.color.nomadBlack}`,
   color: `${global.color.gray[900]}`,
   display: 'flex',

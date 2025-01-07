@@ -1,5 +1,6 @@
 import { Alarm } from '@/components/alarm/AlarmModal';
 import axios from 'axios';
+import { axiosInstance } from './axios-instance';
 
 // 알람 데이터 가져오기
 export const fetchAlarms = async (
@@ -13,29 +14,33 @@ export const fetchAlarms = async (
 }> => {
   const token = localStorage.getItem('accessToken');
 
-  const response = await fetch(
-    `https://sp-globalnomad-api.vercel.app/${teamId}/my-notifications?cursorId=${cursorId ?? 0}&size=${size}`,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  if (!response.ok) {
-    console.error('Failed response:', await response.text());
-    throw new Error(`Failed to fetch notifications: ${response.statusText}`);
+  if (!token) {
+    throw new Error('로그인이 필요합니다. 토큰이 없습니다.');
   }
 
-  const data = await response.json();
-  return data;
+  try {
+    const response = await axiosInstance.get(`/my-notifications`, {
+      params: {
+        cursorId: cursorId ?? 0,
+        size,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error('알림 데이터를 가져오는데 실패했습니다.');
+    } else {
+      throw new Error('알림 데이터를 가져오는데 예상치 못한 에러가 발생했습니다.');
+    }
+  }
 };
 
 //알림 삭제
 export const deleteAlarm = async (teamId: '10-2', notificationId: number): Promise<void> => {
-  const url = `https://sp-globalnomad-api.vercel.app/${teamId}/my-notifications/${notificationId}`;
   const accessToken = localStorage.getItem('accessToken');
 
   if (!accessToken) {
@@ -43,10 +48,9 @@ export const deleteAlarm = async (teamId: '10-2', notificationId: number): Promi
   }
 
   try {
-    const response = await axios.delete(url, {
+    const response = await axiosInstance.delete(`/my-notifications/${notificationId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        Accept: 'application/json',
       },
     });
 
@@ -55,7 +59,6 @@ export const deleteAlarm = async (teamId: '10-2', notificationId: number): Promi
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error('알림 삭제 실패:', error.response ? error.response.data : error.message);
       throw new Error('알림 삭제 실패: 서버 에러');
     } else {
       console.error('예상치 못한 에러:', error);
