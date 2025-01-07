@@ -33,6 +33,10 @@ export const inputField = style({
   ':focus': {
     outline: 'none',
   },
+
+  '::placeholder': {
+    color: global.color.gray[600],
+  },
 });
 
 export const rightIconDiv = style({
