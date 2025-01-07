@@ -7,7 +7,7 @@ import Input from '@/components/Input';
 import useDetectClose from '@/hooks/use-detect-close';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
   Controller,
@@ -15,7 +15,6 @@ import {
   FieldErrors,
   FieldValues,
   RegisterOptions,
-  SubmitHandler,
   UseFormRegisterReturn,
   useForm,
 } from 'react-hook-form';
@@ -135,8 +134,7 @@ export default function MyActivitiesCreate({ options, register, errors, control 
         defaultValue={[{ date: null, startTime: null, endTime: null }]}
         rules={{
           validate: (value) => {
-            console.log('validate 재 실행');
-            const errors: (string | null)[] = [];
+            const errors: Array<string | null> = [];
             let isError = false;
 
             for (let index = 0; index < value.length; index++) {
@@ -152,7 +150,9 @@ export default function MyActivitiesCreate({ options, register, errors, control 
                 error = `종료 시간은 시작 시간 이후여야 합니다.`;
               }
 
-              if (error !== null) isError = true;
+              if (error !== null) {
+                isError = true;
+              }
 
               errors.push(error);
             }
@@ -162,7 +162,6 @@ export default function MyActivitiesCreate({ options, register, errors, control 
         }}
         render={({ field, fieldState: { error } }) => {
           const errors = error && error.message ? JSON.parse(error.message) : null;
-          console.log(errors);
           return (
             <div>
               <div className={styles.datePickerLabelContainer}>
@@ -207,7 +206,6 @@ export default function MyActivitiesCreate({ options, register, errors, control 
                       <div
                         className={styles.TimeButton}
                         onClick={() => {
-                          console.log('추가 버튼');
                           field.onChange([{ date: null, startTime: null, endTime: null }, ...field.value]);
                         }}
                       >
