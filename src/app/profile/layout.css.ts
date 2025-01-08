@@ -1,10 +1,10 @@
 import { style } from '@vanilla-extract/css';
 
 export const layout = style({
-  width: 'min(62.5%, 100%)',
+  // width: 'min(62.5%, 100%)',
   margin: '7.2rem auto auto',
   display: 'grid',
-  gridTemplateColumns: '32% 1fr',
+  gridTemplateColumns: '32% 792px',
   gridGap: '2.4rem',
   maxWidth: '1200px',
 
