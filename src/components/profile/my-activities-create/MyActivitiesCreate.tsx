@@ -174,7 +174,17 @@ export default function MyActivitiesCreate({ options, register, errors, control 
                   {index === 1 && <div className={styles.horizon}></div>}
                   <div className={styles.dateTimePickerContainer}>
                     <DatePicker
-                      className={styles.datePickerContainer}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': {
+                            borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('날짜') ? '#FF472E' : '#79747E'}`,
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderColor: '#0B3B2D',
+                          },
+                        },
+                      }}
+                      className={`${styles.datePickerContainer}`}
                       value={availableDateTime.date}
                       onChange={(v) => {
                         field.value[index].date = v;
@@ -185,6 +195,16 @@ export default function MyActivitiesCreate({ options, register, errors, control 
                     <div className={styles.timePickerContainer}>
                       <div>
                         <TimePicker
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              '& fieldset': {
+                                borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('시작') ? '#FF472E' : '#79747E'}`,
+                              },
+                              '&.Mui-focused fieldset': {
+                                borderColor: '#0B3B2D',
+                              },
+                            },
+                          }}
                           value={availableDateTime.startTime}
                           onChange={(v) => {
                             field.value[index].startTime = v;
@@ -194,6 +214,16 @@ export default function MyActivitiesCreate({ options, register, errors, control 
                       </div>
                       <div>~</div>
                       <TimePicker
+                        sx={{
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('종료') ? '#FF472E' : '#79747E'}`,
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: '#0B3B2D',
+                            },
+                          },
+                        }}
                         value={availableDateTime.endTime}
                         onChange={(v) => {
                           field.value[index].endTime = v;
