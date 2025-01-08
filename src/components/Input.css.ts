@@ -24,7 +24,7 @@ export const inputContainer = style({
 
   selectors: {
     '&:focus-within': {
-      border: `1px solid ${global.color.green[200]}`,
+      border: `2px solid ${global.color.green[200]}`,
     },
   },
 });
