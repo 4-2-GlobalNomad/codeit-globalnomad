@@ -5,8 +5,11 @@ import CheckMark from '@/assets/icons/check-mark.svg';
 import IconPlus from '@/assets/icons/plus.svg';
 import Input from '@/components/Input';
 import useDetectClose from '@/hooks/use-detect-close';
+import useMultipleImageUpload from '@/hooks/use-multiple-image-upload';
+import useSingleImageUpload from '@/hooks/use-single-image-upload';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
+import Image from 'next/image';
 import React, { useRef } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
@@ -43,7 +46,22 @@ export default function MyActivitiesCreate({ options, register, errors, control 
     React.Dispatch<React.SetStateAction<boolean>>,
   ];
 
+  const { imageSrc, handleSingleImagePreview } = useSingleImageUpload();
+
+  const { imageSrcs, imageFiles, handleMultipleImagePreview } = useMultipleImageUpload();
+
   const toggleDropdown = () => setIsDropdownOpen((prev: boolean) => !prev);
+
+  const bannerFileRef = useRef<HTMLInputElement | null>(null);
+  const subFileRef = useRef<HTMLInputElement | null>(null);
+  // input click method
+  const handleBannerFileClick = () => {
+    bannerFileRef?.current?.click();
+  };
+
+  const handleSubFileClick = () => {
+    subFileRef?.current?.click();
+  };
 
   return (
     <section className={styles.inputSectionContainer}>
@@ -263,26 +281,51 @@ export default function MyActivitiesCreate({ options, register, errors, control 
       />
 
       <h2 className={styles.inputTitle}>배너 이미지</h2>
-      <label htmlFor='file-upload' className={styles.fileUploadContainer}>
-        <input className={styles.fileUploadInput} id='file-upload' type='file' />
-        <div className={styles.fileUploadtext}>
-          <IconPlus />
-          <span>이미지 등록</span>
+      <div className={styles.fileUploadLayout}>
+        <div className={styles.fileUploadContainer}>
+          <label htmlFor='banner-file-upload' />
+          <div className={styles.fileUploadtext} onClick={handleBannerFileClick}>
+            <IconPlus />
+            <span>이미지 등록</span>
+          </div>
+          <input
+            className={styles.fileUploadInput}
+            id='banner-file-upload'
+            type='file'
+            ref={bannerFileRef}
+            onChange={handleSingleImagePreview}
+          />
         </div>
-      </label>
+        <div className={styles.previewImageBox}>
+          {imageSrc && <Image layout='fill' objectFit='cover' src={imageSrc} alt='배너 이미지' />}
+        </div>
+      </div>
       <h2 className={styles.inputTitle}>소개 이미지</h2>
-      <div className={styles.subImageLayout}>
-        <div className={styles.subImageContainer}>
-          <label htmlFor='file-upload' className={styles.fileUploadContainer}>
-            <input className={styles.fileUploadInput} id='file-upload' type='file' />
-            <div className={styles.fileUploadtext}>
+      <div className={styles.subImageContainer}>
+        <div className={styles.subImageUploadBox}>
+          <label htmlFor='subfile-upload' />
+          <div>
+            <div onClick={handleSubFileClick} className={styles.fileUploadtext}>
               <IconPlus />
               <span>이미지 등록</span>
             </div>
-          </label>
+          </div>
+          <input
+            multiple
+            className={styles.fileUploadInput}
+            id='subfile-upload'
+            type='file'
+            ref={subFileRef}
+            onChange={handleMultipleImagePreview}
+          />
         </div>
-        <p className={styles.descPhrase}>*이미지는 최대 4개까지 등록 가능합니다.</p>
+        {imageSrcs.map((src, index) => (
+          <div key={index} className={styles.previewImageBox}>
+            <Image fill objectFit='cover' src={src} alt={`소개 이미지 미리보기 ${index + 1}`} />
+          </div>
+        ))}
       </div>
+      <p className={styles.descPhrase}>*이미지는 최대 4개까지 등록 가능합니다.</p>
     </section>
   );
 }

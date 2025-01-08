@@ -23,17 +23,34 @@ export const errorMessageStyle = style({
 
 export const inputTitle = style([{}, fontSizes.text2xl, fontWeights.bold]);
 
-export const subImageLayout = style({
+export const subImageUploadBox = style({
+  border: `1px dashed ${global.color.gray[900]}`,
+  borderRadius: '1.2rem',
+  width: '18rem',
+  height: '18rem',
+  cursor: 'pointer',
   display: 'flex',
-  flexDirection: 'column',
-  gap: '2.4rem',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
 
 export const subImageContainer = style({
   display: 'flex',
-  gap: '2.4rem',
   flexWrap: 'wrap',
-  width: '100%',
+  gap: '2.4rem',
+});
+
+export const fileUploadLayout = style({
+  display: 'flex',
+  gap: '1.6rem',
+});
+
+export const previewImageBox = style({
+  borderRadius: '2.4rem',
+  width: '18rem',
+  height: '18rem',
+  overflow: 'hidden',
+  position: 'relative',
 });
 
 export const fileUploadContainer = style({
