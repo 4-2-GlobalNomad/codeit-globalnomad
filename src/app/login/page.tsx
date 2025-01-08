@@ -7,7 +7,10 @@ import VisibilityOff from '@/assets/icons/visibility-off.svg';
 import VisibilityOn from '@/assets/icons/visibility-on.svg';
 import Input from '@/components/Input';
 import { Button } from '@/components/button/Button';
+import Dialog from '@/components/modal/Dialog';
+import Modal from '@/components/modal/Modal';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import * as styles from './page.css';
 
@@ -15,6 +18,25 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [type, setType] = useState<'password' | 'text'>('password');
+  const [errors, setErrors] = useState({ email: '', password: '' });
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
+  const handleEmailBlur = () => {
+    if (!email.includes('@') || !email.includes('.')) {
+      setErrors((prev) => ({ ...prev, email: '이메일 형식으로 작성해 주세요.' }));
+    } else {
+      setErrors((prev) => ({ ...prev, email: '' }));
+    }
+  };
+
+  const handlePasswordBlur = () => {
+    if (password.length < 8) {
+      setErrors((prev) => ({ ...prev, password: '8자 이상 작성해 주세요.' }));
+    } else {
+      setErrors((prev) => ({ ...prev, password: '' }));
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,38 +45,56 @@ export default function LoginPage() {
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('userInfo', JSON.stringify(user));
-      alert('로그인 성공!');
+      window.location.href = '/';
     } catch {
-      alert('로그인 실패. 다시 시도해 주세요.');
+      setAlertMessage('비밀번호가 일치하지 않습니다.');
+      setIsAlertOpen(true);
     }
   };
 
   return (
     <div className={styles.container}>
+      {isAlertOpen && (
+        <Modal
+          handleModalState={() => setIsAlertOpen(false)}
+          content={<Dialog handleModalState={() => setIsAlertOpen(false)} message={alertMessage} />}
+        />
+      )}
       <div className={styles.loginBox}>
         <div className={styles.logoContainer}>
-          <Image src='/icons/logo-big.svg' alt='GlobalNomad 로고' className={styles.logo} width={340} height={192} />
+          <Link href='/'>
+            <Image src='/icons/logo-big.svg' alt='GlobalNomad 로고' className={styles.logo} width={340} height={192} />
+          </Link>
         </div>
-        <form className={styles.form} onSubmit={handleLogin}>
+        <form className={styles.form} onSubmit={handleLogin} noValidate>
           <div className={styles.formGroup}>
             <label className={styles.label}>이메일</label>
             <Input
               type='email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onBlur={handleEmailBlur}
               placeholder='이메일을 입력해 주세요'
               variant='authPage'
+              style={{
+                color: '#000',
+              }}
             />
+            {errors.email && <p style={{ color: 'red', fontSize: '12px', marginTop: '8px' }}>{errors.email}</p>}
           </div>
           <div className={styles.formGroup}>
             <label className={styles.label}>비밀번호</label>
             <Input
-              type='password'
+              type={type}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onBlur={handlePasswordBlur}
               placeholder='8자 이상 입력해 주세요'
               variant='authPage'
-              style={{ paddingRight: '1.2rem' }}
+              style={{
+                paddingRight: '1.2rem',
+                color: '#000',
+              }}
               icon={
                 type === 'password' ? (
                   <VisibilityOff onClick={() => setType('text')} tabIndex={0} aria-label='비밀번호 표시' />
@@ -64,6 +104,7 @@ export default function LoginPage() {
               }
               iconPosition='right'
             />
+            {errors.password && <p style={{ color: 'red', fontSize: '12px', marginTop: '8px' }}>{errors.password}</p>}
           </div>
           <Button label='로그인 하기' disabled={!email || !password} className={styles.loginButton} />
         </form>
