@@ -144,6 +144,7 @@ export default function MyActivitiesCreate({
         <h2 className={styles.inputTitle}>가격</h2>
         <div>
           <Input
+            type='number'
             placeholder='가격'
             {...register('price', { required: '가격은 필수 입력 사항입니다.' })}
             error={Boolean(errors.price)}
@@ -319,7 +320,7 @@ export default function MyActivitiesCreate({
       <div>
         <div className={styles.fileUploadLayout}>
           <div className={`${errors.bannerImage ? styles.fileUploadWithError : styles.fileUploadDefault}`}>
-            <label htmlFor='banner-file-upload' />
+            <label htmlFor='bannerImage' />
             <div className={styles.fileUploadtext} onClick={handleBannerFileClick}>
               <IconPlus />
               <span>이미지 등록</span>
@@ -327,13 +328,13 @@ export default function MyActivitiesCreate({
             <input
               {...register('bannerImage', { required: true })}
               className={styles.fileUploadInput}
-              id='banner-file-upload'
+              id='bannerImage'
               type='file'
               ref={bannerFileRef}
               onChange={(e) => {
                 handleSingleImagePreview(e);
                 if (e.target.files && e.target.files[0]) {
-                  setValue('bannerImage', `${e.target.files[0]}`);
+                  setValue('bannerImage', e.target.files[0]);
                 }
                 clearErrors('bannerImage');
               }}
@@ -364,12 +365,18 @@ export default function MyActivitiesCreate({
             </div>
           </div>
           <input
+            {...register('subfileImage')}
             multiple
             className={styles.fileUploadInput}
             id='subfile-upload'
             type='file'
             ref={subFileRef}
-            onChange={handleMultipleImagePreview}
+            onChange={(e) => {
+              handleMultipleImagePreview(e);
+              if (e.target.files && e.target.files.length > 0) {
+                setValue('subfileImage', e.target.files);
+              }
+            }}
           />
         </div>
         {imageSrcs.map((src, index) => (
