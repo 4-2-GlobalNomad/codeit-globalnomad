@@ -11,7 +11,7 @@ export const fetchMyReservations = async (pageParam: null | number, queryKey: st
     const cursorUrl = isFiltered ? `/${queryKey}&cursorId=${pageParam}` : `/${queryKey}?cursorId=${pageParam}`;
     const url = pageParam === null ? `/${queryKey}` : cursorUrl;
 
-    console.log('url: ', url);
+    // console.log('url: ', url);
 
     const response = await axiosInstance.get(url, {
       headers: {

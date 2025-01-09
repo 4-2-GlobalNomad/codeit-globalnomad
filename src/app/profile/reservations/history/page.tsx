@@ -9,13 +9,13 @@ import * as styles from './page.css';
 
 export default function ReservationPage() {
   const [filter, setFilter] = useState<string | null>(null);
+  const [isExist, setIsExist] = useState<boolean>(true);
   const { data, fetchNextPage } = useMyReservations(filter);
   const targetRef = useRef<HTMLDivElement>(null);
 
   const options = ['예약 신청', '예약 취소', '예약 승인', '예약 거절', '체험 완료'];
-  const isExist = data?.pages[0].totalCount === 0 ? false : true;
 
-  console.log('pages: ', data);
+  // console.log('pages: ', data);
 
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver((entries) => {
@@ -36,6 +36,14 @@ export default function ReservationPage() {
     };
   }, [fetchNextPage, filter]);
 
+  useEffect(() => {
+    if (data?.pages[0].totalCount === 0) {
+      setIsExist(false);
+    } else {
+      setIsExist(true);
+    }
+  }, [data?.pages, filter]);
+
   // 드롭다운 필터
   // 필터 해제: 필터 적용된 인풋창 다시 한번 클릭하면 해제
   const onSelect = (i: string) => {
@@ -50,7 +58,7 @@ export default function ReservationPage() {
     <div className={styles.content}>
       <div className={styles.contentHeader}>
         <h2 className={styles.history}>예약 내역</h2>
-        {isExist && <DropDownB options={options} placeholder='필터' onSelect={onSelect} />}
+        {(filter !== null || isExist) && <DropDownB options={options} placeholder='필터' onSelect={onSelect} />}
       </div>
       <div className={styles.list}>
         {isExist || data === undefined || <EmptyCard />}
