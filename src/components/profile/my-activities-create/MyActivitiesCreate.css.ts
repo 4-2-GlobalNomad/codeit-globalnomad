@@ -264,7 +264,6 @@ export const dateTimePickerContainer = style({
   gap: '2rem',
   height: '5.6rem',
   alignItems: 'center',
-  marginBottom: '2.1rem',
 });
 
 export const TimeButton = style({

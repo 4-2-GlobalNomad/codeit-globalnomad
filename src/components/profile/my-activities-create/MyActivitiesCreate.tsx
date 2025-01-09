@@ -173,23 +173,40 @@ export default function MyActivitiesCreate({
             const errors: Array<string | null> = [];
             let isError = false;
 
-            for (let index = 0; index < value.length; index++) {
-              const item = value[index];
+            for (let i = 0; i < value.length; i++) {
+              const item = value[i];
               let error = null;
+
+              // 기본 유효성 검사
               if (!item.date) {
                 error = `날짜를 입력해주세요.`;
               } else if (!item.startTime) {
                 error = `시작 시간을 입력해주세요.`;
               } else if (!item.endTime) {
                 error = `종료 시간을 입력해주세요.`;
-              } else if (item.startTime && item.endTime && item.startTime >= item.endTime) {
+              } else if (item.startTime >= item.endTime) {
                 error = `종료 시간은 시작 시간 이후여야 합니다.`;
               }
 
+              // 시간대 중복 검사
+              for (let j = 0; j < value.length; j++) {
+                if (i !== j) {
+                  const otherItem = value[j];
+
+                  // 날짜와 시간대 비교
+                  if (
+                    item.date?.toString() === otherItem.date?.toString() &&
+                    item.startTime < otherItem.endTime &&
+                    item.endTime > otherItem.startTime
+                  ) {
+                    error = `겹치는 예약 가능 시간대가 존재합니다.`;
+                    break;
+                  }
+                }
+              }
               if (error !== null) {
                 isError = true;
               }
-
               errors.push(error);
             }
 
