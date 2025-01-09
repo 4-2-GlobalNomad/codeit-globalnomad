@@ -1,4 +1,5 @@
 import Check from '@/assets/icons/check.svg';
+import { Button } from '@/components/button/Button';
 import * as styles from './CancelModal.css';
 
 export default function CancelModal(props: { handleModalState: () => void }) {
@@ -9,12 +10,8 @@ export default function CancelModal(props: { handleModalState: () => void }) {
       </div>
       <p className={styles.message}>예약을 취소하시겠어요?</p>
       <div className={styles.buttonBar}>
-        <button className={styles.button} onClick={props.handleModalState}>
-          아니오
-        </button>
-        <button className={styles.button} onClick={props.handleModalState}>
-          취소하기
-        </button>
+        <Button label='아니오' className={styles.button} onClick={props.handleModalState} variant='outline' />
+        <Button label='취소하기' className={styles.button} onClick={props.handleModalState} variant='solid' />
       </div>
     </div>
   );

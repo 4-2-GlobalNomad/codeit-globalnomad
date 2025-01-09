@@ -1,3 +1,4 @@
+import { Button } from '@/components/button/Button';
 import Modal from '@/components/modal/Modal';
 import { STATUS_STYLE as STATUS } from '@/constants/RESERVATION_STATUS';
 import Image from 'next/image';
@@ -6,13 +7,6 @@ import { createPortal } from 'react-dom';
 import CancelModal from './CancelModal';
 import * as styles from './ReservationCard.css';
 import ReviewModal from './ReviewModal';
-
-// interface StatusObj {
-//   msg: string;
-//   color: string;
-//   cancelAvailable: boolean;
-//   reviewAvailable: boolean;
-// }
 
 export interface ReservationData {
   activity: { id: number; title: string; bannerImageUrl: string };
@@ -39,10 +33,7 @@ export default function ReservationCard(props: { data: ReservationData }) {
   const handleReviewModalState = () => setShowReviewModal(!showReviewModal);
 
   const status = props.data.status;
-  const msg = STATUS[status].msg;
-  const color = STATUS[status].color;
-  const cancelAvailable = STATUS[status].cancelAvailable;
-  const reviewAvailable = STATUS[status].reviewAvailable;
+  const { msg, color, cancelAvailable, reviewAvailable } = STATUS[status];
 
   const date = props.data.date.split('-').map(Number).join('. ');
   const price = (props.data.totalPrice / props.data.headCount).toLocaleString();
@@ -72,14 +63,10 @@ export default function ReservationCard(props: { data: ReservationData }) {
         <p className={styles.price}>￦{price}</p>
       </div>
       {cancelAvailable && (
-        <button className={styles.button} onClick={handleCancelModalState}>
-          예약 취소
-        </button>
+        <Button label='예약 취소' onClick={handleCancelModalState} className={styles.button} variant='outline' />
       )}
       {reviewAvailable && (
-        <button className={styles.button} onClick={handleReviewModalState}>
-          리뷰 작성
-        </button>
+        <Button label='리뷰 작성' onClick={handleReviewModalState} className={styles.button} variant='solid' />
       )}
       {showCancelModal &&
         createPortal(

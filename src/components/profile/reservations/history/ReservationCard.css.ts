@@ -66,10 +66,5 @@ export const button = style({
 
   width: '144px',
   height: '43px',
-  backgroundColor: `${global.color.nomadBlack}`,
   borderRadius: '6px',
-
-  color: '#ffffff',
-  fontSize: '16px',
-  fontWeight: '700',
 });

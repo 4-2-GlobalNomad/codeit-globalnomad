@@ -89,8 +89,6 @@ export const button = style({
   width: '100%',
   height: '56px',
   borderRadius: '8px',
-  backgroundColor: `${global.color.nomadBlack}`,
-  color: '#ffffff',
   fontSize: '1.4rem',
   fontWeight: '500',
 });

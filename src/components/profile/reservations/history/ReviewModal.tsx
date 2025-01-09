@@ -1,4 +1,5 @@
 import ButtonX from '@/assets/icons/btn-x.svg';
+import { Button } from '@/components/button/Button';
 import Image from 'next/image';
 import RatingInput from './RatingInput';
 import { ReservationData } from './ReservationCard';
@@ -37,9 +38,7 @@ export default function ReviewModal(props: { handleModalState: () => void; data:
       </div>
       <RatingInput />
       <textarea className={styles.input} placeholder='후기를 작성해주세요'></textarea>
-      <button className={styles.button} onClick={props.handleModalState}>
-        작성하기
-      </button>
+      <Button label='작성하기' className={styles.button} onClick={props.handleModalState} variant='solid' />
     </div>
   );
 }
