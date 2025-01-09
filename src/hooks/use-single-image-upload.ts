@@ -23,7 +23,7 @@ const useSingleImageUpload = () => {
     }
   };
 
-  return { imageSrc, imageFile, handleSingleImagePreview };
+  return { imageSrc, setImageSrc, imageFile, handleSingleImagePreview };
 };
 
 export default useSingleImageUpload;

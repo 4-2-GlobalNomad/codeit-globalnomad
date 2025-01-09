@@ -34,7 +34,7 @@ const useMultipleImageUpload = () => {
     }
   };
 
-  return { imageSrcs, imageFiles, handleMultipleImagePreview };
+  return { imageSrcs, setImageSrcs, imageFiles, handleMultipleImagePreview };
 };
 
 export default useMultipleImageUpload;

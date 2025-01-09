@@ -14,6 +14,7 @@ export default function MyActivitiesCreatePage() {
     handleSubmit,
     formState: { errors },
     setError,
+    setValue,
     clearErrors,
     control,
   } = useForm();
@@ -87,6 +88,7 @@ export default function MyActivitiesCreatePage() {
               errors={errors}
               clearErrors={clearErrors}
               control={control}
+              setValue={setValue}
             />
           </StyledEngineProvider>
         </LocalizationProvider>

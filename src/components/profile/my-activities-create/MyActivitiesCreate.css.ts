@@ -16,6 +16,15 @@ export const errorStyle = style({
   },
 });
 
+export const dashedErrorStyle = style({
+  border: `1px dashed ${global.color.red[300]}`,
+  selectors: {
+    '&:focus-within': {
+      border: `1px dashed ${global.color.red[300]}`,
+    },
+  },
+});
+
 export const errorMessageStyle = style({
   margin: '0.8rem 0 2.1rem',
   color: global.color.red[300],
@@ -45,6 +54,10 @@ export const fileUploadLayout = style({
   gap: '1.6rem',
 });
 
+export const previewImageContainer = style({
+  position: 'relative',
+});
+
 export const previewImageBox = style({
   borderRadius: '2.4rem',
   width: '18rem',
@@ -53,17 +66,27 @@ export const previewImageBox = style({
   position: 'relative',
 });
 
+export const btnCanceled = style({
+  position: 'absolute',
+  right: '-1.2rem',
+  top: '-1.6rem',
+  cursor: 'pointer',
+});
+
 export const fileUploadContainer = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column',
-  border: `1px dashed ${global.color.gray[900]}`,
   borderRadius: '1.2rem',
   width: '18rem',
   height: '18rem',
   cursor: 'pointer',
 });
+
+export const fileUploadDefault = style([fileUploadContainer, { border: `1px dashed ${global.color.gray[900]}` }]);
+
+export const fileUploadWithError = style([fileUploadContainer, dashedErrorStyle]);
 
 export const fileUploadtext = style([
   {

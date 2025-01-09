@@ -1,5 +1,6 @@
 import ArrowDown from '@/assets/icons/arrow-down.svg';
 import AddTimeBtn from '@/assets/icons/btn-add-time.svg';
+import BtnCanceled from '@/assets/icons/btn-canceled.svg';
 import MinusTimeBtn from '@/assets/icons/btn-minus-time.svg';
 import CheckMark from '@/assets/icons/check-mark.svg';
 import IconPlus from '@/assets/icons/plus.svg';
@@ -31,6 +32,7 @@ interface MyActivitiesCreateProps {
   };
   clearErrors: (name?: string | string[] | undefined) => void;
   control: ReturnType<typeof useForm>['control'];
+  setValue: (name: string, value: unknown, config?: object) => void;
 }
 
 type ReservationDateTime = {
@@ -39,16 +41,23 @@ type ReservationDateTime = {
   endTime: dayjs.Dayjs | null;
 };
 
-export default function MyActivitiesCreate({ options, register, errors, control }: MyActivitiesCreateProps) {
+export default function MyActivitiesCreate({
+  options,
+  register,
+  errors,
+  control,
+  setValue,
+  clearErrors,
+}: MyActivitiesCreateProps) {
   const dropDownRef = useRef(null);
   const [isDropdownOpen, setIsDropdownOpen] = useDetectClose(dropDownRef, false) as [
     boolean,
     React.Dispatch<React.SetStateAction<boolean>>,
   ];
 
-  const { imageSrc, handleSingleImagePreview } = useSingleImageUpload();
+  const { imageSrc, setImageSrc, handleSingleImagePreview } = useSingleImageUpload();
 
-  const { imageSrcs, imageFiles, handleMultipleImagePreview } = useMultipleImageUpload();
+  const { imageSrcs, setImageSrcs, handleMultipleImagePreview } = useMultipleImageUpload();
 
   const toggleDropdown = () => setIsDropdownOpen((prev: boolean) => !prev);
 
@@ -61,6 +70,15 @@ export default function MyActivitiesCreate({ options, register, errors, control 
 
   const handleSubFileClick = () => {
     subFileRef?.current?.click();
+  };
+
+  const handleSingleImageCancelClick = () => {
+    setImageSrc(null);
+    setValue('bannerImage', null); // react-hook-form에 값 전달
+  };
+
+  const handleMultipleImageCancelClick = (index: number) => {
+    setImageSrcs((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -281,24 +299,42 @@ export default function MyActivitiesCreate({ options, register, errors, control 
       />
 
       <h2 className={styles.inputTitle}>배너 이미지</h2>
-      <div className={styles.fileUploadLayout}>
-        <div className={styles.fileUploadContainer}>
-          <label htmlFor='banner-file-upload' />
-          <div className={styles.fileUploadtext} onClick={handleBannerFileClick}>
-            <IconPlus />
-            <span>이미지 등록</span>
+      <div>
+        <div className={styles.fileUploadLayout}>
+          <div className={`${errors.bannerImage ? styles.fileUploadWithError : styles.fileUploadDefault}`}>
+            <label htmlFor='banner-file-upload' />
+            <div className={styles.fileUploadtext} onClick={handleBannerFileClick}>
+              <IconPlus />
+              <span>이미지 등록</span>
+            </div>
+            <input
+              {...register('bannerImage', { required: true })}
+              className={styles.fileUploadInput}
+              id='banner-file-upload'
+              type='file'
+              ref={bannerFileRef}
+              onChange={(e) => {
+                handleSingleImagePreview(e);
+                if (e.target.files && e.target.files[0]) {
+                  setValue('bannerImage', `${e.target.files[0]}`);
+                }
+                clearErrors('bannerImage');
+              }}
+            />
           </div>
-          <input
-            className={styles.fileUploadInput}
-            id='banner-file-upload'
-            type='file'
-            ref={bannerFileRef}
-            onChange={handleSingleImagePreview}
-          />
+
+          {imageSrc && (
+            <div className={styles.previewImageContainer}>
+              <div className={styles.previewImageBox}>
+                <Image fill src={imageSrc} alt='배너 이미지' />
+              </div>
+              {imageSrc !== null && (
+                <BtnCanceled className={styles.btnCanceled} onClick={handleSingleImageCancelClick} />
+              )}
+            </div>
+          )}
         </div>
-        <div className={styles.previewImageBox}>
-          {imageSrc && <Image layout='fill' objectFit='cover' src={imageSrc} alt='배너 이미지' />}
-        </div>
+        {errors.bannerImage && <p className={styles.errorMessageStyle}>배너 이미지는 필수 입력 사항입니다.</p>}
       </div>
       <h2 className={styles.inputTitle}>소개 이미지</h2>
       <div className={styles.subImageContainer}>
@@ -320,8 +356,11 @@ export default function MyActivitiesCreate({ options, register, errors, control 
           />
         </div>
         {imageSrcs.map((src, index) => (
-          <div key={index} className={styles.previewImageBox}>
-            <Image fill objectFit='cover' src={src} alt={`소개 이미지 미리보기 ${index + 1}`} />
+          <div key={index} className={styles.previewImageContainer}>
+            <div className={styles.previewImageBox}>
+              <Image fill src={src} alt={`소개 이미지 미리보기 ${index + 1}`} />
+            </div>
+            <BtnCanceled className={styles.btnCanceled} onClick={() => handleMultipleImageCancelClick(index)} />
           </div>
         ))}
       </div>
