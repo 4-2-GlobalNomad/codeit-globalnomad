@@ -47,28 +47,23 @@ export default function ReservationPage() {
   };
 
   return (
-    <div className={styles.background}>
-      <div className={styles.page}>
-        <div className={styles.panel}>예약 내역 페이지</div>
-        <div className={styles.content}>
-          <div className={styles.contentHeader}>
-            <h2 className={styles.history}>예약 내역</h2>
-            {isExist && <DropDownB options={options} placeholder='필터' onSelect={onSelect} />}
-          </div>
-          <div className={styles.list}>
-            {isExist || data === undefined || <EmptyCard />}
-            {isExist &&
-              data !== undefined &&
-              data.pages.map((group, i) => (
-                <div className={styles.list} key={i * 100}>
-                  {group.reservations.map((res: ReservationData, j: number) => (
-                    <ReservationCard data={res} key={j} />
-                  ))}
-                </div>
+    <div className={styles.content}>
+      <div className={styles.contentHeader}>
+        <h2 className={styles.history}>예약 내역</h2>
+        {isExist && <DropDownB options={options} placeholder='필터' onSelect={onSelect} />}
+      </div>
+      <div className={styles.list}>
+        {isExist || data === undefined || <EmptyCard />}
+        {isExist &&
+          data !== undefined &&
+          data.pages.map((group, i) => (
+            <div className={styles.list} key={i * 100}>
+              {group.reservations.map((res: ReservationData, j: number) => (
+                <ReservationCard data={res} key={j} />
               ))}
-            {<div className={styles.ref} ref={targetRef} />}
-          </div>
-        </div>
+            </div>
+          ))}
+        {<div className={styles.ref} ref={targetRef} />}
       </div>
     </div>
   );
