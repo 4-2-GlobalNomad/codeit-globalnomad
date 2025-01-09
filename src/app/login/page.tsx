@@ -76,11 +76,12 @@ export default function LoginPage() {
               onBlur={handleEmailBlur}
               placeholder='이메일을 입력해 주세요'
               variant='authPage'
+              error={Boolean(errors.email)}
+              errorMessage={errors.email}
               style={{
                 color: '#000',
               }}
             />
-            {errors.email && <p style={{ color: 'red', fontSize: '12px', marginTop: '8px' }}>{errors.email}</p>}
           </div>
           <div className={styles.formGroup}>
             <label className={styles.label}>비밀번호</label>
@@ -91,6 +92,8 @@ export default function LoginPage() {
               onBlur={handlePasswordBlur}
               placeholder='8자 이상 입력해 주세요'
               variant='authPage'
+              error={Boolean(errors.password)}
+              errorMessage={errors.password}
               style={{
                 paddingRight: '1.2rem',
                 color: '#000',
@@ -104,7 +107,6 @@ export default function LoginPage() {
               }
               iconPosition='right'
             />
-            {errors.password && <p style={{ color: 'red', fontSize: '12px', marginTop: '8px' }}>{errors.password}</p>}
           </div>
           <Button label='로그인 하기' disabled={!email || !password} className={styles.loginButton} />
         </form>
