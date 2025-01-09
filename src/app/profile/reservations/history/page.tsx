@@ -45,12 +45,13 @@ export default function ReservationPage() {
   }, [data?.pages, filter]);
 
   // 드롭다운 필터
-  // 필터 해제: 필터 적용된 인풋창 다시 한번 클릭하면 해제
-  const onSelect = (i: string) => {
-    if (filter == null) {
-      setFilter(i);
-    } else {
-      setFilter(null); // 드롭다운 클릭 x 항목까지 선택해야 동작함... div 한겹 더싸서 onclick으로?
+  const handleSelect = (i: string) => {
+    setFilter(i);
+  };
+
+  const handleUnselect = () => {
+    if (filter !== null) {
+      setFilter(null);
     }
   };
 
@@ -58,7 +59,11 @@ export default function ReservationPage() {
     <div className={styles.content}>
       <div className={styles.contentHeader}>
         <h2 className={styles.history}>예약 내역</h2>
-        {(filter !== null || isExist) && <DropDownB options={options} placeholder='필터' onSelect={onSelect} />}
+        {(filter !== null || isExist) && (
+          <div onClick={handleUnselect}>
+            <DropDownB options={options} placeholder='필터' onSelect={handleSelect} />
+          </div>
+        )}
       </div>
       <div className={styles.list}>
         {isExist || data === undefined || <EmptyCard />}
