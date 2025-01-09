@@ -20,7 +20,7 @@ export interface ReservationData {
   id: number;
   teamId: string;
   userId: number;
-  status: string;
+  status: 'pending' | 'confirmed' | 'declined' | 'canceled' | 'completed';
   reviewSubmitted: boolean;
   totalPrice: number;
   headCount: number;
@@ -39,22 +39,10 @@ export default function ReservationCard(props: { data: ReservationData }) {
   const handleReviewModalState = () => setShowReviewModal(!showReviewModal);
 
   const status = props.data.status;
-  let msg = '';
-  let color = '';
-  let cancelAvailable = false;
-  let reviewAvailable = false;
-  if (
-    status === 'pending' ||
-    status === 'confirm' ||
-    status === 'declined' ||
-    status === 'canceled' ||
-    status === 'completed'
-  ) {
-    msg = STATUS[status].msg;
-    color = STATUS[status].color;
-    cancelAvailable = STATUS[status].cancelAvailable;
-    reviewAvailable = STATUS[status].reviewAvailable;
-  }
+  const msg = STATUS[status].msg;
+  const color = STATUS[status].color;
+  const cancelAvailable = STATUS[status].cancelAvailable;
+  const reviewAvailable = STATUS[status].reviewAvailable;
 
   const date = props.data.date.split('-').map(Number).join('. ');
   const price = (props.data.totalPrice / props.data.headCount).toLocaleString();
