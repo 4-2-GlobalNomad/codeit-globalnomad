@@ -11,7 +11,6 @@ import Dialog from '@/components/modal/Dialog';
 import Modal from '@/components/modal/Modal';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import * as styles from './page.css';
 
@@ -19,7 +18,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [type, setType] = useState<'password' | 'text'>('password');
-  const router = useRouter();
   const [errors, setErrors] = useState({ email: '', password: '' });
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -47,8 +45,7 @@ export default function LoginPage() {
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('userInfo', JSON.stringify(user));
-      alert('로그인 성공!');
-      router.push('/');
+      window.location.href = '/';
     } catch {
       setAlertMessage('비밀번호가 일치하지 않습니다.');
       setIsAlertOpen(true);
