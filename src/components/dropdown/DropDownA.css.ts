@@ -2,12 +2,13 @@ import { style } from '@vanilla-extract/css';
 
 export const dropdownContainerA = style({
   position: 'relative',
-  width: '15rem',
-  background: 'white',
-  borderRadius: '1.5rem',
+  width: 'fit-content',
+  height: 'fit-content',
 });
 
 export const dropdownListA = style({
+  width: '100%',
+  backgroundColor: 'rgba(255, 255, 255, 0.8)',
   borderRadius: '0.5rem',
   border: '0.0625rem solid #ccc',
   listStyleType: 'none',
@@ -19,20 +20,8 @@ export const dropdownListA = style({
   zIndex: 999,
 });
 
-export const dropdownButtonA = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  background: 'white',
-  border: '1px solid #ccc',
-  borderRadius: '1rem',
-  padding: '1rem 1rem',
-  cursor: 'pointer',
-  width: '10rem',
-  position: 'relative',
-});
-
 export const itemA = style({
+  whiteSpace: 'nowrap',
   padding: '2rem',
   textAlign: 'center',
   cursor: 'pointer',
@@ -46,6 +35,7 @@ export const itemA = style({
 });
 
 export const portalContainerA = style({
+  width: '12rem',
   position: 'absolute',
   top: '6rem',
   left: '0',

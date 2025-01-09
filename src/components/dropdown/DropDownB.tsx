@@ -18,15 +18,20 @@ function DropDownB({ options, placeholder = '가격', onSelect }: DropDownBProps
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const toggleDropdown = () => {
-    if (!isOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setDropdownStyle({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-        position: 'absolute',
-      });
+    if (selected === null) {
+      // 선택x상태 -> 드롭다운 열기
+      if (!isOpen && buttonRef.current) {
+        const rect = buttonRef.current.getBoundingClientRect();
+        setDropdownStyle({
+          top: rect.bottom + window.scrollY,
+          left: rect.left + window.scrollX,
+          position: 'absolute',
+        });
+      }
+      setIsOpen((prev) => !prev);
+    } else {
+      setSelected(null); // 선택된 상태 -> 값 지우기
     }
-    setIsOpen((prev) => !prev);
   };
 
   const handleSelect = (item: string) => {

@@ -1,11 +1,21 @@
+'use client';
+
 import FacebookIcon from '@/assets/icons/facebook.svg';
 import InstagramIcon from '@/assets/icons/instagram.svg';
 import TwitterIcon from '@/assets/icons/twitter.svg';
 import YoutubeIcon from '@/assets/icons/youtube.svg';
+import { usePathname } from 'next/navigation';
 import React from 'react';
 import * as styles from './Footer.css';
 
 export const Footer = () => {
+  const pathname = usePathname();
+  const isLoginPage = pathname === '/login';
+
+  if (isLoginPage) {
+    return null;
+  }
+
   return (
     <footer className={styles.footer}>
       <div className={styles.content}>

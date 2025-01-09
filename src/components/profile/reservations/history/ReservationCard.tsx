@@ -1,4 +1,5 @@
 import Modal from '@/components/modal/Modal';
+import { STATUS_STYLE as STATUS } from '@/constants/RESERVATION_STATUS';
 import Image from 'next/image';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -30,14 +31,6 @@ export interface ReservationData {
   updatedAt: string;
 }
 
-export const STATUS = {
-  pending: { msg: '예약 신청', color: '#2EB4FF', cancelAvailable: true, reviewAvailable: false },
-  confirm: { msg: '예약 승인', color: '#FF7C1D', cancelAvailable: false, reviewAvailable: false },
-  decline: { msg: '예약 거절', color: '#ff472e', cancelAvailable: false, reviewAvailable: false },
-  canceled: { msg: '예약 취소', color: '#79747E', cancelAvailable: false, reviewAvailable: false },
-  completed: { msg: '체험 완료', color: '#79747E', cancelAvailable: false, reviewAvailable: true },
-};
-
 export default function ReservationCard(props: { data: ReservationData }) {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const handleCancelModalState = () => setShowCancelModal(!showCancelModal);
@@ -53,7 +46,7 @@ export default function ReservationCard(props: { data: ReservationData }) {
   if (
     status === 'pending' ||
     status === 'confirm' ||
-    status === 'decline' ||
+    status === 'declined' ||
     status === 'canceled' ||
     status === 'completed'
   ) {

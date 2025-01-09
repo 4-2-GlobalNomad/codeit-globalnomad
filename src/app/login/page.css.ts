@@ -8,7 +8,7 @@ export const container = style({
 
 export const loginBox = style({
   width: '640px',
-  height: '1020px',
+  height: '100%',
   margin: '48px 640px 54px 640px',
 });
 export const logo = style({

@@ -1,12 +1,12 @@
 // sort-imports-ignore
-import '@/styles/reset.css';
-import '@/styles/global.css';
-import type { Metadata } from 'next';
-import localFont from 'next/font/local';
 import DynamicPortal from '@/components/dynamicportal/DynamicPortal';
 import { Footer } from '@/components/footer/Footer';
 import { Header } from '@/components/header/Header';
 import TanStackProvider from '@/providers/TanStackProvider';
+import type { Metadata } from 'next';
+import localFont from 'next/font/local';
+import '@/styles/reset.css';
+import '@/styles/global.css';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
