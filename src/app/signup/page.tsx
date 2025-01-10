@@ -2,6 +2,8 @@
 
 import GoogleIcon from '@/assets/icons/google.svg';
 import KakaoIcon from '@/assets/icons/kakao.svg';
+import VisibilityOff from '@/assets/icons/visibility-off.svg';
+import VisibilityOn from '@/assets/icons/visibility-on.svg';
 import Input from '@/components/Input';
 import { Button } from '@/components/button/Button';
 import Image from 'next/image';
@@ -12,26 +14,53 @@ import * as styles from './page.css';
 export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
+  const [type, setType] = useState<'password' | 'text'>('password');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [errors] = useState({
+  const [errors, setErrors] = useState({
     email: '',
     nickname: '',
     password: '',
     passwordConfirm: '',
   });
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
+  const handleEmailBlur = () => {
+    if (!email.includes('@') || !email.includes('.')) {
+      setErrors((prev) => ({ ...prev, email: '이메일 형식으로 작성해 주세요.' }));
+    } else {
+      setErrors((prev) => ({ ...prev, email: '' }));
+    }
+  };
 
-  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => setNickname(e.target.value);
+  const handleNicknameBlur = () => {
+    if (nickname.length > 10) {
+      setErrors((prev) => ({ ...prev, nickname: '열 자 이하로 작성해주세요.' }));
+    } else {
+      setErrors((prev) => ({ ...prev, nickname: '' }));
+    }
+  };
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
+  const handlePasswordBlur = () => {
+    if (password.length < 8) {
+      setErrors((prev) => ({ ...prev, password: '비밀번호는 8자 이상이어야 합니다.' }));
+    } else {
+      setErrors((prev) => ({ ...prev, password: '' }));
+    }
+  };
 
-  const handlePasswordConfirmChange = (e: React.ChangeEvent<HTMLInputElement>) => setPasswordConfirm(e.target.value);
+  const handlePasswordConfirmBlur = () => {
+    if (password !== passwordConfirm) {
+      setErrors((prev) => ({ ...prev, passwordConfirm: '비밀번호가 일치하지 않습니다.' }));
+    } else {
+      setErrors((prev) => ({ ...prev, passwordConfirm: '' }));
+    }
+  };
 
   const handleSignupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('회원가입 로직 추가 필요');
+    if (!Object.values(errors).some((error) => error)) {
+      alert('회원가입 로직 추가 필요');
+    }
   };
 
   return (
@@ -48,14 +77,16 @@ export default function SignupPage() {
             <Input
               type='email'
               value={email}
-              onChange={handleEmailChange}
+              onChange={(e) => setEmail(e.target.value)}
+              onBlur={handleEmailBlur}
               placeholder='이메일을 입력해 주세요'
               variant='authPage'
+              error={Boolean(errors.email)}
+              errorMessage={errors.email}
               style={{
                 color: '#000',
               }}
             />
-            {errors.email && <p style={{ color: 'red', fontSize: '12px', marginTop: '8px' }}>{errors.email}</p>}
           </div>
 
           <div className={styles.formGroup}>
@@ -63,46 +94,66 @@ export default function SignupPage() {
             <Input
               type='text'
               value={nickname}
-              onChange={handleNicknameChange}
+              onChange={(e) => setNickname(e.target.value)}
+              onBlur={handleNicknameBlur}
               placeholder='닉네임을 입력해 주세요'
               variant='authPage'
+              error={Boolean(errors.nickname)}
+              errorMessage={errors.nickname}
               style={{
                 color: '#000',
               }}
             />
-            {errors.nickname && <p style={{ color: 'red', fontSize: '12px', marginTop: '8px' }}>{errors.nickname}</p>}
           </div>
 
           <div className={styles.formGroup}>
             <label className={styles.label}>비밀번호</label>
             <Input
-              type='password'
+              type={type}
               value={password}
-              onChange={handlePasswordChange}
+              onChange={(e) => setPassword(e.target.value)}
+              onBlur={handlePasswordBlur}
               placeholder='비밀번호를 입력해 주세요'
               variant='authPage'
+              error={Boolean(errors.password)}
+              errorMessage={errors.password}
               style={{
                 color: '#000',
               }}
+              icon={
+                type === 'password' ? (
+                  <VisibilityOff onClick={() => setType('text')} tabIndex={0} aria-label='비밀번호 표시' />
+                ) : (
+                  <VisibilityOn onClick={() => setType('password')} tabIndex={0} aria-label='비밀번호 숨기기' />
+                )
+              }
+              iconPosition='right'
             />
-            {errors.password && <p style={{ color: 'red', fontSize: '12px', marginTop: '8px' }}>{errors.password}</p>}
           </div>
 
           <div className={styles.formGroup}>
             <label className={styles.label}>비밀번호 확인</label>
             <Input
-              type='password'
+              type={type}
               value={passwordConfirm}
-              onChange={handlePasswordConfirmChange}
+              onChange={(e) => setPasswordConfirm(e.target.value)}
+              onBlur={handlePasswordConfirmBlur}
               placeholder='비밀번호를 다시 입력해 주세요'
               variant='authPage'
+              error={Boolean(errors.passwordConfirm)}
+              errorMessage={errors.passwordConfirm}
               style={{
                 color: '#000',
               }}
+              icon={
+                type === 'password' ? (
+                  <VisibilityOff onClick={() => setType('text')} tabIndex={0} aria-label='비밀번호 표시' />
+                ) : (
+                  <VisibilityOn onClick={() => setType('password')} tabIndex={0} aria-label='비밀번호 숨기기' />
+                )
+              }
+              iconPosition='right'
             />
-            {errors.passwordConfirm && (
-              <p style={{ color: 'red', fontSize: '12px', marginTop: '8px' }}>{errors.passwordConfirm}</p>
-            )}
           </div>
 
           <Button
