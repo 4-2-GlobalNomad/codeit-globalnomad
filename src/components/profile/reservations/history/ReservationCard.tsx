@@ -37,10 +37,7 @@ export default function ReservationCard(props: { data: ReservationData }) {
 
   const date = props.data.date.split('-').map(Number).join('. ');
   const price = (props.data.totalPrice / props.data.headCount).toLocaleString();
-  let title = props.data.activity.title;
-  if (title.length > 35) {
-    title = title.slice(0, 34) + ' ···';
-  }
+  const title = props.data.activity.title;
 
   return (
     <div className={styles.card}>

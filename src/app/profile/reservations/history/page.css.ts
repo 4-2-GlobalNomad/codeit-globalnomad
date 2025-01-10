@@ -4,6 +4,14 @@ import { style } from '@vanilla-extract/css';
 
 export const content = style({
   width: '792px',
+  '@media': {
+    'screen and (min-width: 768px) and (max-width: 1199px)': {
+      width: '429px',
+    },
+    'screen and (min-width: 320px) and (max-width: 767px)': {
+      width: '344px',
+    },
+  },
 });
 
 export const contentHeader = style({
