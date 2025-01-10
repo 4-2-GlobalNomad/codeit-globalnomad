@@ -145,6 +145,7 @@ export default function MyActivitiesCreate({
         <div>
           <Input
             type='number'
+            step='1000'
             placeholder='가격'
             {...register('price', { required: '가격은 필수 입력 사항입니다.' })}
             error={Boolean(errors.price)}
@@ -319,9 +320,12 @@ export default function MyActivitiesCreate({
       <h2 className={styles.inputTitle}>배너 이미지</h2>
       <div>
         <div className={styles.fileUploadLayout}>
-          <div className={`${errors.bannerImage ? styles.fileUploadWithError : styles.fileUploadDefault}`}>
+          <div
+            className={`${errors.bannerImage ? styles.fileUploadWithError : styles.fileUploadDefault}`}
+            onClick={handleBannerFileClick}
+          >
             <label htmlFor='bannerImage' />
-            <div className={styles.fileUploadtext} onClick={handleBannerFileClick}>
+            <div className={styles.fileUploadtext}>
               <IconPlus />
               <span>이미지 등록</span>
             </div>
@@ -356,10 +360,10 @@ export default function MyActivitiesCreate({
       </div>
       <h2 className={styles.inputTitle}>소개 이미지</h2>
       <div className={styles.subImageContainer}>
-        <div className={styles.subImageUploadBox}>
+        <div className={styles.subImageUploadBox} onClick={handleSubFileClick}>
           <label htmlFor='subfile-upload' />
           <div>
-            <div onClick={handleSubFileClick} className={styles.fileUploadtext}>
+            <div className={styles.fileUploadtext}>
               <IconPlus />
               <span>이미지 등록</span>
             </div>
