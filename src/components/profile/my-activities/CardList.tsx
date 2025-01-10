@@ -1,18 +1,23 @@
 'use client';
 
-import MeatballIcon from '@/assets/icons/meatball.svg';
 import StarIcon from '@/assets/icons/star-fill.svg';
+import DropDownA from '@/components/dropdown/DropDownA';
 import { useMyActivities } from '@/hooks/use-my-activities';
 import { MyActivitiesList } from '@/types/my-activities-list';
 import { formatToKor } from '@/utils/format-to-kor';
 import Image from 'next/image';
-import { useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 import * as styles from './CardList.css';
 
 export default function CardList() {
   const { data, fetchNextPage, isFetchingNextPage } = useMyActivities();
   const targetRef = useRef<HTMLDivElement>(null);
-
+  const router = useRouter();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const handleClick = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
@@ -58,9 +63,19 @@ export default function CardList() {
                 </div>
                 <div className={styles.cardBottomLayout}>
                   <p className={styles.priceText}>{formatToKor(activity.price)}</p>
-                  <button>
-                    <MeatballIcon width={40} height={40} />
-                  </button>
+                  <div onClick={handleClick}>
+                    {/* <MeatballIcon width={40} height={40} /> */}
+                    <DropDownA
+                      onSelect={(option) => {
+                        if (option === '수정하기') {
+                          router.push(`/profile/my-activities/edit/${activity.id}`);
+                        } else if (option === '삭제하기') {
+                          return alert('삭제 하시겠습니까?');
+                        }
+                      }}
+                      options={['수정하기', '삭제하기']}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
