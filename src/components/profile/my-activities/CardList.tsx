@@ -7,6 +7,7 @@ import { useMyActivities } from '@/hooks/use-my-activities';
 import { MyActivitiesList } from '@/types/my-activities-list';
 import { formatToKor } from '@/utils/format-to-kor';
 import { useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -25,6 +26,12 @@ export default function CardList() {
       onSuccess: () => {
         alert('삭제되었습니다.');
         queryClient.invalidateQueries({ queryKey: ['my-activities'] });
+      },
+      onError: (error: Error) => {
+        const axiosError = error as AxiosError;
+        const errorMessage = (axiosError.response?.data as { message: string })?.message ?? '삭제에 실패했습니다.';
+        console.error('Error deleting activity:', error);
+        alert(errorMessage);
       },
     });
   };
