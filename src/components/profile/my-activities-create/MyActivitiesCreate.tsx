@@ -8,8 +8,8 @@ import Input from '@/components/Input';
 import useDetectClose from '@/hooks/use-detect-close';
 import useMultipleImageUpload from '@/hooks/use-multiple-image-upload';
 import useSingleImageUpload from '@/hooks/use-single-image-upload';
+import { ReservationDateTime } from '@/types/reservation-date-time';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
 import Image from 'next/image';
 import React, { useRef } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -34,12 +34,6 @@ interface MyActivitiesCreateProps {
   control: ReturnType<typeof useForm>['control'];
   setValue: (name: string, value: unknown, config?: object) => void;
 }
-
-type ReservationDateTime = {
-  date: dayjs.Dayjs | null;
-  startTime: dayjs.Dayjs | null;
-  endTime: dayjs.Dayjs | null;
-};
 
 export default function MyActivitiesCreate({
   options,
