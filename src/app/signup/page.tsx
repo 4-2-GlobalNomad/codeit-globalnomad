@@ -1,11 +1,14 @@
 'use client';
 
+import { signup } from '@/apis/users';
 import GoogleIcon from '@/assets/icons/google.svg';
 import KakaoIcon from '@/assets/icons/kakao.svg';
 import VisibilityOff from '@/assets/icons/visibility-off.svg';
 import VisibilityOn from '@/assets/icons/visibility-on.svg';
 import Input from '@/components/Input';
 import { Button } from '@/components/button/Button';
+import Dialog from '@/components/modal/Dialog';
+import Modal from '@/components/modal/Modal';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -23,6 +26,10 @@ export default function SignupPage() {
     password: '',
     passwordConfirm: '',
   });
+
+  const [loading, setLoading] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const handleEmailBlur = () => {
     if (!email.includes('@') || !email.includes('.')) {
@@ -56,15 +63,31 @@ export default function SignupPage() {
     }
   };
 
-  const handleSignupSubmit = (e: React.FormEvent) => {
+  const handleSignupSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!Object.values(errors).some((error) => error)) {
-      alert('회원가입 로직 추가 필요');
+    if (!Object.values(errors).some((error) => error) && email && nickname && password && passwordConfirm) {
+      try {
+        setLoading(true);
+
+        const response = await signup(email, nickname, password);
+        console.log('회원가입 성공:', response);
+      } catch {
+        setAlertMessage('이미 사용중인 이메일입니다.');
+        setIsAlertOpen(true);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   return (
     <div className={styles.container}>
+      {isAlertOpen && (
+        <Modal
+          handleModalState={() => setIsAlertOpen(false)}
+          content={<Dialog handleModalState={() => setIsAlertOpen(false)} message={alertMessage} />}
+        />
+      )}
       <div className={styles.signupBox}>
         <div className={styles.logoContainer}>
           <Link href='/'>
@@ -158,7 +181,7 @@ export default function SignupPage() {
 
           <Button
             label='회원가입 하기'
-            disabled={!email || !nickname || !password || !passwordConfirm}
+            disabled={loading || !email || !nickname || !password || !passwordConfirm}
             className={styles.signupButton}
           />
         </form>
