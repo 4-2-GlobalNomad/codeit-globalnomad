@@ -15,7 +15,7 @@ const PopularActivityList = () => {
   const [startIdx, setStartIdx] = useState(0);
 
   const { data, isFetching, isError, error } = useQuery({
-    queryKey: queryKeys.popularActivity(1, 10),
+    queryKey: ['popularActivity', 1, 10],
     queryFn: getPopularActivity,
     staleTime: 5 * 60 * 1000,
   });
