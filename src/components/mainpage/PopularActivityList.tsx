@@ -1,7 +1,6 @@
 'use client';
 
 import getPopularActivity from '@/apis/get-popular-activity';
-import { queryKeys } from '@/apis/querykeys';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import PopularCardSkeleton from '../skeletonui/mainpage/PopularCardSkeleton';
