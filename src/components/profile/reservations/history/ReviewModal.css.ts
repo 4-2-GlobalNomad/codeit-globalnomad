@@ -47,6 +47,7 @@ export const texts = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '12px',
+  width: '290px',
 });
 
 export const title = style({
@@ -54,6 +55,9 @@ export const title = style({
   fontSize: '2rem',
   lineHeight: '3.2rem',
   color: `${global.color.nomadBlack}`,
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
 });
 
 export const subtitle = style({

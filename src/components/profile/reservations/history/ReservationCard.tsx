@@ -62,14 +62,17 @@ export default function ReservationCard(props: { data: ReservationData }) {
       {cancelAvailable && (
         <Button label='예약 취소' onClick={handleCancelModalState} className={styles.button} variant='outline' />
       )}
-      {reviewAvailable && (
+      {reviewAvailable && !props.data.reviewSubmitted && (
         <Button label='리뷰 작성' onClick={handleReviewModalState} className={styles.button} variant='solid' />
+      )}
+      {reviewAvailable && props.data.reviewSubmitted && (
+        <Button label='리뷰 완료' className={styles.button} variant='solid' disabled />
       )}
       {showCancelModal &&
         createPortal(
           <Modal
             handleModalState={handleCancelModalState}
-            content={<CancelModal handleModalState={handleCancelModalState} />}
+            content={<CancelModal handleModalState={handleCancelModalState} reservationId={props.data.id} />}
           />,
           document.body,
         )}
