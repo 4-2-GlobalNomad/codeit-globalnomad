@@ -5,40 +5,62 @@ import { leftArrow, pageButton, paginationContainer, prevNextButton, rightArrow 
 
 interface PaginationProps {
   currentPage: number;
-  totalItems: number;
-  itemsPerPage: number;
-  onPageChange: (page: number) => void;
+  totalCount: number;
+  offsetLimit: number;
+  setPageNum: (page: number) => void;
+  currentPageGroup: number;
 }
 
-function Pagination({ currentPage, totalItems, itemsPerPage, onPageChange }: PaginationProps) {
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+const Pagination = ({ currentPage, totalCount, offsetLimit, setPageNum, currentPageGroup }: PaginationProps) => {
+  const totalPages = Math.ceil(totalCount / offsetLimit);
+  const getPageGroups = () => {
+    const maxVisibleGroups = 5;
+    const startGroup = Math.max(currentPageGroup - Math.floor(maxVisibleGroups / 2), 1);
+    const endGroup = Math.min(startGroup + maxVisibleGroups - 1, Math.ceil(totalPages / 5));
+
+    return { startGroup, endGroup };
+  };
+
+  const { startGroup, endGroup } = getPageGroups();
+
+  const getVisiblePageNumbers = () => {
+    const pageNumbers: number[] = [];
+    const startPage = (startGroup - 1) * 5 + 1;
+    const endPage = Math.min(startPage + 4, totalPages);
+
+    for (let page = startPage; page <= endPage; page++) {
+      pageNumbers.push(page);
+    }
+
+    return pageNumbers;
+  };
+
+  const visiblePages = getVisiblePageNumbers();
 
   return (
     <div className={paginationContainer}>
-      <button className={prevNextButton} onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
+      <button className={prevNextButton} onClick={() => setPageNum(currentPage - 1)} disabled={currentPage === 1}>
         <ArrowLeft className={leftArrow} />
       </button>
-
-      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+      {visiblePages.map((page) => (
         <button
           key={page}
           className={`${pageButton} ${currentPage === page ? 'selected' : ''}`}
-          onClick={() => onPageChange(page)}
+          onClick={() => setPageNum(page)}
           style={{ fontWeight: currentPage === page ? 'bold' : 'normal' }}
         >
           {page}
         </button>
       ))}
-
       <button
         className={prevNextButton}
-        onClick={() => onPageChange(currentPage + 1)}
+        onClick={() => setPageNum(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
         <ArrowRight className={rightArrow} />
       </button>
     </div>
   );
-}
+};
 
 export default Pagination;
