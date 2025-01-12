@@ -1,3 +1,4 @@
+import { axiosInstance } from '@/apis/axios-instance';
 import axios from 'axios';
 
 interface SignupResponse {
@@ -14,7 +15,7 @@ export const signup = async (email: string, nickname: string, password: string):
   const url = `https://sp-globalnomad-api.vercel.app/${teamId}/users`;
 
   try {
-    const response = await axios.post<SignupResponse>(
+    const response = await axiosInstance.post<SignupResponse>(
       url,
       {
         email,
@@ -43,4 +44,16 @@ export const signup = async (email: string, nickname: string, password: string):
       throw new Error('회원가입 실패: 예상치 못한 에러');
     }
   }
+};
+
+//내 정보 조회
+export const fetchUserInfo = async () => {
+  const accessToken = localStorage.getItem('accessToken');
+  const teamId = '10-2';
+  const response = await axiosInstance.get(`https://sp-globalnomad-api.vercel.app/${teamId}/users/me`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  return response.data;
 };

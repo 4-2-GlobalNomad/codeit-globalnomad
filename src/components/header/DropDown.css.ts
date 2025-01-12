@@ -6,12 +6,12 @@ export const avatarContainer = style({
 });
 
 export const avatar = style({
+  backgroundColor: '#333',
   width: '40px',
   height: '40px',
   objectFit: 'cover',
   borderRadius: '50%',
   display: 'block',
-  transition: 'transform 0.2s ease-in-out',
 });
 
 export const userGroup = style({

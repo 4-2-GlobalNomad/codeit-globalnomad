@@ -1,5 +1,7 @@
 'use client';
 
+import { fetchUserInfo } from '@/apis/users';
+import defaultUserImage from '@/assets/images/default-user.png';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
@@ -8,14 +10,26 @@ import * as styles from './DropDown.css';
 export const Dropdown: React.FC = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
+    console.log('로컬 스토리지 데이터:', storedUserInfo);
     if (storedUserInfo) {
-      const { nickname } = JSON.parse(storedUserInfo);
+      const { nickname, profileImageUrl } = JSON.parse(storedUserInfo);
       setUserName(nickname);
+      setProfileImageUrl(profileImageUrl || null);
+    } else {
+      fetchUserInfo()
+        .then((userInfo) => {
+          setUserName(userInfo.nickname);
+          setProfileImageUrl(userInfo.profileImageUrl || null);
+        })
+        .catch((error) => {
+          console.error('유저 정보 가져오기 실패:', error);
+        });
     }
   }, []);
 
@@ -51,7 +65,14 @@ export const Dropdown: React.FC = () => {
     <div className={styles.avatarContainer} ref={dropdownRef}>
       <div onClick={() => setDropdownOpen((prev) => !prev)}>
         <div className={styles.userGroup}>
-          <Image src='/avatar.svg' alt='사용자 아바타' className={styles.avatar} width={40} height={40} />
+          <Image
+            src={profileImageUrl || defaultUserImage}
+            alt='사용자 프로필'
+            className={styles.avatar}
+            objectFit='cover'
+            width={40}
+            height={40}
+          />
           {userName && <span className={styles.userName}>{userName}</span>}
         </div>
       </div>

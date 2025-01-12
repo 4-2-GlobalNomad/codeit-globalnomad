@@ -11,10 +11,12 @@ import Dialog from '@/components/modal/Dialog';
 import Modal from '@/components/modal/Modal';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import * as styles from './page.css';
 
 export default function SignupPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [type, setType] = useState<'password' | 'text'>('password');
@@ -71,6 +73,7 @@ export default function SignupPage() {
 
         const response = await signup(email, nickname, password);
         console.log('회원가입 성공:', response);
+        router.push('/login');
       } catch {
         setAlertMessage('이미 사용중인 이메일입니다.');
         setIsAlertOpen(true);
