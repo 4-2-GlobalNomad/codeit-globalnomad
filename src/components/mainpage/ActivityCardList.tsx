@@ -3,18 +3,18 @@ import { queryKeys } from '@/apis/querykeys';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import Pagination from '@/components/pagination/Pagination';
 import ActivityCardSkeleton from '@/components/skeletonui/mainpage/ActivityCardSkeleton';
+import { ActivityResponse } from '@/types/mainpage';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { MouseEvent } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import * as styles from './ActivityCardList.css';
 import CategoryFilter from './CategoryFilter';
 
 const usePageActivity = (pageNum: number, size: number, category: string, sort: string) => {
-  return useQuery({
+  return useQuery<ActivityResponse, Error>({
     queryKey: queryKeys.currentPageActivity(pageNum, size, category, sort),
     queryFn: () => getCurrentPageActivity(pageNum, size, category, sort),
     staleTime: 5 * 60 * 1000,
-    placeholderData: () => ({ activities: [], totalCount: 0 }),
+    placeholderData: { activities: [], totalCount: 0 },
   });
 };
 
@@ -22,7 +22,7 @@ const ActivityCardList = () => {
   const [currentPageNum, setCurrentPageNum] = useState(0);
   const [currentCategory, setCurrentCategory] = useState('');
   const [currentSort, setCurrentSort] = useState('');
-  const [offset, setOffset] = useState(8);
+  const offset = 8;
 
   const {
     data: allActivityList,
@@ -37,15 +37,25 @@ const ActivityCardList = () => {
     const sortParam = queryParams.get('sort');
     const pageParam = queryParams.get('page');
 
-    if (categoryParam) setCurrentCategory(categoryParam);
-    if (sortParam) setCurrentSort(sortParam);
-    if (pageParam) setCurrentPageNum(Number(pageParam) - 1);
+    if (categoryParam) {
+      setCurrentCategory(categoryParam);
+    }
+    if (sortParam) {
+      setCurrentSort(sortParam);
+    }
+    if (pageParam) {
+      setCurrentPageNum(Number(pageParam) - 1);
+    }
   }, []);
 
   useEffect(() => {
     const queryParams = new URLSearchParams();
-    if (currentCategory) queryParams.set('category', currentCategory);
-    if (currentSort) queryParams.set('sort', currentSort);
+    if (currentCategory) {
+      queryParams.set('category', currentCategory);
+    }
+    if (currentSort) {
+      queryParams.set('sort', currentSort);
+    }
     queryParams.set('page', String(currentPageNum + 1));
     window.history.pushState({}, '', '?' + queryParams.toString());
   }, [currentCategory, currentSort, currentPageNum]);
@@ -62,7 +72,9 @@ const ActivityCardList = () => {
     setCurrentPageNum(0);
   };
 
-  if (isError) return <div>{error?.message}</div>;
+  if (isError) {
+    return <div>{(error as Error)?.message || '데이터를 가져오는 데 문제가 발생했습니다.'}</div>;
+  }
 
   const activities = allActivityList?.activities || [];
   const totalCount = allActivityList?.totalCount || 0;

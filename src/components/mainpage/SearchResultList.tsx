@@ -1,5 +1,3 @@
-'use client';
-
 import getSearchResult from '@/apis/get-search-result';
 import ActivityCard from '@/components/mainpage/ActivityCard';
 import Pagination from '@/components/pagination/Pagination';
@@ -26,7 +24,7 @@ const SearchResultList: React.FC<SearchResultListProps> = ({ keyword }) => {
       try {
         const result = await getSearchResult(keyword, currentPage, itemsPerPage);
         setSearchResult(result);
-      } catch (error) {
+      } catch {
         setIsError(true);
       } finally {
         setIsLoading(false);

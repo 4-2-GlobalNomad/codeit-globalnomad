@@ -6,7 +6,11 @@ const DEFAULT_ACTIVITY_RESPONSE: ActivityResponse = {
   totalCount: 0,
 };
 
-async function getPopularActivity({ queryKey }: any) {
+interface PopularActivityQueryKey {
+  queryKey: [string, number, number];
+}
+
+async function getPopularActivity({ queryKey }: PopularActivityQueryKey): Promise<ActivityResponse> {
   const [, page, size] = queryKey;
 
   try {
@@ -19,7 +23,7 @@ async function getPopularActivity({ queryKey }: any) {
 
     const res = await axiosInstance.get<ActivityResponse>(`/activities?${urlSearchParams}`);
     return res.data;
-  } catch (e) {
+  } catch (e: unknown) {
     console.error('Error: ', e);
     return DEFAULT_ACTIVITY_RESPONSE;
   }

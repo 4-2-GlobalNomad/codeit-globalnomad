@@ -18,8 +18,12 @@ const getCurrentPageActivity = async (
     size: String(size),
   });
 
-  if (category) urlSearchParams.append('category', category);
-  if (sort) urlSearchParams.append('sort', sort);
+  if (category) {
+    urlSearchParams.append('category', category);
+  }
+  if (sort) {
+    urlSearchParams.append('sort', sort);
+  }
 
   try {
     const res = await axiosInstance.get<ActivityResponse>(`/activities?${urlSearchParams}`);

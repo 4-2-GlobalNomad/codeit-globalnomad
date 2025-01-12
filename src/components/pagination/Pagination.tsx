@@ -18,10 +18,10 @@ const Pagination = ({ currentPage, totalCount, offsetLimit, setPageNum, currentP
     const startGroup = Math.max(currentPageGroup - Math.floor(maxVisibleGroups / 2), 1);
     const endGroup = Math.min(startGroup + maxVisibleGroups - 1, Math.ceil(totalPages / 5));
 
-    return { startGroup, endGroup };
+    return { startGroup };
   };
 
-  const { startGroup, endGroup } = getPageGroups();
+  const { startGroup } = getPageGroups();
 
   const getVisiblePageNumbers = () => {
     const pageNumbers: number[] = [];
