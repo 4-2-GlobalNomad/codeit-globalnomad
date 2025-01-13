@@ -1,12 +1,16 @@
 import ArrowDown from '@/assets/icons/arrow-down.svg';
 import AddTimeBtn from '@/assets/icons/btn-add-time.svg';
+import BtnCanceled from '@/assets/icons/btn-canceled.svg';
 import MinusTimeBtn from '@/assets/icons/btn-minus-time.svg';
 import CheckMark from '@/assets/icons/check-mark.svg';
 import IconPlus from '@/assets/icons/plus.svg';
 import Input from '@/components/Input';
 import useDetectClose from '@/hooks/use-detect-close';
+import useMultipleImageUpload from '@/hooks/use-multiple-image-upload';
+import useSingleImageUpload from '@/hooks/use-single-image-upload';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
+import Image from 'next/image';
 import React, { useRef } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import {
@@ -28,6 +32,7 @@ interface MyActivitiesCreateProps {
   };
   clearErrors: (name?: string | string[] | undefined) => void;
   control: ReturnType<typeof useForm>['control'];
+  setValue: (name: string, value: unknown, config?: object) => void;
 }
 
 type ReservationDateTime = {
@@ -36,14 +41,45 @@ type ReservationDateTime = {
   endTime: dayjs.Dayjs | null;
 };
 
-export default function MyActivitiesCreate({ options, register, errors, control }: MyActivitiesCreateProps) {
+export default function MyActivitiesCreate({
+  options,
+  register,
+  errors,
+  control,
+  setValue,
+  clearErrors,
+}: MyActivitiesCreateProps) {
   const dropDownRef = useRef(null);
   const [isDropdownOpen, setIsDropdownOpen] = useDetectClose(dropDownRef, false) as [
     boolean,
     React.Dispatch<React.SetStateAction<boolean>>,
   ];
 
+  const { imageSrc, setImageSrc, handleSingleImagePreview } = useSingleImageUpload();
+
+  const { imageSrcs, setImageSrcs, handleMultipleImagePreview } = useMultipleImageUpload();
+
   const toggleDropdown = () => setIsDropdownOpen((prev: boolean) => !prev);
+
+  const bannerFileRef = useRef<HTMLInputElement | null>(null);
+  const subFileRef = useRef<HTMLInputElement | null>(null);
+  // input click method
+  const handleBannerFileClick = () => {
+    bannerFileRef?.current?.click();
+  };
+
+  const handleSubFileClick = () => {
+    subFileRef?.current?.click();
+  };
+
+  const handleSingleImageCancelClick = () => {
+    setImageSrc(null);
+    setValue('bannerImage', null); // react-hook-form에 값 전달
+  };
+
+  const handleMultipleImageCancelClick = (index: number) => {
+    setImageSrcs((prev) => prev.filter((_, i) => i !== index));
+  };
 
   return (
     <section className={styles.inputSectionContainer}>
@@ -108,6 +144,7 @@ export default function MyActivitiesCreate({ options, register, errors, control 
         <h2 className={styles.inputTitle}>가격</h2>
         <div>
           <Input
+            type='number'
             placeholder='가격'
             {...register('price', { required: '가격은 필수 입력 사항입니다.' })}
             error={Boolean(errors.price)}
@@ -137,23 +174,40 @@ export default function MyActivitiesCreate({ options, register, errors, control 
             const errors: Array<string | null> = [];
             let isError = false;
 
-            for (let index = 0; index < value.length; index++) {
-              const item = value[index];
+            for (let i = 0; i < value.length; i++) {
+              const item = value[i];
               let error = null;
+
+              // 기본 유효성 검사
               if (!item.date) {
                 error = `날짜를 입력해주세요.`;
               } else if (!item.startTime) {
                 error = `시작 시간을 입력해주세요.`;
               } else if (!item.endTime) {
                 error = `종료 시간을 입력해주세요.`;
-              } else if (item.startTime && item.endTime && item.startTime >= item.endTime) {
+              } else if (item.startTime >= item.endTime) {
                 error = `종료 시간은 시작 시간 이후여야 합니다.`;
               }
 
+              // 시간대 중복 검사
+              for (let j = 0; j < value.length; j++) {
+                if (i !== j) {
+                  const otherItem = value[j];
+
+                  // 날짜와 시간대 비교
+                  if (
+                    item.date?.toString() === otherItem.date?.toString() &&
+                    item.startTime < otherItem.endTime &&
+                    item.endTime > otherItem.startTime
+                  ) {
+                    error = `겹치는 예약 가능 시간대가 존재합니다.`;
+                    break;
+                  }
+                }
+              }
               if (error !== null) {
                 isError = true;
               }
-
               errors.push(error);
             }
 
@@ -174,7 +228,17 @@ export default function MyActivitiesCreate({ options, register, errors, control 
                   {index === 1 && <div className={styles.horizon}></div>}
                   <div className={styles.dateTimePickerContainer}>
                     <DatePicker
-                      className={styles.datePickerContainer}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          '& fieldset': {
+                            borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('날짜') ? '#FF472E' : '#79747E'}`,
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderColor: '#0B3B2D',
+                          },
+                        },
+                      }}
+                      className={`${styles.datePickerContainer}`}
                       value={availableDateTime.date}
                       onChange={(v) => {
                         field.value[index].date = v;
@@ -185,6 +249,16 @@ export default function MyActivitiesCreate({ options, register, errors, control 
                     <div className={styles.timePickerContainer}>
                       <div>
                         <TimePicker
+                          sx={{
+                            '& .MuiOutlinedInput-root': {
+                              '& fieldset': {
+                                borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('시작') ? '#FF472E' : '#79747E'}`,
+                              },
+                              '&.Mui-focused fieldset': {
+                                borderColor: '#0B3B2D',
+                              },
+                            },
+                          }}
                           value={availableDateTime.startTime}
                           onChange={(v) => {
                             field.value[index].startTime = v;
@@ -194,6 +268,16 @@ export default function MyActivitiesCreate({ options, register, errors, control 
                       </div>
                       <div>~</div>
                       <TimePicker
+                        sx={{
+                          '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                              borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('종료') ? '#FF472E' : '#79747E'}`,
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: '#0B3B2D',
+                            },
+                          },
+                        }}
                         value={availableDateTime.endTime}
                         onChange={(v) => {
                           field.value[index].endTime = v;
@@ -233,26 +317,78 @@ export default function MyActivitiesCreate({ options, register, errors, control 
       />
 
       <h2 className={styles.inputTitle}>배너 이미지</h2>
-      <label htmlFor='file-upload' className={styles.fileUploadContainer}>
-        <input className={styles.fileUploadInput} id='file-upload' type='file' />
-        <div className={styles.fileUploadtext}>
-          <IconPlus />
-          <span>이미지 등록</span>
-        </div>
-      </label>
-      <h2 className={styles.inputTitle}>소개 이미지</h2>
-      <div className={styles.subImageLayout}>
-        <div className={styles.subImageContainer}>
-          <label htmlFor='file-upload' className={styles.fileUploadContainer}>
-            <input className={styles.fileUploadInput} id='file-upload' type='file' />
-            <div className={styles.fileUploadtext}>
+      <div>
+        <div className={styles.fileUploadLayout}>
+          <div className={`${errors.bannerImage ? styles.fileUploadWithError : styles.fileUploadDefault}`}>
+            <label htmlFor='bannerImage' />
+            <div className={styles.fileUploadtext} onClick={handleBannerFileClick}>
               <IconPlus />
               <span>이미지 등록</span>
             </div>
-          </label>
+            <input
+              {...register('bannerImage', { required: true })}
+              className={styles.fileUploadInput}
+              id='bannerImage'
+              type='file'
+              ref={bannerFileRef}
+              onChange={(e) => {
+                handleSingleImagePreview(e);
+                if (e.target.files && e.target.files[0]) {
+                  setValue('bannerImage', e.target.files[0]);
+                }
+                clearErrors('bannerImage');
+              }}
+            />
+          </div>
+
+          {imageSrc && (
+            <div className={styles.previewImageContainer}>
+              <div className={styles.previewImageBox}>
+                <Image fill src={imageSrc} alt='배너 이미지' />
+              </div>
+              {imageSrc !== null && (
+                <BtnCanceled className={styles.btnCanceled} onClick={handleSingleImageCancelClick} />
+              )}
+            </div>
+          )}
         </div>
-        <p className={styles.descPhrase}>*이미지는 최대 4개까지 등록 가능합니다.</p>
+        {errors.bannerImage && <p className={styles.errorMessageStyle}>배너 이미지는 필수 입력 사항입니다.</p>}
       </div>
+      <h2 className={styles.inputTitle}>소개 이미지</h2>
+      <div className={styles.subImageContainer}>
+        <div className={styles.subImageUploadBox}>
+          <label htmlFor='subfile-upload' />
+          <div>
+            <div onClick={handleSubFileClick} className={styles.fileUploadtext}>
+              <IconPlus />
+              <span>이미지 등록</span>
+            </div>
+          </div>
+          <input
+            {...register('subfileImage')}
+            multiple
+            className={styles.fileUploadInput}
+            id='subfile-upload'
+            type='file'
+            ref={subFileRef}
+            onChange={(e) => {
+              handleMultipleImagePreview(e);
+              if (e.target.files && e.target.files.length > 0) {
+                setValue('subfileImage', e.target.files);
+              }
+            }}
+          />
+        </div>
+        {imageSrcs.map((src, index) => (
+          <div key={index} className={styles.previewImageContainer}>
+            <div className={styles.previewImageBox}>
+              <Image fill src={src} alt={`소개 이미지 미리보기 ${index + 1}`} />
+            </div>
+            <BtnCanceled className={styles.btnCanceled} onClick={() => handleMultipleImageCancelClick(index)} />
+          </div>
+        ))}
+      </div>
+      <p className={styles.descPhrase}>*이미지는 최대 4개까지 등록 가능합니다.</p>
     </section>
   );
 }

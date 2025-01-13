@@ -1,74 +1,81 @@
 'use client';
 
 import MyActivitiesCreate from '@/components/profile/my-activities-create/MyActivitiesCreate';
+import { useMyActivitiesCreate } from '@/hooks/use-my-activities-create';
+import { uploadImage } from '@/hooks/use-upload-image';
+import { MyActivitiesCreateData } from '@/types/my-activities-create-data';
 import { StyledEngineProvider } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import * as styles from './page.css';
 
 export default function MyActivitiesCreatePage() {
+  const mutation = useMyActivitiesCreate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
+    setValue,
     clearErrors,
     control,
   } = useForm();
 
   const categories = ['문화 · 예술', '식음료', '스포츠', '투어', '관광', '웰빙'];
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (!data.title) {
-      setError('title', { type: 'manual', message: '제목은 필수 입력 사항입니다.' });
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const schedules: Array<{
+      date: string;
+      startTime: string;
+      endTime: string;
+    }> = [];
+    data.availableDateTimeList.forEach((item: { date: dayjs.Dayjs; startTime: dayjs.Dayjs; endTime: dayjs.Dayjs }) => {
+      if (item.date && item.startTime && item.endTime) {
+        schedules.push({
+          date: item.date.format('YYYY-MM-DD'),
+          startTime: item.startTime.format('HH:mm'),
+          endTime: item.endTime.format('HH:mm'),
+        });
+      }
+    });
+
+    const bannerImageUrl = await uploadImage(data.bannerImage);
+    if (!bannerImageUrl) {
+      alert('배너 업로드에 실패했습니다.');
+      return;
     }
 
-    if (!data.category) {
-      setError('category', { type: 'manual', message: '카테고리는 필수 선택 사항입니다.' });
-    }
+    // console.log(bannerImageUrl);
 
-    if (!data.description) {
-      setError('description', { type: 'manual', message: '내용은 필수 입력 사항입니다.' });
-    }
-
-    if (!data.price) {
-      setError('price', { type: 'manual', message: '가격은 필수 입력 사항입니다.' });
-    }
-
-    if (!data.address) {
-      setError('address', { type: 'manual', message: '주소는 필수 입력 사항입니다.' });
-    }
-
-    const newErrors: Array<{ index: number; message: string }> = [];
-
-    if (!Array.isArray(data.availableDateTimeList) || data.availableDateTimeList.length === 0) {
-      newErrors.push({ index: -1, message: '예약 가능한 시간은 최소 1개 이상 필요합니다.' });
-    } else {
-      data.availableDateTimeList.forEach((item, index) => {
-        if (!item.date || !item.startTime || !item.endTime) {
-          newErrors.push({ index, message: '모든 시간대 항목을 완전히 입력해주세요.' });
+    const subImageUrls: string[] = [];
+    if (data.subfileImage) {
+      for await (const image of data.subfileImage) {
+        const subImageUrl = await uploadImage(image);
+        if (!subImageUrl) {
+          alert('서브 이미지 업로드에 실패했습니다.');
+          return;
         }
-      });
-
-      if (newErrors.length > 0 || Object.keys(errors).length > 0) {
-        return; // 에러가 있으면 중단
-      }
-
-      if (
-        data.title &&
-        data.category &&
-        data.description &&
-        data.price &&
-        data.address &&
-        Array.isArray(data.availableDateTimeList) &&
-        data.availableDateTimeList.length > 0 &&
-        data.availableDateTimeList.every((item) => item.date && item.startTime && item.endTime)
-      ) {
-        clearErrors(); // 모든 에러 제거
+        subImageUrls.push(subImageUrl);
       }
     }
+
+    const myActivitiesCreateData: MyActivitiesCreateData = {
+      title: data.title,
+      category: data.category,
+      description: data.description,
+      address: data.address,
+      price: Number(data.price),
+      schedules: schedules,
+      bannerImageUrl: bannerImageUrl,
+      subImageUrls: subImageUrls,
+    };
+
+    // console.log(myActivitiesCreateData);
+
+    mutation.mutate(myActivitiesCreateData);
   };
   return (
     <div className={styles.activitiesPageContainer}>
@@ -87,6 +94,7 @@ export default function MyActivitiesCreatePage() {
               errors={errors}
               clearErrors={clearErrors}
               control={control}
+              setValue={setValue}
             />
           </StyledEngineProvider>
         </LocalizationProvider>
