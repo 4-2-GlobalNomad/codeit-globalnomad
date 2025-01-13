@@ -8,8 +8,8 @@ import Input from '@/components/Input';
 import useDetectClose from '@/hooks/use-detect-close';
 import useMultipleImageUpload from '@/hooks/use-multiple-image-upload';
 import useSingleImageUpload from '@/hooks/use-single-image-upload';
+import { ReservationDateTime } from '@/types/reservation-date-time';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
 import Image from 'next/image';
 import React, { useRef } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -34,12 +34,6 @@ interface MyActivitiesCreateProps {
   control: ReturnType<typeof useForm>['control'];
   setValue: (name: string, value: unknown, config?: object) => void;
 }
-
-type ReservationDateTime = {
-  date: dayjs.Dayjs | null;
-  startTime: dayjs.Dayjs | null;
-  endTime: dayjs.Dayjs | null;
-};
 
 export default function MyActivitiesCreate({
   options,
@@ -145,6 +139,7 @@ export default function MyActivitiesCreate({
         <div>
           <Input
             type='number'
+            step='1000'
             placeholder='가격'
             {...register('price', { required: '가격은 필수 입력 사항입니다.' })}
             error={Boolean(errors.price)}
@@ -319,9 +314,12 @@ export default function MyActivitiesCreate({
       <h2 className={styles.inputTitle}>배너 이미지</h2>
       <div>
         <div className={styles.fileUploadLayout}>
-          <div className={`${errors.bannerImage ? styles.fileUploadWithError : styles.fileUploadDefault}`}>
+          <div
+            className={`${errors.bannerImage ? styles.fileUploadWithError : styles.fileUploadDefault}`}
+            onClick={handleBannerFileClick}
+          >
             <label htmlFor='bannerImage' />
-            <div className={styles.fileUploadtext} onClick={handleBannerFileClick}>
+            <div className={styles.fileUploadtext}>
               <IconPlus />
               <span>이미지 등록</span>
             </div>
@@ -356,10 +354,10 @@ export default function MyActivitiesCreate({
       </div>
       <h2 className={styles.inputTitle}>소개 이미지</h2>
       <div className={styles.subImageContainer}>
-        <div className={styles.subImageUploadBox}>
+        <div className={styles.subImageUploadBox} onClick={handleSubFileClick}>
           <label htmlFor='subfile-upload' />
           <div>
-            <div onClick={handleSubFileClick} className={styles.fileUploadtext}>
+            <div className={styles.fileUploadtext}>
               <IconPlus />
               <span>이미지 등록</span>
             </div>

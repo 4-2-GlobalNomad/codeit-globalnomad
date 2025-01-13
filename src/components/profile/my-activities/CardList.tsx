@@ -1,17 +1,44 @@
 'use client';
 
-import MeatballIcon from '@/assets/icons/meatball.svg';
 import StarIcon from '@/assets/icons/star-fill.svg';
+import DropDownA from '@/components/dropdown/DropDownA';
+import { useDeleteActivity } from '@/hooks/use-delete-activity';
 import { useMyActivities } from '@/hooks/use-my-activities';
 import { MyActivitiesList } from '@/types/my-activities-list';
 import { formatToKor } from '@/utils/format-to-kor';
+import { useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import Image from 'next/image';
-import { useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 import * as styles from './CardList.css';
 
 export default function CardList() {
   const { data, fetchNextPage, isFetchingNextPage } = useMyActivities();
   const targetRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const [, setIsDropdownOpen] = useState(false);
+  const mutation = useDeleteActivity();
+  const queryClient = useQueryClient();
+
+  const handleDelete = (id: number) => {
+    mutation.mutate(id, {
+      onSuccess: () => {
+        alert('삭제되었습니다.');
+        queryClient.invalidateQueries({ queryKey: ['my-activities'] });
+      },
+      onError: (error: Error) => {
+        const axiosError = error as AxiosError;
+        const errorMessage = (axiosError.response?.data as { message: string })?.message ?? '삭제에 실패했습니다.';
+        console.error('Error deleting activity:', error);
+        alert(errorMessage);
+      },
+    });
+  };
+
+  const handleClick = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
 
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver((entries) => {
@@ -58,9 +85,20 @@ export default function CardList() {
                 </div>
                 <div className={styles.cardBottomLayout}>
                   <p className={styles.priceText}>{formatToKor(activity.price)}</p>
-                  <button>
-                    <MeatballIcon width={40} height={40} />
-                  </button>
+                  <div onClick={handleClick}>
+                    <DropDownA
+                      onSelect={(option) => {
+                        if (option === '수정하기') {
+                          router.push(`/profile/my-activities/edit/${activity.id}`);
+                        } else if (option === '삭제하기') {
+                          if (confirm('삭제 하시겠습니까?')) {
+                            handleDelete(activity.id);
+                          }
+                        }
+                      }}
+                      options={['수정하기', '삭제하기']}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
