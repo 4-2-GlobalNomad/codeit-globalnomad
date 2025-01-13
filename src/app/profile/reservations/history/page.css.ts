@@ -1,30 +1,17 @@
 import { style } from '@vanilla-extract/css';
-import { global } from '@/styles/global.css';
 
-export const background = style({
-  backgroundColor: `${global.color.gray[100]}`,
-  height: 'fit-content',
-  paddingTop: '80px',
-});
-
-export const page = style({
-  width: '1200px',
-  margin: '0 auto',
-  display: 'flex',
-  gap: '24px',
-});
-
-export const panel = style({
-  width: '384px',
-  height: '432px',
-  backgroundColor: '#ffffff',
-  border: `1px solid ${global.color.gray[300]}`,
-  borderRadius: '12px',
-  padding: '50px',
-});
+// import { global } from '@/styles/global.css';
 
 export const content = style({
   width: '792px',
+  '@media': {
+    'screen and (min-width: 768px) and (max-width: 1199px)': {
+      width: '429px',
+    },
+    'screen and (min-width: 320px) and (max-width: 767px)': {
+      width: '344px',
+    },
+  },
 });
 
 export const contentHeader = style({

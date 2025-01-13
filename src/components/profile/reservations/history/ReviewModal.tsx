@@ -1,21 +1,34 @@
+import { reviewMyReservations } from '@/apis/my-reservations';
 import ButtonX from '@/assets/icons/btn-x.svg';
+import { Button } from '@/components/button/Button';
 import Image from 'next/image';
+import { useState } from 'react';
 import RatingInput from './RatingInput';
 import { ReservationData } from './ReservationCard';
 import * as styles from './ReviewModal.css';
 
 export default function ReviewModal(props: { handleModalState: () => void; data: ReservationData }) {
+  const [stars, setStars] = useState<boolean[]>([false, false, false, false, false]);
+  const [comment, setComment] = useState<string>('');
+
   const date = props.data.date.split('-').map(Number).join('. ');
   const price = (props.data.totalPrice / props.data.headCount).toLocaleString();
-  let title = props.data.activity.title;
-  if (title.length > 20) {
-    title = title.slice(0, 19) + ' ···';
-  }
+  const title = props.data.activity.title;
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setComment(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    const rating = stars.filter((element) => element === true).length;
+    reviewMyReservations(props.data.id, rating, comment);
+    props.handleModalState();
+  };
 
   return (
     <div className={styles.content}>
       <div className={styles.header}>
-        <h2 className={styles.modalTitle}>후기 작성</h2>
+        <h2 className={styles.modalTitle}>리뷰 작성</h2>
         <ButtonX className={styles.btnX} onClick={props.handleModalState} />
       </div>
       <div className={styles.info}>
@@ -35,11 +48,14 @@ export default function ReviewModal(props: { handleModalState: () => void; data:
           <p className={styles.price}>￦{price}</p>
         </div>
       </div>
-      <RatingInput />
-      <textarea className={styles.input} placeholder='후기를 작성해주세요'></textarea>
-      <button className={styles.button} onClick={props.handleModalState}>
-        작성하기
-      </button>
+      <RatingInput stars={stars} setStars={setStars} />
+      <textarea
+        className={styles.input}
+        placeholder='후기를 작성해주세요'
+        value={comment}
+        onChange={handleChange}
+      ></textarea>
+      <Button label='작성하기' className={styles.button} onClick={handleSubmit} variant='solid' />
     </div>
   );
 }

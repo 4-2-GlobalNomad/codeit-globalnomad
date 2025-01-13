@@ -1,3 +1,4 @@
+import { Button } from '@/components/button/Button';
 import Modal from '@/components/modal/Modal';
 import { STATUS_STYLE as STATUS } from '@/constants/RESERVATION_STATUS';
 import Image from 'next/image';
@@ -7,20 +8,13 @@ import CancelModal from './CancelModal';
 import * as styles from './ReservationCard.css';
 import ReviewModal from './ReviewModal';
 
-// interface StatusObj {
-//   msg: string;
-//   color: string;
-//   cancelAvailable: boolean;
-//   reviewAvailable: boolean;
-// }
-
 export interface ReservationData {
   activity: { id: number; title: string; bannerImageUrl: string };
   scheduleId: number;
   id: number;
   teamId: string;
   userId: number;
-  status: string;
+  status: 'pending' | 'confirmed' | 'declined' | 'canceled' | 'completed';
   reviewSubmitted: boolean;
   totalPrice: number;
   headCount: number;
@@ -39,29 +33,11 @@ export default function ReservationCard(props: { data: ReservationData }) {
   const handleReviewModalState = () => setShowReviewModal(!showReviewModal);
 
   const status = props.data.status;
-  let msg = '';
-  let color = '';
-  let cancelAvailable = false;
-  let reviewAvailable = false;
-  if (
-    status === 'pending' ||
-    status === 'confirm' ||
-    status === 'declined' ||
-    status === 'canceled' ||
-    status === 'completed'
-  ) {
-    msg = STATUS[status].msg;
-    color = STATUS[status].color;
-    cancelAvailable = STATUS[status].cancelAvailable;
-    reviewAvailable = STATUS[status].reviewAvailable;
-  }
+  const { msg, color, cancelAvailable, reviewAvailable } = STATUS[status];
 
   const date = props.data.date.split('-').map(Number).join('. ');
   const price = (props.data.totalPrice / props.data.headCount).toLocaleString();
-  let title = props.data.activity.title;
-  if (title.length > 35) {
-    title = title.slice(0, 34) + ' ···';
-  }
+  const title = props.data.activity.title;
 
   return (
     <div className={styles.card}>
@@ -84,20 +60,19 @@ export default function ReservationCard(props: { data: ReservationData }) {
         <p className={styles.price}>￦{price}</p>
       </div>
       {cancelAvailable && (
-        <button className={styles.button} onClick={handleCancelModalState}>
-          예약 취소
-        </button>
+        <Button label='예약 취소' onClick={handleCancelModalState} className={styles.button} variant='outline' />
       )}
-      {reviewAvailable && (
-        <button className={styles.button} onClick={handleReviewModalState}>
-          리뷰 작성
-        </button>
+      {reviewAvailable && !props.data.reviewSubmitted && (
+        <Button label='리뷰 작성' onClick={handleReviewModalState} className={styles.button} variant='solid' />
+      )}
+      {reviewAvailable && props.data.reviewSubmitted && (
+        <Button label='리뷰 완료' className={styles.button} variant='solid' disabled />
       )}
       {showCancelModal &&
         createPortal(
           <Modal
             handleModalState={handleCancelModalState}
-            content={<CancelModal handleModalState={handleCancelModalState} />}
+            content={<CancelModal handleModalState={handleCancelModalState} reservationId={props.data.id} />}
           />,
           document.body,
         )}
