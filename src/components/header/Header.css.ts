@@ -17,9 +17,7 @@ export const logoContainer = style({
   alignItems: 'center',
 });
 
-export const logoImage = style({
-  height: '40px',
-});
+export const logoImage = style({});
 
 export const title = style({
   marginLeft: '10px',

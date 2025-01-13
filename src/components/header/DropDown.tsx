@@ -16,7 +16,6 @@ export const Dropdown: React.FC = () => {
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
-    console.log('로컬 스토리지 데이터:', storedUserInfo);
     if (storedUserInfo) {
       const { nickname, profileImageUrl } = JSON.parse(storedUserInfo);
       setUserName(nickname);
@@ -69,7 +68,6 @@ export const Dropdown: React.FC = () => {
             src={profileImageUrl || defaultUserImage}
             alt='사용자 프로필'
             className={styles.avatar}
-            objectFit='cover'
             width={40}
             height={40}
           />
