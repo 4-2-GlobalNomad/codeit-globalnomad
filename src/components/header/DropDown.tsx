@@ -14,22 +14,18 @@ export const Dropdown: React.FC = () => {
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const storedUserInfo = localStorage.getItem('userInfo');
-    if (storedUserInfo) {
-      const { nickname, profileImageUrl } = JSON.parse(storedUserInfo);
-      setUserName(nickname);
-      setProfileImageUrl(profileImageUrl || null);
-    } else {
-      fetchUserInfo()
-        .then((userInfo) => {
-          setUserName(userInfo.nickname);
-          setProfileImageUrl(userInfo.profileImageUrl || null);
-        })
-        .catch((error) => {
-          console.error('유저 정보 가져오기 실패:', error);
-        });
+  const loadUserInfo = async () => {
+    try {
+      const userInfo = await fetchUserInfo();
+      setUserName(userInfo.nickname);
+      setProfileImageUrl(userInfo.profileImageUrl || null);
+    } catch (error) {
+      console.error('유저 정보 가져오기 실패:', error);
     }
+  };
+
+  useEffect(() => {
+    loadUserInfo();
   }, []);
 
   const handleOptionClick = (option: string) => {
@@ -37,9 +33,7 @@ export const Dropdown: React.FC = () => {
       router.push('/profile/mypage');
     } else if (option === '로그아웃') {
       localStorage.removeItem('accessToken');
-
       router.push('/login');
-
       setTimeout(() => {
         window.location.href = '/login';
       }, 0);
