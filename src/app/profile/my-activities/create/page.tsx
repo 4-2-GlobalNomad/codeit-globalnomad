@@ -30,6 +30,7 @@ export default function MyActivitiesCreatePage() {
     setValue,
     clearErrors,
     control,
+    trigger,
   } = useForm();
 
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -53,6 +54,8 @@ export default function MyActivitiesCreatePage() {
         });
       }
     });
+
+    const finalAddress = `${data.address} ${data.extraAddress}`;
 
     const bannerImageUrl = await uploadImage(data.bannerImage);
     if (!bannerImageUrl) {
@@ -78,7 +81,7 @@ export default function MyActivitiesCreatePage() {
       title: data.title,
       category: data.category,
       description: data.description,
-      address: data.address,
+      address: finalAddress,
       price: Number(data.price),
       schedules: schedules,
       bannerImageUrl: bannerImageUrl,
@@ -107,6 +110,7 @@ export default function MyActivitiesCreatePage() {
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='ko'>
             <StyledEngineProvider injectFirst>
               <MyActivitiesCreate
+                trigger={trigger}
                 options={categories}
                 register={register}
                 errors={errors}

@@ -69,6 +69,7 @@ export default function CardList() {
                 <Image
                   src={activity.bannerImageUrl}
                   fill
+                  sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                   loading='lazy'
                   alt={'체험 이미지'}
                   className={styles.responsiveImage}

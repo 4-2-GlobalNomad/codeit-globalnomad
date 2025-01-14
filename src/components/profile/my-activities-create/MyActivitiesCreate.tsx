@@ -11,8 +11,9 @@ import useSingleImageUpload from '@/hooks/use-single-image-upload';
 import { ReservationDateTime } from '@/types/reservation-date-time';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import Image from 'next/image';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useDaumPostcodePopup } from 'react-daum-postcode';
 import {
   Controller,
   FieldError,
@@ -33,6 +34,7 @@ interface MyActivitiesCreateProps {
   clearErrors: (name?: string | string[] | undefined) => void;
   control: ReturnType<typeof useForm>['control'];
   setValue: (name: string, value: unknown, config?: object) => void;
+  trigger: (name?: string | string[]) => Promise<boolean>;
 }
 
 export default function MyActivitiesCreate({
@@ -40,6 +42,7 @@ export default function MyActivitiesCreate({
   register,
   errors,
   control,
+  trigger,
   setValue,
   clearErrors,
 }: MyActivitiesCreateProps) {
@@ -53,10 +56,37 @@ export default function MyActivitiesCreate({
 
   const { imageSrcs, setImageSrcs, handleMultipleImagePreview } = useMultipleImageUpload();
 
+  const open = useDaumPostcodePopup();
+
+  const handleComplete = (data: { address: string; addressType: string; bname: string; buildingName: string }) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+
+    setAddress(fullAddress);
+    setValue('address', fullAddress);
+    setValue('extraAddress', '');
+    trigger('address');
+  };
+
+  const handleClick = () => {
+    open({ onComplete: handleComplete });
+  };
+
   const toggleDropdown = () => setIsDropdownOpen((prev: boolean) => !prev);
 
   const bannerFileRef = useRef<HTMLInputElement | null>(null);
   const subFileRef = useRef<HTMLInputElement | null>(null);
+
   // input click method
   const handleBannerFileClick = () => {
     bannerFileRef?.current?.click();
@@ -73,6 +103,12 @@ export default function MyActivitiesCreate({
 
   const handleMultipleImageCancelClick = (index: number) => {
     setImageSrcs((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const [address, setAddress] = useState('');
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAddress(e.target.value);
   };
 
   return (
@@ -149,13 +185,29 @@ export default function MyActivitiesCreate({
       </div>
       <div className={styles.inputContainer}>
         <h2 className={styles.inputTitle}>주소</h2>
-        <div>
-          <Input
-            placeholder='주소'
-            {...register('address', { required: '주소는 필수 입력 사항입니다.' })}
-            error={Boolean(errors.address)}
-            errorMessage={errors.address?.message as string | undefined}
-          />
+        <div className={styles.addressContainer}>
+          <div className={styles.addressInputBox}>
+            <Input
+              placeholder='기본 주소'
+              {...register('address', { required: '주소는 필수 입력 사항입니다.' })}
+              error={Boolean(errors.address)}
+              errorMessage={errors.address?.message as string | undefined}
+              onChange={handleInput}
+              value={address}
+              readOnly
+            />
+            <Input
+              placeholder='상세주소'
+              {...register('extraAddress')}
+              onChange={(e) => {
+                setValue('extraAddress', e.target.value);
+                trigger('extraAddress');
+              }}
+            />
+          </div>
+          <button type='button' className={styles.BtnAddressFinder} onClick={handleClick}>
+            검색
+          </button>
         </div>
       </div>
       <h2 className={styles.inputTitle}>예약 가능한 시간대</h2>
@@ -342,7 +394,12 @@ export default function MyActivitiesCreate({
           {imageSrc && (
             <div className={styles.previewImageContainer}>
               <div className={styles.previewImageBox}>
-                <Image fill src={imageSrc} alt='배너 이미지' />
+                <Image
+                  sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                  fill
+                  src={imageSrc}
+                  alt='배너 이미지'
+                />
               </div>
               {imageSrc !== null && (
                 <BtnCanceled className={styles.btnCanceled} onClick={handleSingleImageCancelClick} />
@@ -380,7 +437,12 @@ export default function MyActivitiesCreate({
         {imageSrcs.map((src, index) => (
           <div key={index} className={styles.previewImageContainer}>
             <div className={styles.previewImageBox}>
-              <Image fill src={src} alt={`소개 이미지 미리보기 ${index + 1}`} />
+              <Image
+                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                fill
+                src={src}
+                alt={`소개 이미지 미리보기 ${index + 1}`}
+              />
             </div>
             <BtnCanceled className={styles.btnCanceled} onClick={() => handleMultipleImageCancelClick(index)} />
           </div>

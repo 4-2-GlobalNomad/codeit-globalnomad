@@ -32,6 +32,29 @@ export const errorMessageStyle = style({
 
 export const inputTitle = style([{}, fontSizes.text2xl, fontWeights.bold]);
 
+export const addressContainer = style({
+  display: 'grid',
+  gridTemplateColumns: '1fr 10%',
+  columnGap: '2rem',
+});
+
+export const addressInputBox = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1.2rem',
+});
+
+export const BtnAddressFinder = style({
+  flexBasis: '5.6rem',
+  whiteSpace: 'nowrap',
+  backgroundColor: global.color.green[200],
+  color: '#fff',
+  borderRadius: '0.8rem',
+  padding: '0.8rem 1.6rem',
+
+  height: '59.6px',
+});
+
 export const subImageUploadBox = style({
   border: `1px dashed ${global.color.gray[900]}`,
   borderRadius: '1.2rem',
