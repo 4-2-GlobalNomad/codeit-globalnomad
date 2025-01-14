@@ -1,3 +1,5 @@
+import ArrowLeft from '@/assets/icons/double-arrow-left.svg';
+import ArrowRight from '@/assets/icons/double-arrow-right.svg';
 import { ToolbarProps } from 'react-big-calendar';
 
 export default function Toolbar(props: ToolbarProps<Event, object>) {
@@ -17,14 +19,13 @@ export default function Toolbar(props: ToolbarProps<Event, object>) {
 
   return (
     <div className='rbc-toolbar'>
+      {/* <ArrowLeft /> */}
       <span className='rbc-btn-group'>
-        <button type='button' onClick={prevMonth}>
-          {'<<'}
-        </button>
+        <ArrowLeft className='button' onClick={prevMonth} />
+
         <span className='rbc-toolbar-label'>{`${date.getFullYear()}년 ${date.getMonth() + 1}월`}</span>
-        <button type='button' onClick={nextMonth}>
-          {'>>'}
-        </button>
+
+        <ArrowRight className='button' onClick={nextMonth} />
       </span>
     </div>
   );
