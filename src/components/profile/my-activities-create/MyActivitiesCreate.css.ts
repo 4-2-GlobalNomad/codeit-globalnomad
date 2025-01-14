@@ -16,6 +16,15 @@ export const errorStyle = style({
   },
 });
 
+export const dashedErrorStyle = style({
+  border: `1px dashed ${global.color.red[300]}`,
+  selectors: {
+    '&:focus-within': {
+      border: `1px dashed ${global.color.red[300]}`,
+    },
+  },
+});
+
 export const errorMessageStyle = style({
   margin: '0.8rem 0 2.1rem',
   color: global.color.red[300],
@@ -23,17 +32,45 @@ export const errorMessageStyle = style({
 
 export const inputTitle = style([{}, fontSizes.text2xl, fontWeights.bold]);
 
-export const subImageLayout = style({
+export const subImageUploadBox = style({
+  border: `1px dashed ${global.color.gray[900]}`,
+  borderRadius: '1.2rem',
+  width: '18rem',
+  height: '18rem',
+  cursor: 'pointer',
   display: 'flex',
-  flexDirection: 'column',
-  gap: '2.4rem',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
 
 export const subImageContainer = style({
   display: 'flex',
-  gap: '2.4rem',
   flexWrap: 'wrap',
-  width: '100%',
+  gap: '2.4rem',
+});
+
+export const fileUploadLayout = style({
+  display: 'flex',
+  gap: '1.6rem',
+});
+
+export const previewImageContainer = style({
+  position: 'relative',
+});
+
+export const previewImageBox = style({
+  borderRadius: '2.4rem',
+  width: '18rem',
+  height: '18rem',
+  overflow: 'hidden',
+  position: 'relative',
+});
+
+export const btnCanceled = style({
+  position: 'absolute',
+  right: '-1.2rem',
+  top: '-1.6rem',
+  cursor: 'pointer',
 });
 
 export const fileUploadContainer = style({
@@ -41,12 +78,15 @@ export const fileUploadContainer = style({
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column',
-  border: `1px dashed ${global.color.gray[900]}`,
   borderRadius: '1.2rem',
   width: '18rem',
   height: '18rem',
   cursor: 'pointer',
 });
+
+export const fileUploadDefault = style([fileUploadContainer, { border: `1px dashed ${global.color.gray[900]}` }]);
+
+export const fileUploadWithError = style([fileUploadContainer, dashedErrorStyle]);
 
 export const fileUploadtext = style([
   {
@@ -224,7 +264,6 @@ export const dateTimePickerContainer = style({
   gap: '2rem',
   height: '5.6rem',
   alignItems: 'center',
-  marginBottom: '2.1rem',
 });
 
 export const TimeButton = style({
