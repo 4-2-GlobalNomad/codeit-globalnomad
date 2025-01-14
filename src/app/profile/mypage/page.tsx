@@ -1,9 +1,9 @@
 'use client';
 
-import { updateUserInfo } from '@/apis/users';
+import { fetchUserInfo, updateUserInfo } from '@/apis/users';
 import Input from '@/components/Input';
 import { Button } from '@/components/button/Button';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as styles from './page.css';
 
 export default function ProfileEdit() {
@@ -23,6 +23,25 @@ export default function ProfileEdit() {
   });
 
   const [loading, setLoading] = useState(false);
+
+  const loadUserInfo = async () => {
+    try {
+      const userInfo = await fetchUserInfo(); // 서버에서 사용자 정보 가져오기
+      setFormData((prev) => ({
+        ...prev,
+        nickname: userInfo.nickname || '',
+        email: userInfo.email || '',
+        profileImageUrl: userInfo.profileImageUrl || '',
+      }));
+    } catch (error) {
+      console.error('Failed to fetch user info:', error);
+      alert('사용자 정보를 불러오는 데 실패했습니다.');
+    }
+  };
+
+  useEffect(() => {
+    loadUserInfo(); // 컴포넌트 초기화 시 사용자 정보 로드
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
