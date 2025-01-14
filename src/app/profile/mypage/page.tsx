@@ -26,7 +26,7 @@ export default function ProfileEdit() {
 
   const loadUserInfo = async () => {
     try {
-      const userInfo = await fetchUserInfo(); // 서버에서 사용자 정보 가져오기
+      const userInfo = await fetchUserInfo();
       setFormData((prev) => ({
         ...prev,
         nickname: userInfo.nickname || '',
@@ -40,7 +40,7 @@ export default function ProfileEdit() {
   };
 
   useEffect(() => {
-    loadUserInfo(); // 컴포넌트 초기화 시 사용자 정보 로드
+    loadUserInfo();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
