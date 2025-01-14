@@ -8,7 +8,7 @@ import * as styles from './Button.css';
 // disabled 값은 boolean으로 처리해두었습니다.
 type ButtonProps = {
   label: string;
-  onClick?: () => void;
+  onClick?: () => void | React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   variant?: 'solid' | 'outline';
   className?: string;

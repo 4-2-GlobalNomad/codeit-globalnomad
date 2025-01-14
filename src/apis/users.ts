@@ -57,3 +57,25 @@ export const fetchUserInfo = async () => {
   });
   return response.data;
 };
+
+//내 정보 수정
+export const updateUserInfo = async (data: {
+  nickname?: string;
+  profileImageUrl?: string;
+  newPassword?: string;
+}): Promise<void> => {
+  const accessToken = localStorage.getItem('accessToken');
+  const teamId = '10-2';
+  try {
+    const response = await axiosInstance.patch(`https://sp-globalnomad-api.vercel.app/${teamId}/users/me`, data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log('User info updated:', response.data);
+  } catch (error) {
+    console.error('Error updating user info:', error);
+    throw new Error('사용자 정보 수정 실패');
+  }
+};

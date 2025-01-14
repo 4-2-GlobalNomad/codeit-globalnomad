@@ -34,7 +34,7 @@ export const Dropdown: React.FC = () => {
 
   const handleOptionClick = (option: string) => {
     if (option === '마이페이지') {
-      router.push('/mypage');
+      router.push('/profile/mypage');
     } else if (option === '로그아웃') {
       localStorage.removeItem('accessToken');
 

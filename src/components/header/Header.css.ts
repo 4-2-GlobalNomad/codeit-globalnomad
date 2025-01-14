@@ -7,7 +7,7 @@ export const header = style({
   alignItems: 'center',
   width: '100%',
   height: '70px',
-  padding: '2rem 23rem',
+  padding: '2rem 36rem',
   borderBottom: `0.1rem solid ${global.color.gray[300]}`,
   backgroundColor: '#FFFFFF',
 });
