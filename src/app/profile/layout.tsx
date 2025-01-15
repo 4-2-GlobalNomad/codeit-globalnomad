@@ -16,7 +16,6 @@ export default function ProfilePageLayout({ children }: { children: React.ReactN
 
   const [isPCOrTablet, setIsPCOrTablet] = useState(false);
 
-  //{ query: '(min-width: 768px)' }
   const PCOrTabletQuery = useMediaQuery({ query: '(min-width: 768px)' });
 
   useEffect(() => {

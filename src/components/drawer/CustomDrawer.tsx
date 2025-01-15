@@ -7,7 +7,7 @@ import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, Lis
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { CgMenuRound } from 'react-icons/cg';
+import { IoIosMenu } from 'react-icons/io';
 import * as styles from './CustomDrawer.css';
 
 type CustomDrawer = {
@@ -92,8 +92,8 @@ export default function CustomDrawer() {
   );
   return (
     <>
-      <button onClick={toggleDrawer(true)}>
-        <CgMenuRound color='#1b1b1b' size={30} />
+      <button type='button' onClick={toggleDrawer(true)}>
+        <IoIosMenu color='#1b1b1b' size={32} />
       </button>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}

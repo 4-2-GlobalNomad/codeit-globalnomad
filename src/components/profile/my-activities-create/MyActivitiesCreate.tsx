@@ -196,14 +196,16 @@ export default function MyActivitiesCreate({
               value={address}
               readOnly
             />
-            <Input
-              placeholder='상세주소'
-              {...register('extraAddress')}
-              onChange={(e) => {
-                setValue('extraAddress', e.target.value);
-                trigger('extraAddress');
-              }}
-            />
+            <div className={styles.detailAddressInput}>
+              <Input
+                placeholder='상세주소'
+                {...register('extraAddress')}
+                onChange={(e) => {
+                  setValue('extraAddress', e.target.value);
+                  trigger('extraAddress');
+                }}
+              />
+            </div>
           </div>
           <button type='button' className={styles.BtnAddressFinder} onClick={handleClick}>
             검색
@@ -267,92 +269,88 @@ export default function MyActivitiesCreate({
             <div>
               <div className={styles.datePickerLabelContainer}>
                 <div className={`${styles.datePickerLabel}`}>날짜</div>
-                <div className={`${styles.datePickerLabel}`}>시작 시간</div>
-                <div className={styles.datePickerLabel}>종료 시간</div>
+                <div className={`${styles.startTimePickerLabel}`}>시작 시간</div>
+                <div className={styles.endTimePickerLabel}>종료 시간</div>
               </div>
               {field.value.map((availableDateTime: ReservationDateTime, index: number) => (
-                <div key={index}>
+                <div className={styles.datePickerLabelContainer} key={index}>
                   {index === 1 && <div className={styles.horizon}></div>}
-                  <div className={styles.dateTimePickerContainer}>
-                    <DatePicker
-                      sx={{
-                        '& .MuiOutlinedInput-root': {
-                          '& fieldset': {
-                            borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('날짜') ? '#FF472E' : '#79747E'}`,
-                          },
-                          '&.Mui-focused fieldset': {
-                            borderColor: '#0B3B2D',
-                          },
+                  <DatePicker
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                          borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('날짜') ? '#FF472E' : '#79747E'}`,
                         },
-                      }}
-                      className={`${styles.datePickerContainer}`}
-                      value={availableDateTime.date}
-                      onChange={(v) => {
-                        field.value[index].date = v;
-                        field.onChange([...field.value]);
-                      }}
-                      slotProps={{ textField: { placeholder: 'YYYY/MM/DD' } }}
-                    />
-                    <div className={styles.timePickerContainer}>
-                      <div>
-                        <TimePicker
-                          sx={{
-                            '& .MuiOutlinedInput-root': {
-                              '& fieldset': {
-                                borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('시작') ? '#FF472E' : '#79747E'}`,
-                              },
-                              '&.Mui-focused fieldset': {
-                                borderColor: '#0B3B2D',
-                              },
-                            },
-                          }}
-                          value={availableDateTime.startTime}
-                          onChange={(v) => {
-                            field.value[index].startTime = v;
-                            field.onChange([...field.value]);
-                          }}
-                        />
-                      </div>
-                      <div>~</div>
-                      <TimePicker
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('종료') ? '#FF472E' : '#79747E'}`,
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#0B3B2D',
-                            },
-                          },
-                        }}
-                        value={availableDateTime.endTime}
-                        onChange={(v) => {
-                          field.value[index].endTime = v;
-                          field.onChange([...field.value]);
-                        }}
-                      />
-                    </div>
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#0B3B2D',
+                        },
+                      },
+                    }}
+                    className={`${styles.datePickerContainer}`}
+                    value={availableDateTime.date}
+                    onChange={(v) => {
+                      field.value[index].date = v;
+                      field.onChange([...field.value]);
+                    }}
+                    slotProps={{ textField: { placeholder: 'YYYY/MM/DD' } }}
+                  />
+                  <TimePicker
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                          borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('시작') ? '#FF472E' : '#79747E'}`,
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#0B3B2D',
+                        },
+                      },
+                    }}
+                    className={`${styles.startTimePickerContainer}`}
+                    value={availableDateTime.startTime}
+                    onChange={(v) => {
+                      field.value[index].startTime = v;
+                      field.onChange([...field.value]);
+                    }}
+                  />
+                  <div className={`${styles.waveSign}`}>~</div>
+                  <TimePicker
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                          borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('종료') ? '#FF472E' : '#79747E'}`,
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#0B3B2D',
+                        },
+                      },
+                    }}
+                    className={`${styles.endTimePickerContainer}`}
+                    value={availableDateTime.endTime}
+                    onChange={(v) => {
+                      field.value[index].endTime = v;
+                      field.onChange([...field.value]);
+                    }}
+                  />
 
-                    {index === 0 ? (
-                      <div
-                        className={styles.TimeButton}
-                        onClick={() => {
-                          field.onChange([{ date: null, startTime: null, endTime: null }, ...field.value]);
-                        }}
-                      >
-                        <AddTimeBtn />
-                      </div>
-                    ) : (
-                      <div
-                        className={styles.TimeButton}
-                        onClick={() => {
-                          field.onChange(field.value.filter((v: ReservationDateTime, i: number) => i !== index));
-                        }}
-                      >
-                        <MinusTimeBtn />
-                      </div>
-                    )}
-                  </div>
+                  {index === 0 ? (
+                    <div
+                      className={styles.TimeButton}
+                      onClick={() => {
+                        field.onChange([{ date: null, startTime: null, endTime: null }, ...field.value]);
+                      }}
+                    >
+                      <AddTimeBtn />
+                    </div>
+                  ) : (
+                    <div
+                      className={styles.TimeButton}
+                      onClick={() => {
+                        field.onChange(field.value.filter((v: ReservationDateTime, i: number) => i !== index));
+                      }}
+                    >
+                      <MinusTimeBtn />
+                    </div>
+                  )}
                   {errors !== null && errors[index] !== null && (
                     <p className={styles.errorMessageStyle}>{errors[index]}</p>
                   )}

@@ -1,5 +1,6 @@
 'use client';
 
+import CustomDrawer from '@/components/drawer/CustomDrawer';
 import Dialog from '@/components/modal/Dialog';
 import Modal from '@/components/modal/Modal';
 import MyActivitiesCreate from '@/components/profile/my-activities-create/MyActivitiesCreate';
@@ -13,9 +14,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useMediaQuery } from 'react-responsive';
 import * as styles from './page.css';
 
 export default function MyActivitiesCreatePage() {
@@ -97,16 +99,44 @@ export default function MyActivitiesCreatePage() {
       },
     });
   };
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [isPCOrTablet, setIsPCOrTablet] = useState(false);
+  const mobileQuery = useMediaQuery({ query: '(max-width: 767px)' });
+  const PCOrTabletQuery = useMediaQuery({ query: '(min-width: 768px)' });
+
+  useEffect(() => {
+    setIsPCOrTablet(PCOrTabletQuery);
+    setIsMobile(mobileQuery);
+  }, [PCOrTabletQuery, mobileQuery]);
+
   return (
     <>
       <div className={styles.activitiesPageContainer}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.topLayout}>
-            <h2 className={styles.h2Title}>내 체험 등록</h2>
+            {/* <h2 className={styles.h2Title}>내 체험 등록</h2>
             <button className={styles.createButton} type='submit'>
               등록하기
-            </button>
+            </button> */}
+
+            {isPCOrTablet && (
+              <>
+                <h2 className={styles.h2Title}>내 체험 등록</h2>
+                <button className={styles.createButton}>등록하기</button>
+              </>
+            )}
           </div>
+          {isMobile && (
+            <>
+              <div className={styles.topLayout}>
+                <div className={styles.mobileMenuTitle}>
+                  <CustomDrawer />
+                  <h2 className={styles.h2Title}>내 체험 등록</h2>
+                </div>
+              </div>
+            </>
+          )}
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='ko'>
             <StyledEngineProvider injectFirst>
               <MyActivitiesCreate
@@ -120,6 +150,11 @@ export default function MyActivitiesCreatePage() {
               />
             </StyledEngineProvider>
           </LocalizationProvider>
+          {isMobile && (
+            <button type='submit' className={styles.createButton}>
+              등록하기
+            </button>
+          )}
         </form>
       </div>
 
