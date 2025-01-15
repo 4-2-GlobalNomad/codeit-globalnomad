@@ -1,3 +1,5 @@
+import { ResForScheduleData } from '@/components/profile/reservations/status/MyActivityModal';
+
 export const response1 = {
   activities: [
     {
@@ -100,18 +102,79 @@ export const response3 = [
       pending: 1,
     },
   },
+  {
+    scheduleId: 13408,
+    startTime: '14:00',
+    endTime: '16:00',
+    count: {
+      declined: 0,
+      confirmed: 0,
+      pending: 1,
+    },
+  },
 ];
 
 // id: 3566, scheduledId: 13407, status: pending
 
-export const response4 = {
+export const response4: { reservations: ResForScheduleData[]; totalCount: number; cursorId: number | null } = {
   reservations: [
+    {
+      id: 5516,
+      status: 'pending',
+      totalPrice: 90000,
+      headCount: 3,
+      nickname: 'Jay',
+      userId: 1484,
+      date: '2025-01-25',
+      startTime: '12:00',
+      endTime: '14:00',
+      createdAt: '2025-01-04T09:06:58.778Z',
+      updatedAt: '2025-01-04T09:06:58.778Z',
+      activityId: 3566,
+      scheduleId: 13407,
+      reviewSubmitted: false,
+      teamId: '10-2',
+    },
     {
       id: 5517,
       status: 'pending',
       totalPrice: 90000,
       headCount: 3,
       nickname: 'Jay',
+      userId: 1484,
+      date: '2025-01-25',
+      startTime: '12:00',
+      endTime: '14:00',
+      createdAt: '2025-01-04T09:06:58.778Z',
+      updatedAt: '2025-01-04T09:06:58.778Z',
+      activityId: 3566,
+      scheduleId: 13407,
+      reviewSubmitted: false,
+      teamId: '10-2',
+    },
+    {
+      id: 5518,
+      status: 'confirmed',
+      totalPrice: 90000,
+      headCount: 4,
+      nickname: 'Jimin',
+      userId: 1484,
+      date: '2025-01-25',
+      startTime: '12:00',
+      endTime: '14:00',
+      createdAt: '2025-01-04T09:06:58.778Z',
+      updatedAt: '2025-01-04T09:06:58.778Z',
+      activityId: 3566,
+      scheduleId: 13407,
+      reviewSubmitted: false,
+      teamId: '10-2',
+    },
+    {
+      id: 5519,
+      status: 'declined',
+      totalPrice: 90000,
+      headCount: 4,
+      nickname: 'Juice',
       userId: 1484,
       date: '2025-01-25',
       startTime: '12:00',

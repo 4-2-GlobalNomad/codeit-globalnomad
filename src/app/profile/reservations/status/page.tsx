@@ -2,7 +2,7 @@
 
 import DropDownB from '@/components/dropdown/DropDownB';
 import MyActivityCalendar from '@/components/profile/reservations/status/MyActivityCalendar';
-import { Event } from '@/components/profile/reservations/status/MyActivityCalendar';
+import { CalendarEvent } from '@/components/profile/reservations/status/MyActivityCalendar';
 import { useState } from 'react';
 import { response1, response2 } from './mock_data';
 import * as styles from './page.css';
@@ -20,7 +20,7 @@ export default function StatusPage() {
   const activityList = response1.activities.map((item) => item.title);
   const activityId = response1.activities.find((item) => item.title === activity)?.id || 0;
 
-  const eventList: Event[] = [];
+  const eventList: CalendarEvent[] = [];
   response2.forEach((item) => {
     const date = new Date(item.date);
 
