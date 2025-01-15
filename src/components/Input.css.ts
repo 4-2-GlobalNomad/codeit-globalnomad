@@ -30,11 +30,12 @@ export const inputContainer = style({
 });
 
 export const errorStyle = style({
-  outline: `${global.color.red[300]}`,
+  outline: `1px solid ${global.color.red[300]}`,
 
   selectors: {
     '&:focus-within': {
-      outline: `1px solid ${global.color.red[300]}`,
+      outline: `2px solid ${global.color.red[300]}`,
+      border: 'none',
     },
   },
 });
@@ -51,6 +52,7 @@ export const leftIconDiv = style({
 
 export const inputField = style({
   gridColumn: '2',
+  minWidth: '100px',
   border: 'none',
 
   selectors: {
