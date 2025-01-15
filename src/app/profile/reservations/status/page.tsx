@@ -1,10 +1,11 @@
 'use client';
 
+import { fetchMyActivityList } from '@/apis/my-activity-board';
 import DropDownB from '@/components/dropdown/DropDownB';
 import MyActivityCalendar from '@/components/profile/reservations/status/MyActivityCalendar';
 import { CalendarEvent } from '@/components/profile/reservations/status/MyActivityCalendar';
-import { useState } from 'react';
-import { response1, response2 } from './mock_data';
+import { useEffect, useState } from 'react';
+import { response2 } from './mock_data';
 import * as styles from './page.css';
 
 // 1단계: /my-activities api 요청, 체험 리스트(체험id) 받아오기. 달력은 빈 달력.
@@ -14,11 +15,35 @@ import * as styles from './page.css';
 // 3단계: -> /my-activities/{activityId}/reserved-schedule api 요청. 스케줄마다(스케줄id) declined/confirmed/pending 건수 확인, 신청2 승인1 거절1 표기 가능.
 // 4단계: -> /my-activities/{activityId}/reservations api 요청. 예약건 상세정보(이름, 인원수) 받아와 최종 렌더링.
 
-export default function StatusPage() {
-  const [activity, setActivity] = useState<string>('');
+interface Activity {
+  id: number;
+  userId: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  address: string;
+  bannerImageUrl: string;
+  rating: number;
+  reviewCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface ActivityList {
+  cursorId: number | null;
+  totalCount: number;
+  activities: Activity[];
+}
 
-  const activityList = response1.activities.map((item) => item.title);
-  const activityId = response1.activities.find((item) => item.title === activity)?.id || 0;
+export default function StatusPage() {
+  const [activityList, setActivityList] = useState<ActivityList>({ cursorId: null, totalCount: 0, activities: [] });
+  const [selected, setSelected] = useState<string>('');
+
+  useEffect(() => {
+    fetchMyActivityList().then((res) => setActivityList(res));
+  }, []);
+
+  // console.log('fetchMyActivityList: ', activityList);
 
   const eventList: CalendarEvent[] = [];
   response2.forEach((item) => {
@@ -37,22 +62,25 @@ export default function StatusPage() {
     }
   });
 
-  console.log('calendar items: ', eventList);
+  // console.log('calendar items: ', eventList);
 
   const handleActivitySelect = (i: string) => {
-    setActivity(i);
+    setSelected(i);
   };
 
   return (
     <div className={styles.content}>
       <h1 className={styles.header}>예약 현황</h1>
       <DropDownB
-        options={activityList}
+        options={activityList.activities.map((item) => item.title)}
         placeholder='체험을 선택해 주세요'
         onSelect={handleActivitySelect}
         width='800px'
       />
-      <MyActivityCalendar eventList={eventList} activityId={activityId} />
+      <MyActivityCalendar
+        eventList={eventList}
+        activityId={activityList.activities.find((item) => item.title === selected)?.id || 0}
+      />
     </div>
   );
 }
