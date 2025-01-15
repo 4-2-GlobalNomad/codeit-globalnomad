@@ -141,6 +141,17 @@ button.rbc-input::-moz-focus-inner {
   user-select: none;
   -webkit-user-select: none;
   z-index: 4;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1px;
+}
+
+.rbc-row-content > .rbc-row:first-child {
+  position: absolute;
+  top: 0px;
+  width: 100%;
 }
 
 .rbc-row-content-scrollable {
@@ -167,7 +178,7 @@ button.rbc-input::-moz-focus-inner {
 }
 
 .rbc-today {
-  background-color: #eaf6ff;
+  /* background-color: #ced8d5; */
 }
 
 .rbc-toolbar {
@@ -239,12 +250,15 @@ button.rbc-input::-moz-focus-inner {
   box-shadow: none;
   margin: 0;
   padding: 2px 5px;
-  background-color: #3174ad;
+  width: 100%;
+  background-color: #0085ff;
   border-radius: 5px;
   color: #fff;
   cursor: pointer;
-  width: 100%;
   text-align: left;
+  font-size: 1.4rem;
+  line-height: 2.4rem;
+  font-weight: 500;
 }
 .rbc-slot-selecting .rbc-event,
 .rbc-slot-selecting .rbc-day-slot .rbc-background-event,
@@ -254,11 +268,11 @@ button.rbc-input::-moz-focus-inner {
 }
 .rbc-event.rbc-selected,
 .rbc-day-slot .rbc-selected.rbc-background-event {
-  background-color: #265985;
+  /* background-color: #265985; */
 }
 .rbc-event:focus,
 .rbc-day-slot .rbc-background-event:focus {
-  outline: 5px auto #3b99fc;
+  /* outline: 5px auto #3b99fc; */
 }
 
 .rbc-event-label {
@@ -381,7 +395,7 @@ button.rbc-input::-moz-focus-inner {
   -ms-flex: 1 1 0px;
   flex: 1 1 0;
   min-width: 0;
-  padding: 1.2rem 0 0 0.7rem;
+  padding: 1.2rem 0 1rem 0.7rem;
 }
 
 .rbc-date-cell.rbc-off-range {
