@@ -1,11 +1,9 @@
 'use client';
 
-import { fetchMyActivityList } from '@/apis/my-activity-board';
+import { fetchMyActivityList, fetchMyCalendarEvent } from '@/apis/my-activity-board';
 import DropDownB from '@/components/dropdown/DropDownB';
 import MyActivityCalendar from '@/components/profile/reservations/status/MyActivityCalendar';
-import { CalendarEvent } from '@/components/profile/reservations/status/MyActivityCalendar';
-import { useEffect, useState } from 'react';
-import { response2 } from './mock_data';
+import { useEffect, useMemo, useState } from 'react';
 import * as styles from './page.css';
 
 // 1단계: /my-activities api 요청, 체험 리스트(체험id) 받아오기. 달력은 빈 달력.
@@ -35,8 +33,24 @@ export interface ActivityList {
   activities: Activity[];
 }
 
+interface EventForDate {
+  date: string;
+  reservations: {
+    completed: number;
+    confirmed: number;
+    pending: number;
+  };
+}
+
+export interface CalendarEvent {
+  title: string;
+  start: Date;
+  end: Date;
+}
+
 export default function StatusPage() {
   const [activityList, setActivityList] = useState<ActivityList>({ cursorId: null, totalCount: 0, activities: [] });
+  const [eventResponse, setEventResponse] = useState<EventForDate[]>([]);
   const [selected, setSelected] = useState<string>('');
 
   useEffect(() => {
@@ -45,22 +59,39 @@ export default function StatusPage() {
 
   // console.log('fetchMyActivityList: ', activityList);
 
-  const eventList: CalendarEvent[] = [];
-  response2.forEach((item) => {
-    const date = new Date(item.date);
+  useEffect(() => {
+    const activityId = activityList.activities.find((item) => item.title === selected)?.id || 0;
 
-    if (item.reservations.completed !== 0) {
-      eventList.push({ title: `완료 ${item.reservations.completed}`, start: date, end: date });
+    if (activityId !== 0) {
+      fetchMyCalendarEvent(activityId, '2025', '01').then((res) => setEventResponse(res));
+    } else {
+      setEventResponse([]);
     }
+  }, [activityList.activities, selected]);
 
-    if (item.reservations.pending !== 0) {
-      eventList.push({ title: `예약 ${item.reservations.pending}`, start: date, end: date });
-    }
+  // console.log('response: ', eventResponse);
 
-    if (item.reservations.confirmed !== 0) {
-      eventList.push({ title: `승인 ${item.reservations.confirmed}`, start: date, end: date });
-    }
-  });
+  const eventList: CalendarEvent[] = useMemo(() => {
+    const temp: CalendarEvent[] = [];
+
+    eventResponse.forEach((item) => {
+      const date = new Date(item.date);
+
+      if (item.reservations.completed !== 0) {
+        temp.push({ title: `완료 ${item.reservations.completed}`, start: date, end: date });
+      }
+
+      if (item.reservations.pending !== 0) {
+        temp.push({ title: `예약 ${item.reservations.pending}`, start: date, end: date });
+      }
+
+      if (item.reservations.confirmed !== 0) {
+        temp.push({ title: `승인 ${item.reservations.confirmed}`, start: date, end: date });
+      }
+    });
+
+    return temp;
+  }, [eventResponse]);
 
   // console.log('calendar items: ', eventList);
 
