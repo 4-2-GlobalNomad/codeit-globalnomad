@@ -2,10 +2,13 @@ import AccountCheck from '@/assets/icons/account-check-outline.svg';
 import CalendarCheck from '@/assets/icons/calendar-check-outline.svg';
 import Cog from '@/assets/icons/cog-outline.svg';
 import TextBoxCheck from '@/assets/icons/text-box-check-outline.svg';
+import DefaultUser from '@/assets/images/default-user.png';
 import { Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CgMenuRound } from 'react-icons/cg';
+import * as styles from './CustomDrawer.css';
 
 type CustomDrawer = {
   // setImageFile: (file: File) => void;
@@ -18,10 +21,21 @@ export default function CustomDrawer() {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (storedUserInfo) {
+      const { nickname } = JSON.parse(storedUserInfo);
+      setUserName(nickname);
+    }
+  }, []);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
+
+  const [previewImageSrc] = useState<string | null>(null);
 
   const profileMenuList = [
     {
@@ -30,7 +44,9 @@ export default function CustomDrawer() {
     },
     {
       title: '예약 내역',
-
+      onClick: () => {
+        router.push('/profile/reservations/history');
+      },
       icon: <TextBoxCheck />,
     },
     {
@@ -47,15 +63,29 @@ export default function CustomDrawer() {
   ];
   const DrawerList = (
     <Box sx={{ width: 250 }} role='presentation' onClick={toggleDrawer(false)}>
-      <List>
-        {profileMenuList.map((v: CustomDrawer) => (
-          <ListItem key={v.title} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{v.icon}</ListItemIcon>
-              <ListItemText primary={v.title} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+      <List className={styles.drawerListLayout}>
+        <div className={styles.profileUserNameLayout}>
+          <div className={styles.profileImageContainer}>
+            <div className={styles.profileImageBox}>
+              {previewImageSrc ? (
+                <Image src={previewImageSrc} alt='프로필 이미지' className={styles.profileImage} fill />
+              ) : (
+                <Image src={DefaultUser} alt='프로필 이미지' className={styles.defaultImage} width={60} height={60} />
+              )}
+            </div>
+          </div>
+          {userName && <span>{userName}</span>}
+        </div>
+        <div className={styles.profileMenuListContainer}>
+          {profileMenuList.map((v: CustomDrawer) => (
+            <ListItem key={v.title} disablePadding>
+              <ListItemButton onClick={v.onClick}>
+                <ListItemIcon>{v.icon}</ListItemIcon>
+                <ListItemText primary={v.title} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </div>
       </List>
       <Divider />
     </Box>
