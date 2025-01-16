@@ -9,7 +9,6 @@ export const footer = style({
   alignItems: 'center',
   height: '160px',
   width: '100%',
-  boxSizing: 'border-box',
   '@media': {
     'screen and (min-width: 768px) and (max-width: 1199px)': {
       maxWidth: '1199px',
