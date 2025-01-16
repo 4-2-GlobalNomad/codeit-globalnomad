@@ -19,6 +19,13 @@ export const cardSection = style({
   boxShadow: '0px 4px 16px rgba(17, 34, 17, 0.05)',
   borderRadius: '2.4rem',
   overflow: 'hidden',
+
+  '@media': {
+    'screen and (max-width: 767px)': {
+      gridTemplateColumns: '40% 1fr',
+      columnGap: '4%',
+    },
+  },
 });
 
 export const cardImageContainer = style({
@@ -72,4 +79,10 @@ export const cardBottomLayout = style({
   justifyContent: 'space-between',
 });
 
-export const priceText = style([fontSizes.textXl, fontWeights.medium]);
+export const priceText = style([
+  {
+    whiteSpace: 'nowrap',
+  },
+  fontSizes.textXl,
+  fontWeights.medium,
+]);

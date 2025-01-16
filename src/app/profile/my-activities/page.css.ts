@@ -9,7 +9,7 @@ export const myActivitiesPageContainer = style({
 export const topLayout = style({
   display: 'flex',
   justifyContent: 'space-between',
-  marginBottom: '3.4rem',
+  marginBottom: '2.4rem',
 });
 
 export const mobileMenuTitle = style({

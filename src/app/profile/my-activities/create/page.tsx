@@ -115,11 +115,6 @@ export default function MyActivitiesCreatePage() {
       <div className={styles.activitiesPageContainer}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.topLayout}>
-            {/* <h2 className={styles.h2Title}>내 체험 등록</h2>
-            <button className={styles.createButton} type='submit'>
-              등록하기
-            </button> */}
-
             {isPCOrTablet && (
               <>
                 <h2 className={styles.h2Title}>내 체험 등록</h2>
