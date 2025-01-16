@@ -12,6 +12,11 @@ export const topLayout = style({
   marginBottom: '3.4rem',
 });
 
+export const mobileMenuTitle = style({
+  display: 'flex',
+  gap: '0.2rem',
+});
+
 export const h2Title = style([fontSizes.text3xl, fontWeights.bold]);
 
 export const createButton = style([

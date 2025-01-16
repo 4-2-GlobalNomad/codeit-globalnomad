@@ -1,12 +1,12 @@
 import { style } from '@vanilla-extract/css';
 
 export const layout = style({
-  // width: 'min(62.5%, 100%)',
   margin: '7.2rem auto auto',
   display: 'grid',
-  gridTemplateColumns: '32% 792px',
+  gridTemplateColumns: '32% 1fr',
   gridGap: '2.4rem',
   maxWidth: '1200px',
+  boxSizing: 'border-box',
 
   '@media': {
     'screen and (min-width: 768px) and (max-width: 1199px)': {

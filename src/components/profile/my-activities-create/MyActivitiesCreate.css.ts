@@ -26,11 +26,61 @@ export const dashedErrorStyle = style({
 });
 
 export const errorMessageStyle = style({
+  gridColumn: '1 / span 7',
   margin: '0.8rem 0 2.1rem',
   color: global.color.red[300],
 });
 
 export const inputTitle = style([{}, fontSizes.text2xl, fontWeights.bold]);
+
+export const addressContainer = style({
+  display: 'grid',
+  gridTemplateColumns: '1fr 59.6px',
+  columnGap: '2rem',
+
+  '@media': {
+    'screen and (min-width: 768px) and (max-width: 1199px)': {
+      gridTemplateColumns: 'auto 59.6px',
+      columnGap: '0.5rem',
+    },
+    'screen and (max-width: 767px)': {
+      gridTemplateColumns: 'auto 59.6px',
+      columnGap: '0.4rem',
+    },
+  },
+});
+
+export const addressInputBox = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1.2rem',
+
+  '@media': {
+    'screen and (max-width: 767px)': {
+      gap: '0rem',
+      marginBottom: '1.2rem',
+    },
+  },
+});
+
+export const detailAddressInput = style({
+  '@media': {
+    'screen and (max-width: 767px)': {
+      marginTop: '0.4rem',
+    },
+  },
+});
+
+export const BtnAddressFinder = style({
+  flexBasis: '5.6rem',
+  whiteSpace: 'nowrap',
+  backgroundColor: global.color.green[200],
+  color: '#fff',
+  borderRadius: '0.8rem',
+  padding: '0.8rem 1.6rem',
+
+  height: '59.6px',
+});
 
 export const subImageUploadBox = style({
   border: `1px dashed ${global.color.gray[900]}`,
@@ -135,16 +185,74 @@ export const inputSectionContainer = style({
   flexDirection: 'column',
   gap: '2.4rem',
   marginBottom: '42.9rem',
+
+  '@media': {
+    'screen and (max-width: 767px)': {
+      marginBottom: '3rem',
+    },
+  },
 });
 
 export const waveSign = style({
-  margin: '0 1.2rem',
+  gridColumn: 4,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+
+  '@media': {
+    'screen and (min-width: 768px) and (max-width: 1199px)': {
+      display: 'none',
+    },
+    'screen and (max-width: 767px)': {
+      display: 'none',
+    },
+  },
 });
 
 export const datePickerLabel = style([
   {
-    display: 'block',
-    marginBottom: '8px',
+    gridColumn: 1,
+    fontSize: '2rem',
+    '@media': {
+      'screen and (max-width: 767px)': {
+        fontSize: '1.6rem',
+      },
+    },
+  },
+  fontWeights.medium,
+  fontSizes.textXl,
+]);
+
+export const startTimePickerLabel = style([
+  {
+    gridColumn: '3 / span 2',
+    '@media': {
+      'screen and (min-width: 768px) and (max-width: 1199px)': {
+        gridColumn: 2,
+      },
+      'screen and (max-width: 767px)': {
+        gridColumn: 2,
+        fontSize: '1.6rem',
+      },
+    },
+    fontSize: '2rem',
+  },
+  fontWeights.medium,
+  fontSizes.textXl,
+]);
+
+export const endTimePickerLabel = style([
+  {
+    gridColumn: '5 / span 3',
+    '@media': {
+      'screen and (min-width: 768px) and (max-width: 1199px)': {
+        gridColumn: 3,
+      },
+      'screen and (max-width: 767px)': {
+        gridColumn: 3,
+        fontSize: '1.6rem',
+      },
+    },
     fontSize: '2rem',
   },
   fontWeights.medium,
@@ -247,13 +355,31 @@ globalStyle('.react-datepicker__input-container', {
 
 export const datePickerLabelContainer = style({
   display: 'grid',
-  // 793px 기준
-  // gridTemplateColumns: '399px 178px 216px'
-  gridTemplateColumns: '50.31% 22.44% 27.23%',
+
+  gridTemplateColumns: '377fr 21px 140fr 38px  140fr 21px 56px',
+  '@media': {
+    'screen and (min-width: 768px) and (max-width: 1199px)': {
+      gridTemplateColumns: '149fr 104fr 104fr 56px',
+      columnGap: '5px',
+    },
+    'screen and (max-width: 767px)': {
+      gridTemplateColumns: '107fr 79fr 79fr 56px',
+      columnGap: '5px',
+      whiteSpace: 'nowrap',
+    },
+  },
 });
 
 export const horizon = style({
-  width: '100%',
+  gridColumn: '1 / span 7',
+  '@media': {
+    'screen and (min-width: 768px) and (max-width: 1199px)': {
+      gridColumn: '1 / span 4',
+    },
+    'screen and (max-width: 767px)': {
+      gridColumn: '1 / span 4',
+    },
+  },
   border: `1px solid ${global.color.gray[300]}`,
   margin: '2.1rem 0',
 });
@@ -267,17 +393,44 @@ export const dateTimePickerContainer = style({
 });
 
 export const TimeButton = style({
+  gridColumn: 7,
+  '@media': {
+    'screen and (min-width: 768px) and (max-width: 1199px)': {
+      gridColumn: 4,
+    },
+    'screen and (max-width: 767px)': {
+      gridColumn: 4,
+    },
+  },
   cursor: 'pointer',
 });
 
 export const datePickerContainer = style({
-  width: '37.9rem',
+  gridColumn: 1,
 });
 
-export const timePickerContainer = style({
-  display: 'flex',
-  gap: '1.2rem',
-  alignItems: 'center',
+export const startTimePickerContainer = style({
+  gridColumn: 3,
+  '@media': {
+    'screen and (min-width: 768px) and (max-width: 1199px)': {
+      gridColumn: 2,
+    },
+    'screen and (max-width: 767px)': {
+      gridColumn: 2,
+    },
+  },
+});
+
+export const endTimePickerContainer = style({
+  gridColumn: 5,
+  '@media': {
+    'screen and (min-width: 768px) and (max-width: 1199px)': {
+      gridColumn: 3,
+    },
+    'screen and (max-width: 767px)': {
+      gridColumn: 3,
+    },
+  },
 });
 
 export const descPhrase = style([

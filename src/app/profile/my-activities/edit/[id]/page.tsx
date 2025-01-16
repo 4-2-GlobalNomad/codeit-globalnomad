@@ -10,7 +10,6 @@ import Input from '@/components/Input';
 import Dialog from '@/components/modal/Dialog';
 import Modal from '@/components/modal/Modal';
 import useDetectClose from '@/hooks/use-detect-close';
-import useMultipleImageUpload from '@/hooks/use-multiple-image-upload';
 import { useMyActivitiesDetails } from '@/hooks/use-my-activities-details';
 import { useMyActivitiesEdit } from '@/hooks/use-my-activities-edit';
 import useSingleImageUpload from '@/hooks/use-single-image-upload';
@@ -33,11 +32,23 @@ export default function MyActivitiesEditPage() {
   const router = useRouter();
   const mutation = useMyActivitiesEdit();
   const { id } = useParams();
-  const { data, status } = useMyActivitiesDetails(Number(id));
+  const { data: currentData, status } = useMyActivitiesDetails(Number(id));
   const { imageSrc, setImageSrc, handleSingleImagePreview } = useSingleImageUpload();
-  const { imageSrcs, setImageSrcs, handleMultipleImagePreview } = useMultipleImageUpload();
 
   const [showCreateModal, setShowCreateModal] = useState(false);
+
+  const encodeFileToBase64 = (file: File) => {
+    return new Promise<string>((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          resolve(reader.result);
+        }
+      };
+    });
+  };
 
   const {
     register,
@@ -50,8 +61,8 @@ export default function MyActivitiesEditPage() {
   } = useForm();
 
   useEffect(() => {
-    if (status === 'success' && data) {
-      const myActivities = data.data as MyActivities;
+    if (status === 'success' && currentData) {
+      const myActivities = currentData.data as MyActivities;
 
       setValue('title', myActivities.title);
       setValue('category', myActivities.category);
@@ -60,17 +71,22 @@ export default function MyActivitiesEditPage() {
       setValue('address', myActivities.address);
       setValue('bannerImage', myActivities.bannerImageUrl);
       setImageSrc(myActivities.bannerImageUrl);
-      setValue('oldSubfileImage', myActivities.subImages);
+      setValue(
+        'subfileImage',
+        myActivities.subImages.map((subImage) => ({ id: subImage.id, src: subImage.imageUrl })),
+      );
+
       setValue(
         'availableDateTimeList',
         myActivities.schedules.map((schedule) => ({
+          id: schedule.id,
           date: dayjs(schedule.date, 'YYYY-MM-DD'),
           startTime: dayjs(schedule.startTime, 'HH:mm'),
           endTime: dayjs(schedule.endTime, 'HH:mm'),
         })),
       );
     }
-  }, [data, setImageSrc, setValue, status]);
+  }, [currentData, setImageSrc, setValue, status]);
   const categories = ['문화 · 예술', '식음료', '스포츠', '투어', '관광', '웰빙'];
 
   const dropDownRef = useRef(null);
@@ -82,8 +98,6 @@ export default function MyActivitiesEditPage() {
     React.Dispatch<React.SetStateAction<boolean>>,
   ];
   const toggleDropdown = () => setIsDropdownOpen((prev: boolean) => !prev);
-
-  // console.log(MyActivities);
 
   const handleBannerFileClick = () => {
     bannerFileRef?.current?.click();
@@ -98,81 +112,107 @@ export default function MyActivitiesEditPage() {
     subFileRef?.current?.click();
   };
 
-  const handleMultipleImageCancelClick = (index: number) => {
-    setImageSrcs((prev) => prev.filter((_, i) => i !== index));
-  };
-
   const handleCreateModalState = () => {
     setShowCreateModal(!showCreateModal);
     router.push('/profile/my-activities');
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (newData) => {
+    const myActivities = currentData!.data as MyActivities;
+
     const schedules: Array<{
       date: string;
       startTime: string;
       endTime: string;
     }> = [];
-    data.availableDateTimeList.forEach((item: { date: dayjs.Dayjs; startTime: dayjs.Dayjs; endTime: dayjs.Dayjs }) => {
-      if (item.date && item.startTime && item.endTime) {
-        schedules.push({
-          date: item.date.format('YYYY-MM-DD'),
-          startTime: item.startTime.format('HH:mm'),
-          endTime: item.endTime.format('HH:mm'),
-        });
-      }
-    });
+    newData.availableDateTimeList.forEach(
+      (item: { date: dayjs.Dayjs; startTime: dayjs.Dayjs; endTime: dayjs.Dayjs }) => {
+        if (item.date && item.startTime && item.endTime) {
+          schedules.push({
+            date: item.date.format('YYYY-MM-DD'),
+            startTime: item.startTime.format('HH:mm'),
+            endTime: item.endTime.format('HH:mm'),
+          });
+        }
+      },
+    );
 
     let bannerImageUrl: string;
 
-    if (data.bannerImage instanceof File) {
-      const uploadedBannerImageUrl = await uploadImage(data.bannerImage);
+    if (newData.bannerImage instanceof File) {
+      const uploadedBannerImageUrl = await uploadImage(newData.bannerImage);
       if (!uploadedBannerImageUrl) {
         alert('배너 이미지 업로드에 실패했습니다.');
         return;
       }
       bannerImageUrl = uploadedBannerImageUrl;
     } else {
-      bannerImageUrl = data.bannerImage;
+      bannerImageUrl = newData.bannerImage;
     }
 
-    // console.log(bannerImageUrl);
+    const subImageIdsToRemove: number[] = [];
+    const subImageUrlsToAdd: string[] = [];
 
-    const subImageUrls: string[] = [];
-    if (data.subfileImage) {
-      for await (const image of data.subfileImage) {
-        const subImageUrl = await uploadImage(image);
+    for await (const image of newData.subfileImage) {
+      if (image.file !== undefined) {
+        const subImageUrl = await uploadImage(image.file);
         if (!subImageUrl) {
           alert('소개 이미지 업로드에 실패했습니다.');
           return;
         }
-        subImageUrls.push(subImageUrl);
+        subImageUrlsToAdd.push(subImageUrl);
       }
     }
 
+    const curDataSubImageIds: number[] = newData.subfileImage.map(({ id }: { id: number }) => id);
+
+    for (const { id } of myActivities.subImages) {
+      if (!curDataSubImageIds.includes(id)) {
+        subImageIdsToRemove.push(id);
+      }
+    }
+
+    const scheduleIdsToRemove: number[] = [];
+    const curDataSchedulesIds = currentData?.data.schedules.map(({ id }: { id: number }) => id);
+    const newDataSchedulesIds = newData.availableDateTimeList.map(({ id }: { id: number }) => id);
+
+    curDataSchedulesIds.forEach((id: number) => {
+      if (!newDataSchedulesIds.includes(id)) {
+        scheduleIdsToRemove.push(id);
+      }
+    });
+
+    const schedulesToAdd = newData.availableDateTimeList
+      .filter(({ id }: { id: number }) => !id)
+      .map((schedule: { date: dayjs.Dayjs; startTime: dayjs.Dayjs; endTime: dayjs.Dayjs }) => ({
+        date: schedule.date.format('YYYY-MM-DD'),
+        startTime: schedule.startTime.format('HH:mm'),
+        endTime: schedule.endTime.format('HH:mm'),
+      }));
+
     const myActivitiesEditData: MyActivitiesEditData = {
-      title: data.title,
-      category: data.category,
-      description: data.description,
-      address: data.address,
-      price: Number(data.price),
-      schedulesToAdd: [],
-      scheduleIdsToRemove: [],
-      subImageIdsToRemove: [],
-      subImageUrlsToAdd: [],
+      title: newData.title,
+      category: newData.category,
+      description: newData.description,
+      address: newData.address,
+      price: Number(newData.price),
       bannerImageUrl: bannerImageUrl,
+
+      schedulesToAdd: schedulesToAdd, // newData.availableDateTimeList 에 id 없는 애들
+      scheduleIdsToRemove: scheduleIdsToRemove, // currentData.availableDateTimeList에는 있지만, data.availableDateTimeList에는 없는 경우
+
+      subImageIdsToRemove: subImageIdsToRemove,
+      subImageUrlsToAdd: subImageUrlsToAdd,
     };
 
     mutation.mutate(
       { activityId: Number(id), data: myActivitiesEditData },
       {
         onSuccess: () => {
-          console.log('success');
+          alert('내 체험 정보 수정을 성공하였습니다.');
         },
       },
     );
-
-    // console.log(myActivitiesCreateData);
 
     // mutation.mutate(myActivitiesCreateData, {
     //   onSuccess: () => {
@@ -358,6 +398,7 @@ export default function MyActivitiesEditPage() {
                                     },
                                   },
                                 }}
+                                readOnly={Boolean(id)}
                                 className={`${styles.datePickerContainer}`}
                                 value={availableDateTime.date}
                                 onChange={(v) => {
@@ -379,6 +420,7 @@ export default function MyActivitiesEditPage() {
                                         },
                                       },
                                     }}
+                                    readOnly={Boolean(id)}
                                     value={availableDateTime.startTime}
                                     onChange={(v) => {
                                       field.value[index].startTime = v;
@@ -398,6 +440,7 @@ export default function MyActivitiesEditPage() {
                                       },
                                     },
                                   }}
+                                  readOnly={Boolean(id)}
                                   value={availableDateTime.endTime}
                                   onChange={(v) => {
                                     field.value[index].endTime = v;
@@ -499,22 +542,46 @@ export default function MyActivitiesEditPage() {
                       type='file'
                       ref={subFileRef}
                       onChange={(e) => {
-                        handleMultipleImagePreview(e);
                         if (e.target.files && e.target.files.length > 0) {
-                          getValues('subfileImage');
-                          setValue('subfileImage', e.target.files);
+                          const newFiles = Array.from(e.target.files);
+
+                          Promise.all(newFiles.map((file) => encodeFileToBase64(file))).then(
+                            (newBase64Images: string[]) => {
+                              const newImages: Array<{ src: string; file: File }> = [];
+
+                              for (let i = 0; i < newFiles.length; i++) {
+                                newImages.push({ src: newBase64Images[i], file: newFiles[i] });
+                              }
+
+                              setValue('subfileImage', [...getValues('subfileImage'), ...newImages], {
+                                shouldDirty: true,
+                                shouldTouch: true,
+                                shouldValidate: true,
+                              });
+                            },
+                          );
                         }
                       }}
                     />
                   </div>
-                  {imageSrcs.map((src, index) => (
+                  {getValues('subfileImage')?.map(({ src }: { src: string }, index: number) => (
                     <div key={index} className={styles.previewImageContainer}>
                       <div className={styles.previewImageBox}>
                         <Image fill src={src} alt={`소개 이미지 미리보기 ${index + 1}`} />
                       </div>
                       <BtnCanceled
                         className={styles.btnCanceled}
-                        onClick={() => handleMultipleImageCancelClick(index)}
+                        onClick={() => {
+                          setValue(
+                            'subfileImage',
+                            getValues('subfileImage').filter((_: unknown, i: number) => i !== index),
+                            {
+                              shouldDirty: true,
+                              shouldTouch: true,
+                              shouldValidate: true,
+                            },
+                          );
+                        }}
                       />
                     </div>
                   ))}
