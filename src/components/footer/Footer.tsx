@@ -19,7 +19,9 @@ export const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.content}>
-        <span>©codeit - 2023</span>
+        <nav className={styles.text}>
+          <span>©codeit - 2023</span>
+        </nav>
         <nav className={styles.text}>
           <a>Privacy Policy</a>
           <a>FAQ</a>
