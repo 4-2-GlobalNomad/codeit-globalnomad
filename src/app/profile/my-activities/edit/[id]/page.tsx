@@ -22,20 +22,19 @@ import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-picker
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import * as styles from './page.css';
 
 export default function MyActivitiesEditPage() {
-  const router = useRouter();
   const mutation = useMyActivitiesEdit();
   const { id } = useParams();
   const { data: currentData, status } = useMyActivitiesDetails(Number(id));
   const { imageSrc, setImageSrc, handleSingleImagePreview } = useSingleImageUpload();
 
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showModifyModal, setShowModifyModal] = useState(false);
 
   const encodeFileToBase64 = (file: File) => {
     return new Promise<string>((resolve) => {
@@ -112,9 +111,8 @@ export default function MyActivitiesEditPage() {
     subFileRef?.current?.click();
   };
 
-  const handleCreateModalState = () => {
-    setShowCreateModal(!showCreateModal);
-    router.push('/profile/my-activities');
+  const handleModifyModalState = () => {
+    setShowModifyModal(!showModifyModal);
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (newData) => {
@@ -209,17 +207,10 @@ export default function MyActivitiesEditPage() {
       { activityId: Number(id), data: myActivitiesEditData },
       {
         onSuccess: () => {
-          alert('내 체험 정보 수정을 성공하였습니다.');
+          setShowModifyModal(true);
         },
       },
     );
-
-    // mutation.mutate(myActivitiesCreateData, {
-    //   onSuccess: () => {
-    //     setShowCreateModal(true);
-    //     queryClient.invalidateQueries({ queryKey: ['my-activities'] });
-    //   },
-    // });
   };
 
   return (
@@ -592,11 +583,12 @@ export default function MyActivitiesEditPage() {
           </LocalizationProvider>
         </form>
       </div>
-      {showCreateModal &&
+
+      {showModifyModal &&
         createPortal(
           <Modal
-            content={<Dialog message='체험 수정이 완료되었습니다' handleModalState={handleCreateModalState} />}
-            handleModalState={handleCreateModalState}
+            content={<Dialog message='체험 수정이 완료되었습니다' handleModalState={handleModifyModalState} />}
+            handleModalState={handleModifyModalState}
           />,
           document.body,
         )}
