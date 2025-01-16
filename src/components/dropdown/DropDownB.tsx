@@ -9,9 +9,10 @@ interface DropDownBProps {
   options: string[];
   placeholder?: string;
   onSelect: (item: string) => void;
+  width?: string;
 }
 
-function DropDownB({ options, placeholder = '가격', onSelect }: DropDownBProps) {
+function DropDownB({ options, placeholder = '가격', onSelect, width }: DropDownBProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [dropdownStyle, setDropdownStyle] = useState({});
@@ -26,6 +27,7 @@ function DropDownB({ options, placeholder = '가격', onSelect }: DropDownBProps
           top: rect.bottom + window.scrollY,
           left: rect.left + window.scrollX,
           position: 'absolute',
+          width: `${width}`,
         });
       }
       setIsOpen((prev) => !prev);
@@ -41,7 +43,7 @@ function DropDownB({ options, placeholder = '가격', onSelect }: DropDownBProps
   };
 
   return (
-    <div className={styles.dropdownContainerB}>
+    <div className={styles.dropdownContainerB} style={{ width: `${width}` }}>
       <button className={styles.dropdownButtonB} onClick={toggleDropdown} ref={buttonRef}>
         <span>{selected || placeholder}</span>
         <ArrowIcon className={`${styles.iconB} ${isOpen ? styles.open : ''}`} />
