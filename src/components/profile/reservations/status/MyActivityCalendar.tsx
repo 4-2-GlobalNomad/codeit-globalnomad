@@ -12,9 +12,9 @@ export default function MyActivityCalendar(props: { eventList: CalendarEvent[]; 
   const localizer = dayjsLocalizer(dayjs);
   const [date, setDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
-  const [modalProps, setModalProps] = useState<{ date: Date | null; activityId: number | null }>({
+  const [modalProps, setModalProps] = useState<{ date: Date | null; activityId: number }>({
     date: null,
-    activityId: null,
+    activityId: 0,
   });
 
   const handleModalState = () => setShowModal(!showModal);
@@ -45,6 +45,7 @@ export default function MyActivityCalendar(props: { eventList: CalendarEvent[]; 
       setModalProps({ date: event.start, activityId: props.activityId });
       // console.log('modal props: ', modalProps);
       setShowModal(!showModal);
+      // 완료된 체험인 경우 -> 모달x 다이얼로그 처리('완료된 체험 입니다')
     },
     [props.activityId, showModal],
   );

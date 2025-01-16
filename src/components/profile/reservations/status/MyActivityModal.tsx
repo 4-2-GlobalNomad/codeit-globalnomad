@@ -1,9 +1,11 @@
 'use client';
 
-import { response3, response4 } from '@/app/profile/reservations/status/mock_data';
+import { fetchMyReservedSchedule } from '@/apis/my-activity-board';
+import { response4 } from '@/app/profile/reservations/status/mock_data';
 import ButtonX from '@/assets/icons/btn-x.svg';
 import DropDownB from '@/components/dropdown/DropDownB';
-import { useState } from 'react';
+import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
 import * as styles from './MyActivityModal.css';
 import ReservationItem from './ReservationItem';
 
@@ -25,16 +27,35 @@ export interface ResForScheduleData {
   teamId: string;
 }
 
+interface ReservedSchedule {
+  scheduleId: number;
+  startTime: string;
+  endTime: string;
+  count: {
+    pending: number;
+    confirmed: number;
+    declined: number;
+  };
+}
+
 export default function MyActivityModal(props: {
   handleModalState: () => void;
-  modalProps: { date: Date | null; activityId: number | null };
+  modalProps: { date: Date | null; activityId: number };
 }) {
+  const [scheduleList, setScheduleList] = useState<ReservedSchedule[]>([]);
   const [selected, setSelected] = useState<string>('');
 
   const month = props.modalProps.date == null ? 0 : props.modalProps.date.getMonth() + 1;
   const date = props.modalProps.date == null ? 0 : props.modalProps.date.getDate();
 
-  const scheduleList = response3.map((item) => `${item.startTime} ~ ${item.endTime}`);
+  useEffect(() => {
+    fetchMyReservedSchedule(props.modalProps.activityId, dayjs(props.modalProps.date).format('YYYY-MM-DD')).then(
+      (res) => setScheduleList(res),
+    );
+  }, [props.modalProps.activityId, props.modalProps.date]);
+
+  // console.log('scheduledList: ', scheduleList);
+
   // const scheduleIdList = response3.map((item) => item.scheduleId);
 
   // const id = props.modalProps.activityId;
@@ -55,7 +76,12 @@ export default function MyActivityModal(props: {
         <div className={styles.context}>
           <div className={styles.bundle}>
             <p className={styles.miniHeader}>체험 시간</p>
-            <DropDownB options={scheduleList} onSelect={handleSelect} placeholder='00:00 ~ 00:00' width='300px' />
+            <DropDownB
+              options={scheduleList.map((item) => `${item.startTime} ~ ${item.endTime}`)}
+              onSelect={handleSelect}
+              placeholder='00:00 ~ 00:00'
+              width='300px'
+            />
           </div>
           <div className={styles.bundle}>
             <p className={styles.miniHeader}>{selected} 예약 목록</p>
