@@ -53,6 +53,7 @@ export const context = style({
   paddingTop: '2rem',
   paddingBottom: '1.5rem',
   height: '580px',
+  width: '100%',
   overflowY: 'scroll',
   msOverflowStyle: 'none',
 
@@ -65,6 +66,7 @@ export const bundle = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '1.5rem',
+  width: '100%',
 });
 
 export const miniHeader = style({

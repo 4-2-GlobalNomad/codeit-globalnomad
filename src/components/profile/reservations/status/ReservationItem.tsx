@@ -1,8 +1,8 @@
 import { Button } from '@/components/button/Button';
-import { ResForScheduleData } from './MyActivityModal';
+import { Reservation } from './MyActivityModal';
 import * as styles from './ReservationItem.css';
 
-export default function ReservationItem(props: { item: ResForScheduleData; key: number }) {
+export default function ReservationItem(props: { item: Reservation; key: number }) {
   // console.log('resItem: ', props.item);
 
   return (

@@ -1,7 +1,6 @@
 'use client';
 
-import { fetchMyReservedSchedule } from '@/apis/my-activity-board';
-import { response4 } from '@/app/profile/reservations/status/mock_data';
+import { fetchMyReservations, fetchMyReservedSchedule } from '@/apis/my-activity-board';
 import ButtonX from '@/assets/icons/btn-x.svg';
 import DropDownB from '@/components/dropdown/DropDownB';
 import dayjs from 'dayjs';
@@ -9,7 +8,7 @@ import { useEffect, useState } from 'react';
 import * as styles from './MyActivityModal.css';
 import ReservationItem from './ReservationItem';
 
-export interface ResForScheduleData {
+export interface Reservation {
   id: number;
   status: 'pending' | 'confirmed' | 'declined';
   totalPrice: number;
@@ -43,7 +42,11 @@ export default function MyActivityModal(props: {
   modalProps: { date: Date | null; activityId: number };
 }) {
   const [scheduleList, setScheduleList] = useState<ReservedSchedule[]>([]);
+  const [reservationList1, setReservationList1] = useState<Reservation[]>([]);
+  const [reservationList2, setReservationList2] = useState<Reservation[]>([]);
+  const [reservationList3, setReservationList3] = useState<Reservation[]>([]);
   const [selected, setSelected] = useState<string>('');
+  const [scheduleId, setScheduleId] = useState<number>(0);
 
   const month = props.modalProps.date == null ? 0 : props.modalProps.date.getMonth() + 1;
   const date = props.modalProps.date == null ? 0 : props.modalProps.date.getDate();
@@ -56,11 +59,45 @@ export default function MyActivityModal(props: {
 
   // console.log('scheduledList: ', scheduleList);
 
-  // const scheduleIdList = response3.map((item) => item.scheduleId);
+  useEffect(() => {
+    if (scheduleId !== 0) {
+      fetchMyReservations(props.modalProps.activityId, scheduleId, 'pending').then((res: Reservation[]) => {
+        // console.log('res1: ', res); // [{...}] 꼴
+        setReservationList1(res);
+      });
+    }
+  }, [props.modalProps.activityId, scheduleId]);
 
-  // const id = props.modalProps.activityId;
-  // const scheduledId = scheduleIdList[scheduleList.indexOf(selected)];
-  // -> res4 api에 이용
+  // console.log('reservation list 1:', reservationList1);
+
+  useEffect(() => {
+    if (scheduleId !== 0) {
+      fetchMyReservations(props.modalProps.activityId, scheduleId, 'confirmed').then((res: Reservation[]) => {
+        // console.log('res2: ', res);
+        setReservationList2(res);
+      });
+    }
+  }, [props.modalProps.activityId, scheduleId]);
+
+  // console.log('reservation list 2:', reservationList2);
+
+  useEffect(() => {
+    if (scheduleId !== 0) {
+      fetchMyReservations(props.modalProps.activityId, scheduleId, 'declined').then((res: Reservation[]) => {
+        // console.log('res3: ', res);
+        setReservationList3(res);
+      });
+    }
+  }, [props.modalProps.activityId, scheduleId]);
+
+  // console.log('reservation list 3:', reservationList3);
+
+  useEffect(() => {
+    if (scheduleList.length !== 0 && selected !== '') {
+      const index = scheduleList.findIndex((item) => item.startTime === selected.slice(0, 5));
+      setScheduleId(scheduleList[index].scheduleId);
+    }
+  }, [scheduleList, selected]);
 
   const handleSelect = (i: string) => {
     setSelected(i);
@@ -84,11 +121,16 @@ export default function MyActivityModal(props: {
             />
           </div>
           <div className={styles.bundle}>
-            <p className={styles.miniHeader}>{selected} 예약 목록</p>
-            {response4.reservations.map((item: ResForScheduleData, j: number) => (
+            <p className={styles.miniHeader}>예약 목록</p>
+            {reservationList1.map((item: Reservation, j: number) => (
               <ReservationItem item={item} key={j} />
             ))}
-            {/* pending에 대해서... confirmed, declined에 대해서도 해야함 */}
+            {reservationList2.map((item: Reservation, j: number) => (
+              <ReservationItem item={item} key={j} />
+            ))}
+            {reservationList3.map((item: Reservation, j: number) => (
+              <ReservationItem item={item} key={j} />
+            ))}
           </div>
         </div>
       </div>

@@ -44,3 +44,18 @@ export const fetchMyReservedSchedule = async (activityId: number, date: string) 
     throw new Error('fetchMyReservedSchedule에서 에러 발생');
   }
 };
+
+// res4
+export const fetchMyReservations = async (activityId: number, scheduleId: number, status: string) => {
+  try {
+    const url = `my-activities/${activityId}/reservations?scheduleId=${scheduleId}&status=${status}&size=1000`;
+    console.log('url: ', url);
+
+    const response = await axiosInstance.get(url, {});
+
+    return response.data.reservations;
+  } catch (error) {
+    console.error('fetchMyReservations에서 에러 발생:', error);
+    throw new Error('fetchMyReservations에서 에러 발생');
+  }
+};
