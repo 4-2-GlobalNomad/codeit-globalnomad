@@ -1,9 +1,19 @@
+import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
 import type { NextConfig } from 'next';
+
+const withVanillaExtract = createVanillaExtractPlugin();
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  compiler: {
-    styledComponents: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'sprint-fe-project.s3.ap-northeast-2.amazonaws.com',
+        port: '',
+        pathname: '/**/*',
+      },
+    ],
   },
   webpack(config) {
     config.module.rules.push({
@@ -13,6 +23,8 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+
+  transpilePackages: ['@company/design-system'],
 };
 
-export default nextConfig;
+module.exports = withVanillaExtract(nextConfig);
