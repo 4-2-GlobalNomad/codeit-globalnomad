@@ -3,6 +3,7 @@
 import { fetchUserInfo, updateUserInfo } from '@/apis/users';
 import Input from '@/components/Input';
 import { Button } from '@/components/button/Button';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import * as styles from './page.css';
 
@@ -23,6 +24,7 @@ export default function ProfileEdit() {
   });
 
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const loadUserInfo = async () => {
     try {
@@ -35,7 +37,6 @@ export default function ProfileEdit() {
       }));
     } catch (error) {
       console.error('Failed to fetch user info:', error);
-      alert('사용자 정보를 불러오는 데 실패했습니다.');
     }
   };
 
@@ -92,11 +93,9 @@ export default function ProfileEdit() {
         console.log('Sending data to API:', requestData);
 
         await updateUserInfo(requestData);
-
-        alert('사용자 정보가 성공적으로 수정되었습니다.');
+        router.push('/profile/mypage');
       } catch (error) {
         console.error(error);
-        alert('사용자 정보 수정 중 문제가 발생했습니다.');
       } finally {
         setLoading(false);
       }

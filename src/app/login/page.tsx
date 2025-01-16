@@ -1,6 +1,7 @@
 'use client';
 
 import { login } from '@/apis/auth';
+import { getKakaoAuthUrl } from '@/apis/oauth';
 import GoogleIcon from '@/assets/icons/google.svg';
 import KakaoIcon from '@/assets/icons/kakao.svg';
 import VisibilityOff from '@/assets/icons/visibility-off.svg';
@@ -50,6 +51,11 @@ export default function LoginPage() {
       setAlertMessage('비밀번호가 일치하지 않습니다.');
       setIsAlertOpen(true);
     }
+  };
+
+  const handleKakaoLogin = () => {
+    const kakaoAuthUrl = getKakaoAuthUrl();
+    window.location.href = kakaoAuthUrl;
   };
 
   return (
@@ -125,7 +131,7 @@ export default function LoginPage() {
           <button>
             <GoogleIcon />
           </button>
-          <button>
+          <button onClick={handleKakaoLogin}>
             <KakaoIcon />
           </button>
         </div>
