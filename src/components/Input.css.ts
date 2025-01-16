@@ -19,22 +19,23 @@ export const inputContainer = style({
   alignItems: 'center',
   gridTemplateColumns: 'auto 1fr auto',
   width: '100%',
-  border: `1px solid ${global.color.gray[800]}`,
+  outline: `1px solid ${global.color.gray[800]}`,
   backgroundColor: '#fff',
 
   selectors: {
     '&:focus-within': {
-      border: `2px solid ${global.color.green[200]}`,
+      outline: `2px solid ${global.color.green[200]}`,
     },
   },
 });
 
 export const errorStyle = style({
-  borderColor: `${global.color.red[300]}`,
+  outline: `1px solid ${global.color.red[300]}`,
 
   selectors: {
     '&:focus-within': {
-      border: `1px solid ${global.color.red[300]}`,
+      outline: `2px solid ${global.color.red[300]}`,
+      border: 'none',
     },
   },
 });
@@ -51,6 +52,7 @@ export const leftIconDiv = style({
 
 export const inputField = style({
   gridColumn: '2',
+  minWidth: '100px',
   border: 'none',
 
   selectors: {
