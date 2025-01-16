@@ -9,7 +9,7 @@ export const container = style({
 export const signupBox = style({
   width: '640px',
   height: '100%',
-  margin: '48px auto', // 가운데 정렬을 위해 양쪽 여백 동일하게 조정
+  margin: '48px auto',
 });
 
 export const logo = style({

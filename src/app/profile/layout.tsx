@@ -26,6 +26,9 @@ export default function ProfilePageLayout({ children }: { children: React.ReactN
   const profileSideMenuData = [
     {
       title: '내 정보',
+      onClick: () => {
+        router.push('/profile/mypage');
+      },
       icon: <AccountCheck />,
     },
     {

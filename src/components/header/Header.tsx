@@ -21,7 +21,14 @@ export const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <div className={styles.logoContainer} onClick={() => router.push('/')}>
-        <Image src='/icons/logo.svg' alt='GlobalNomad 로고' className={styles.logoImage} width={172} height={30} />
+        <Image
+          src='/icons/logo.svg'
+          priority
+          alt='GlobalNomad 로고'
+          className={styles.logoImage}
+          width={172}
+          height={30}
+        />
       </div>
 
       {isLoggedIn ? (

@@ -7,9 +7,18 @@ export const header = style({
   alignItems: 'center',
   width: '100%',
   height: '70px',
-  padding: '2rem 23rem',
+  padding: '2rem 36rem',
   borderBottom: `0.1rem solid ${global.color.gray[300]}`,
   backgroundColor: '#FFFFFF',
+
+  '@media': {
+    'screen and (min-width: 768px) and (max-width: 1199px)': {
+      padding: '1rem 4rem',
+    },
+    'screen and (max-width: 767px)': {
+      padding: '0 20px',
+    },
+  },
 });
 
 export const logoContainer = style({
@@ -17,9 +26,7 @@ export const logoContainer = style({
   alignItems: 'center',
 });
 
-export const logoImage = style({
-  height: '40px',
-});
+export const logoImage = style({});
 
 export const title = style({
   marginLeft: '10px',
@@ -64,10 +71,10 @@ export const avatar = style({
 export const authButtons = style({
   display: 'flex',
   gap: '10px',
+  minWidth: '111px',
 });
 
 export const authButton = style({
-  padding: '8px 16px',
   fontSize: '14px',
   backgroundColor: '#FFFFFF',
   color: '#1b1b1b',
