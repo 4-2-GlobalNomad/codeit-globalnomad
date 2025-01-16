@@ -49,6 +49,8 @@ export interface CalendarEvent {
 }
 
 export default function StatusPage() {
+  // activityList -> 체험 선택 드롭다운
+  // eventResponse -> eventList -> 달력에 그려질 이벤트
   const [activityList, setActivityList] = useState<ActivityList>({ cursorId: null, totalCount: 0, activities: [] });
   const [eventResponse, setEventResponse] = useState<EventForDate[]>([]);
   const [selected, setSelected] = useState<string>('');
@@ -61,9 +63,14 @@ export default function StatusPage() {
 
   useEffect(() => {
     const activityId = activityList.activities.find((item) => item.title === selected)?.id || 0;
+    const date = new Date();
 
     if (activityId !== 0) {
-      fetchMyCalendarEvent(activityId, '2025', '01').then((res) => setEventResponse(res));
+      fetchMyCalendarEvent(
+        activityId,
+        date.getFullYear().toString(),
+        (date.getMonth() + 1).toString().padStart(2, '0'),
+      ).then((res) => setEventResponse(res));
     } else {
       setEventResponse([]);
     }

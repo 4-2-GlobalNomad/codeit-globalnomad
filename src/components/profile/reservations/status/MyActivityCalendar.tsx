@@ -1,3 +1,4 @@
+import { CalendarEvent } from '@/app/profile/reservations/status/page';
 import dayjs from 'dayjs';
 import { useCallback, useState } from 'react';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
@@ -6,12 +7,6 @@ import { createPortal } from 'react-dom';
 import './MyActivityCalendar.css';
 import MyActivityModal from './MyActivityModal';
 import Toolbar from './Toolbar';
-
-export interface CalendarEvent {
-  title: string;
-  start: Date;
-  end: Date;
-}
 
 export default function MyActivityCalendar(props: { eventList: CalendarEvent[]; activityId: number }) {
   const localizer = dayjsLocalizer(dayjs);
@@ -48,10 +43,10 @@ export default function MyActivityCalendar(props: { eventList: CalendarEvent[]; 
   const onSelectEvent = useCallback(
     (event: CalendarEvent) => {
       setModalProps({ date: event.start, activityId: props.activityId });
-      console.log('변경값 확인: ', modalProps);
+      // console.log('modal props: ', modalProps);
       setShowModal(!showModal);
     },
-    [modalProps, props.activityId, showModal],
+    [props.activityId, showModal],
   );
 
   return (
