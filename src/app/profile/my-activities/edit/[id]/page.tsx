@@ -398,7 +398,7 @@ export default function MyActivitiesEditPage() {
                                     },
                                   },
                                 }}
-                                readOnly={Boolean(id)}
+                                readOnly={Boolean(availableDateTime.id)}
                                 className={`${styles.datePickerContainer}`}
                                 value={availableDateTime.date}
                                 onChange={(v) => {
@@ -420,7 +420,7 @@ export default function MyActivitiesEditPage() {
                                         },
                                       },
                                     }}
-                                    readOnly={Boolean(id)}
+                                    readOnly={Boolean(availableDateTime.id)}
                                     value={availableDateTime.startTime}
                                     onChange={(v) => {
                                       field.value[index].startTime = v;
@@ -440,7 +440,7 @@ export default function MyActivitiesEditPage() {
                                       },
                                     },
                                   }}
-                                  readOnly={Boolean(id)}
+                                  readOnly={Boolean(availableDateTime.id)}
                                   value={availableDateTime.endTime}
                                   onChange={(v) => {
                                     field.value[index].endTime = v;
@@ -595,7 +595,7 @@ export default function MyActivitiesEditPage() {
       {showCreateModal &&
         createPortal(
           <Modal
-            content={<Dialog message='체험 등록이 완료되었습니다' handleModalState={handleCreateModalState} />}
+            content={<Dialog message='체험 수정이 완료되었습니다' handleModalState={handleCreateModalState} />}
             handleModalState={handleCreateModalState}
           />,
           document.body,
