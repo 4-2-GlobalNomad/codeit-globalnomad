@@ -103,12 +103,16 @@ export default function MyActivityModal(props: {
     setSelected(i);
   };
 
+  const handleClose = () => {
+    props.handleModalState();
+  };
+
   return (
     <div className={styles.background} onClick={props.handleModalState}>
       <div className={styles.modalArea} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <h3 className={styles.title}>{`${month}월 ${date}일 예약 정보`}</h3>
-          <ButtonX className={styles.btnX} />
+          <ButtonX className={styles.btnX} onClick={handleClose} />
         </div>
         <div className={styles.context}>
           <div className={styles.bundle}>
