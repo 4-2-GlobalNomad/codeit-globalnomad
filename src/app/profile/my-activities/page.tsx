@@ -11,14 +11,11 @@ export default function MyActivitiesPage() {
   const router = useRouter();
 
   const [isMobile, setIsMobile] = useState(false);
-  const [isPCOrTablet, setIsPCOrTablet] = useState(false);
   const mobileQuery = useMediaQuery({ query: '(max-width: 767px)' });
-  const PCOrTabletQuery = useMediaQuery({ query: '(min-width: 768px)' });
 
   useEffect(() => {
-    setIsPCOrTablet(PCOrTabletQuery);
     setIsMobile(mobileQuery);
-  }, [PCOrTabletQuery, mobileQuery]);
+  }, [mobileQuery]);
 
   const handleClick = () => {
     router.push('/profile/my-activities/create');
@@ -27,7 +24,7 @@ export default function MyActivitiesPage() {
   return (
     <div className={styles.myActivitiesPageContainer}>
       <div className={styles.topLayout}>
-        {isMobile && (
+        {isMobile ? (
           <>
             <div>
               <div className={styles.mobileMenuTitle}>
@@ -39,8 +36,7 @@ export default function MyActivitiesPage() {
               체험 등록
             </button>
           </>
-        )}
-        {isPCOrTablet && (
+        ) : (
           <>
             <h2 className={styles.h2Title}>내 체험 관리</h2>
             <button onClick={handleClick} className={styles.createButton}>
