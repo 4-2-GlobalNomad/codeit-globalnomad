@@ -86,3 +86,9 @@ export const priceText = style([
   fontSizes.textXl,
   fontWeights.medium,
 ]);
+
+export const loadingBarWrapper = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+});

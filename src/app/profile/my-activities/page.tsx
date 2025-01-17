@@ -49,6 +49,7 @@ export default function MyActivitiesPage() {
           </>
         )}
       </div>
+      {/* 내 예약 카드 리스트 */}
       <CardList />
     </div>
   );

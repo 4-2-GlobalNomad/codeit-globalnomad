@@ -6,6 +6,7 @@ import { useDeleteActivity } from '@/hooks/use-delete-activity';
 import { useMyActivities } from '@/hooks/use-my-activities';
 import { MyActivitiesList } from '@/types/my-activities-list';
 import { formatToKor } from '@/utils/format-to-kor';
+import { CircularProgress } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import Image from 'next/image';
@@ -107,17 +108,8 @@ export default function CardList() {
         </div>
       ))}
       {isFetchingNextPage && (
-        <div
-          style={{
-            background: 'black',
-            color: 'white',
-            height: '200px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <h1>Loading..</h1>
+        <div className={styles.loadingBarWrapper}>
+          <CircularProgress color='inherit' />
         </div>
       )}
       <div ref={targetRef} />
