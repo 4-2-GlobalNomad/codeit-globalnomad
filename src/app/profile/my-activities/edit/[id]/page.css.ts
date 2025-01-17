@@ -128,17 +128,45 @@ export const subImageUploadBox = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+
+  '@media': {
+    'screen and (max-width: 767px)': {
+      width: '100%',
+      height: '100%',
+      padding: '1rem',
+      minHeight: '16.7rem',
+    },
+  },
 });
 
 export const subImageContainer = style({
   display: 'flex',
   flexWrap: 'wrap',
   gap: '2.4rem',
+
+  '@media': {
+    'screen and (max-width: 767px)': {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gridTemplateRows: '1fr 1fr 1fr',
+      gap: '0.8rem',
+      minHeight: '16.7rem',
+    },
+  },
 });
 
 export const fileUploadLayout = style({
   display: 'flex',
   gap: '1.6rem',
+
+  '@media': {
+    'screen and (max-width: 767px)': {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: '0.8rem',
+      minHeight: '16.7rem',
+    },
+  },
 });
 
 export const previewImageContainer = style({
@@ -151,6 +179,13 @@ export const previewImageBox = style({
   height: '18rem',
   overflow: 'hidden',
   position: 'relative',
+
+  '@media': {
+    'screen and (max-width: 767px)': {
+      width: '100%',
+      height: '100%',
+    },
+  },
 });
 
 export const btnCanceled = style({
@@ -169,6 +204,14 @@ export const fileUploadContainer = style({
   width: '18rem',
   height: '18rem',
   cursor: 'pointer',
+
+  '@media': {
+    'screen and (max-width: 767px)': {
+      width: '100%',
+      height: '100%',
+      padding: '1rem',
+    },
+  },
 });
 
 export const fileUploadDefault = style([fileUploadContainer, { border: `1px dashed ${global.color.gray[900]}` }]);
