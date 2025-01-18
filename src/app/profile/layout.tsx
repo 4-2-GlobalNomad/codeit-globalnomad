@@ -33,7 +33,9 @@ export default function ProfilePageLayout({ children }: { children: React.ReactN
     },
     {
       title: '예약 내역',
-
+      onClick: () => {
+        router.push('/profile/my-reservations');
+      },
       icon: <TextBoxCheck />,
     },
     {
@@ -45,6 +47,9 @@ export default function ProfilePageLayout({ children }: { children: React.ReactN
     },
     {
       title: '예약 현황',
+      onClick: () => {
+        router.push('/profile/my-activity-board');
+      },
       icon: <CalendarCheck />,
     },
   ];
