@@ -120,8 +120,8 @@ export default function MyActivityModal(props: {
             <DropDownB
               options={scheduleList.map((item) => `${item.startTime} ~ ${item.endTime}`)}
               onSelect={handleSelect}
-              placeholder='00:00 ~ 00:00'
-              width='300px'
+              placeholder='체험 시간을 선택해주세요'
+              width='250px'
             />
           </div>
           <div className={styles.bundle}>

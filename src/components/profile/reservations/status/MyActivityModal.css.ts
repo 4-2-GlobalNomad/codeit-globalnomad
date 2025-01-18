@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
 export const background = style({
+  backgroundColor: 'rgba(0, 0, 0, 0.7)',
   position: 'fixed',
   top: '0',
   left: '0',
@@ -24,6 +25,14 @@ export const modalArea = style({
   borderRadius: '2.4rem',
   border: `1px solid ${global.color.gray[300]}`,
   boxShadow: '0 4px 16px 0 rgb(11 22 11 / 5%)',
+
+  '@media': {
+    'screen and (min-width: 320px) and (max-width: 767px)': {
+      height: '100%',
+      width: '100%',
+      borderRadius: '0',
+    },
+  },
 });
 
 export const header = style({
