@@ -117,9 +117,21 @@ export default function ProfileSideNavMenu(props: ProfileSideNavMenuProps) {
       <div className={styles.profileImageContainer}>
         <div className={styles.profileImageBox}>
           {previewImageSrc ? (
-            <Image src={previewImageSrc} alt='프로필 이미지' className={styles.profileImage} fill />
+            <Image
+              src={previewImageSrc}
+              alt='프로필 이미지'
+              className={styles.profileImage}
+              fill
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+            />
           ) : profileImageUrl ? (
-            <Image src={profileImageUrl} alt='프로필 이미지' className={styles.profileImage} fill />
+            <Image
+              src={profileImageUrl}
+              alt='프로필 이미지'
+              className={styles.profileImage}
+              fill
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+            />
           ) : (
             <Image src={defaultUserImage} alt='프로필 이미지' className={styles.defaultImage} width={60} height={60} />
           )}
