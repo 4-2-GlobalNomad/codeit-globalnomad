@@ -10,6 +10,7 @@ export const background = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  zIndex: '10',
 });
 
 export const modalArea = style({
