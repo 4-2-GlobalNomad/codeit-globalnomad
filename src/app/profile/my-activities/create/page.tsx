@@ -65,8 +65,6 @@ export default function MyActivitiesCreatePage() {
       return;
     }
 
-    // console.log(bannerImageUrl);
-
     const subImageUrls: string[] = [];
     if (data.subfileImage) {
       for await (const image of data.subfileImage) {
@@ -89,8 +87,6 @@ export default function MyActivitiesCreatePage() {
       bannerImageUrl: bannerImageUrl,
       subImageUrls: subImageUrls,
     };
-
-    // console.log(myActivitiesCreateData);
 
     mutation.mutate(myActivitiesCreateData, {
       onSuccess: () => {
