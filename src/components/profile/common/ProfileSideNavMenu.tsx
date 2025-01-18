@@ -1,9 +1,10 @@
 'use client';
 
+import { fetchUserInfo } from '@/apis/users';
 import Pen from '@/assets/icons/pen.svg';
-import DefaultUser from '@/assets/images/default-user.png';
+import defaultUserImage from '@/assets/images/default-user.png';
 import Image from 'next/image';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import * as styles from './ProfileSideNavMenu.css';
 
 interface ProfileSideNavMenuProps {
@@ -72,6 +73,20 @@ interface ProfileSideNavMenuProps {
  */
 export default function ProfileSideNavMenu(props: ProfileSideNavMenuProps) {
   const [previewImageSrc, setPreviewImageSrc] = useState<string | null>(null);
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
+
+  const loadUserInfo = async () => {
+    try {
+      const userInfo = await fetchUserInfo();
+      setProfileImageUrl(userInfo.profileImageUrl || null);
+    } catch (error) {
+      console.error('유저 정보 가져오기 실패:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadUserInfo();
+  }, []);
 
   const encodeFileToBase64 = (fileBlob: File) => {
     const reader = new FileReader();
@@ -103,8 +118,10 @@ export default function ProfileSideNavMenu(props: ProfileSideNavMenuProps) {
         <div className={styles.profileImageBox}>
           {previewImageSrc ? (
             <Image src={previewImageSrc} alt='프로필 이미지' className={styles.profileImage} fill />
+          ) : profileImageUrl ? (
+            <Image src={profileImageUrl} alt='프로필 이미지' className={styles.profileImage} fill />
           ) : (
-            <Image src={DefaultUser} alt='프로필 이미지' className={styles.defaultImage} width={60} height={60} />
+            <Image src={defaultUserImage} alt='프로필 이미지' className={styles.defaultImage} width={60} height={60} />
           )}
         </div>
         <label className={styles.penIconBox} htmlFor='file-upload'>
