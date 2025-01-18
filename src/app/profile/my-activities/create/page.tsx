@@ -101,7 +101,7 @@ export default function MyActivitiesCreatePage() {
   };
 
   const [isMobile, setIsMobile] = useState(false);
-  const [isPCOrTablet, setIsPCOrTablet] = useState(false);
+  const [isPCOrTablet, setIsPCOrTablet] = useState(true);
   const mobileQuery = useMediaQuery({ query: '(max-width: 767px)' });
   const PCOrTabletQuery = useMediaQuery({ query: '(min-width: 768px)' });
 

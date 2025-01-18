@@ -14,7 +14,7 @@ export default function ProfilePageLayout({ children }: { children: React.ReactN
   const router = useRouter();
   const [, setImageFile] = useState<File | null>(null);
 
-  const [isPCOrTablet, setIsPCOrTablet] = useState(false);
+  const [isPCOrTablet, setIsPCOrTablet] = useState(true);
 
   const PCOrTabletQuery = useMediaQuery({ query: '(min-width: 768px)' });
 
