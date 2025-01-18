@@ -23,7 +23,7 @@ export const menuItem = style({
 });
 
 globalStyle('.css-1tktgsa-MuiPaper-root-MuiPopover-paper-MuiMenu-paper', {
-  boxShadow: 'none',
-  borderRadius: '6px 0',
-  border: `1px solid ${global.color.gray[300]}`,
+  boxShadow: 'none !important',
+  borderRadius: '6px 0 !important',
+  border: `1px solid ${global.color.gray[300]} !important`,
 });

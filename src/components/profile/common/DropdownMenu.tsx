@@ -38,7 +38,7 @@ export default function DropdownMenu({ activityId, handleDelete }: DropdownMenuP
         <MeatballIcon />
       </Button>
       <Menu
-        sx={{ boxShadow: 'none' }}
+        sx={{ boxShadow: 'none !important' }}
         className={styles.menuContainer}
         id='basic-menu'
         anchorEl={anchorEl}
