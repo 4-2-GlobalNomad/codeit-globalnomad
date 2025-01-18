@@ -2,7 +2,7 @@
 
 import { fetchMyActivityList, fetchMyCalendarEvent } from '@/apis/my-activity-board';
 import DropDownB from '@/components/dropdown/DropDownB';
-import MyActivityCalendar from '@/components/profile/reservations/status/MyActivityCalendar';
+import MyActivityCalendar from '@/components/profile/my-activity-board/MyActivityCalendar';
 import { useEffect, useMemo, useState } from 'react';
 import * as styles from './page.css';
 

@@ -1,4 +1,4 @@
-import { CalendarEvent } from '@/app/profile/reservations/status/page';
+import { CalendarEvent } from '@/app/profile/my-activity-board/page';
 import Dialog from '@/components/modal/Dialog';
 import Modal from '@/components/modal/Modal';
 import dayjs from 'dayjs';

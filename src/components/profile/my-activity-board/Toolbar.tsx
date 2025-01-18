@@ -1,4 +1,4 @@
-import { CalendarEvent } from '@/app/profile/reservations/status/page';
+import { CalendarEvent } from '@/app/profile/my-activity-board/page';
 import ArrowLeft from '@/assets/icons/double-arrow-left.svg';
 import ArrowRight from '@/assets/icons/double-arrow-right.svg';
 import { ToolbarProps } from 'react-big-calendar';

@@ -1,8 +1,8 @@
 'use client';
 
 import DropDownB from '@/components/dropdown/DropDownB';
-import EmptyCard from '@/components/profile/reservations/history/EmptyCard';
-import ReservationCard, { ReservationData } from '@/components/profile/reservations/history/ReservationCard';
+import EmptyCard from '@/components/profile/my-reservations/EmptyCard';
+import ReservationCard, { ReservationData } from '@/components/profile/my-reservations/ReservationCard';
 import { useMyReservations } from '@/hooks/use-my-reservations';
 import { useEffect, useRef, useState } from 'react';
 import * as styles from './page.css';
