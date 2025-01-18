@@ -1,8 +1,5 @@
-'use client';
-
 import Empty from '@/assets/icons/empty.svg';
 import StarIcon from '@/assets/icons/star-fill.svg';
-import DropDownA from '@/components/dropdown/DropDownA';
 import { useDeleteActivity } from '@/hooks/use-delete-activity';
 import { useMyActivities } from '@/hooks/use-my-activities';
 import { MyActivitiesList } from '@/types/my-activities-list';
@@ -11,14 +8,13 @@ import { CircularProgress, Skeleton } from '@mui/material';
 import { useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import DropdownMenu from '../common/DropdownMenu';
 import * as styles from './CardList.css';
 
 export default function CardList() {
   const { data, isLoading, fetchNextPage, isFetchingNextPage } = useMyActivities();
   const targetRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
   const [, setIsDropdownOpen] = useState(false);
   const mutation = useDeleteActivity();
   const queryClient = useQueryClient();
@@ -69,7 +65,7 @@ export default function CardList() {
           {new Array(3).fill('').map((_, index) => (
             <div className={styles.cardSection} key={`skeleton-${index}`}>
               <div className={styles.cardImageContainer}>
-                <Skeleton variant='rectangular' width='100%' height={200} animation='wave' />
+                <Skeleton variant='rectangular' width='100%' height={'100%'} animation='wave' />
               </div>
               <div className={styles.cardContentLayout}>
                 <div className={styles.cardTopLayout}>
@@ -94,8 +90,8 @@ export default function CardList() {
                 <div className={styles.cardImageContainer}>
                   <Image
                     src={activity.bannerImageUrl}
-                    fill
                     sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                    fill
                     loading='lazy'
                     alt={'체험 이미지'}
                     className={styles.responsiveImage}
@@ -113,18 +109,7 @@ export default function CardList() {
                   <div className={styles.cardBottomLayout}>
                     <p className={styles.priceText}>{formatToKor(activity.price)}</p>
                     <div onClick={handleClick}>
-                      <DropDownA
-                        onSelect={(option) => {
-                          if (option === '수정하기') {
-                            router.push(`/profile/my-activities/edit/${activity.id}`);
-                          } else if (option === '삭제하기') {
-                            if (confirm('삭제 하시겠습니까?')) {
-                              handleDelete(activity.id);
-                            }
-                          }
-                        }}
-                        options={['수정하기', '삭제하기']}
-                      />
+                      <DropdownMenu handleDelete={handleDelete} activityId={activity.id} />
                     </div>
                   </div>
                 </div>
