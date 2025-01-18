@@ -2,7 +2,7 @@ import { Button } from '@/components/button/Button';
 import Modal from '@/components/modal/Modal';
 import { STATUS_STYLE as STATUS } from '@/constants/RESERVATION_STATUS';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import CancelModal from './CancelModal';
@@ -27,7 +27,7 @@ export interface ReservationData {
 }
 
 export default function ReservationCard(props: { data: ReservationData }) {
-  const router = useRouter();
+  // const router = useRouter();
   const [showCancelModal, setShowCancelModal] = useState(false);
   const handleCancelModalState = () => setShowCancelModal(!showCancelModal);
 
@@ -42,7 +42,7 @@ export default function ReservationCard(props: { data: ReservationData }) {
   const title = props.data.activity.title;
 
   const handleTitleClick = () => {
-    router.push(`/activity/${props.data.activity.id}`);
+    // router.push(`/activity/${props.data.activity.id}`);
   };
 
   return (
