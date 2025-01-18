@@ -556,7 +556,12 @@ export default function MyActivitiesEditPage() {
                     {imageSrc && (
                       <div className={styles.previewImageContainer}>
                         <div className={styles.previewImageBox}>
-                          <Image fill src={imageSrc} alt='배너 이미지' />
+                          <Image
+                            fill
+                            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                            src={imageSrc}
+                            alt='배너 이미지'
+                          />
                         </div>
                         {imageSrc !== null && (
                           <BtnCanceled className={styles.btnCanceled} onClick={handleSingleImageCancelClick} />
@@ -623,7 +628,12 @@ export default function MyActivitiesEditPage() {
                   {getValues('subfileImage')?.map(({ src }: { src: string }, index: number) => (
                     <div key={index} className={styles.previewImageContainer}>
                       <div className={styles.previewImageBox}>
-                        <Image fill src={src} alt={`소개 이미지 미리보기 ${index + 1}`} />
+                        <Image
+                          fill
+                          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                          src={src}
+                          alt={`소개 이미지 미리보기 ${index + 1}`}
+                        />
                       </div>
                       <BtnCanceled
                         className={styles.btnCanceled}
