@@ -77,9 +77,7 @@ export const BtnAddressFinder = style({
   backgroundColor: global.color.green[200],
   color: '#fff',
   borderRadius: '0.8rem',
-  padding: '0.8rem 1.6rem',
-
-  height: '59.6px',
+  textAlign: 'center',
 });
 
 export const subImageUploadBox = style({
@@ -255,12 +253,12 @@ export const waveSign = style({
 export const datePickerLabel = style([
   {
     gridColumn: 1,
-    fontSize: '2rem',
+    fontSize: '20px',
     marginBottom: '1rem',
 
     '@media': {
       'screen and (max-width: 767px)': {
-        fontSize: '1.6rem',
+        fontSize: '16px',
       },
     },
   },
@@ -277,10 +275,10 @@ export const startTimePickerLabel = style([
       },
       'screen and (max-width: 767px)': {
         gridColumn: 2,
-        fontSize: '1.6rem',
+        fontSize: '16px',
       },
     },
-    fontSize: '2rem',
+    fontSize: '20px',
   },
   fontWeights.medium,
   fontSizes.textXl,
@@ -295,10 +293,10 @@ export const endTimePickerLabel = style([
       },
       'screen and (max-width: 767px)': {
         gridColumn: 3,
-        fontSize: '1.6rem',
+        fontSize: '16px',
       },
     },
-    fontSize: '2rem',
+    fontSize: '20px',
   },
   fontWeights.medium,
   fontSizes.textXl,
@@ -491,37 +489,37 @@ globalStyle('.css-jupps9-MuiInputBase-root-MuiOutlinedInput-root', {
 
 // mui input placeholder 글씨 크기
 globalStyle('.css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input', {
-  fontSize: '1.6rem',
+  fontSize: '16px',
 });
 
 globalStyle('.css-17f9e7e-MuiTypography-root-MuiDayCalendar-weekDayLabel', {
-  fontSize: '1.4rem',
+  fontSize: '14px',
 });
 
 globalStyle('.css-4k4mmf-MuiButtonBase-root-MuiPickersDay-root', {
-  fontSize: '1.3rem',
+  fontSize: '13px',
 });
 
 globalStyle('.css-qct7wd-MuiButtonBase-root-MuiPickersDay-root:focus.Mui-selected', {
-  fontSize: '1.3rem',
+  fontSize: '13px',
 });
 
 globalStyle('.css-qct7wd-MuiButtonBase-root-MuiPickersDay-root:focus', {
-  fontSize: '1.3rem',
+  fontSize: '13px',
 });
 
 globalStyle('.css-1chuxo2-MuiPickersCalendarHeader-label', {
-  fontSize: '1.4rem',
+  fontSize: '14px',
 });
 
 // 시계 글씨 크기
 globalStyle('.css-ux17pc-MuiButtonBase-root-MuiMenuItem-root-MuiMultiSectionDigitalClockSection-item', {
-  fontSize: '1.3rem',
+  fontSize: '13px',
 });
 
 // 시계 ok 글씨 크기
 globalStyle('.css-1588512-MuiButtonBase-root-MuiButton-root', {
-  fontSize: '1.4rem',
+  fontSize: '14px',
 });
 
 // input 내, svg 크기
