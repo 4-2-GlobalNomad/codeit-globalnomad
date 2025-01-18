@@ -1,5 +1,5 @@
 import { fontSizes, fontWeights } from '@/styles/fontStyles.css';
-import { globalStyle, style } from '@vanilla-extract/css';
+import { globalStyle, style, styleVariants } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
 export const activitiesPageContainer = style({
@@ -139,7 +139,7 @@ export const subImageUploadBox = style({
   },
 });
 
-export const subImageContainer = style({
+export const baseSubImageContainer = style({
   display: 'flex',
   flexWrap: 'wrap',
   gap: '2.4rem',
@@ -148,11 +148,26 @@ export const subImageContainer = style({
     'screen and (max-width: 767px)': {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
-      gridTemplateRows: '1fr 1fr 1fr',
       gap: '0.8rem',
       minHeight: '16.7rem',
     },
   },
+});
+
+export const subImageBox = styleVariants({
+  0: [baseSubImageContainer, {}],
+  2: [
+    baseSubImageContainer,
+    {
+      gridTemplateRows: '1fr 1fr',
+    },
+  ],
+  4: [
+    baseSubImageContainer,
+    {
+      gridTemplateRows: '1fr 1fr 1fr',
+    },
+  ],
 });
 
 export const fileUploadLayout = style({

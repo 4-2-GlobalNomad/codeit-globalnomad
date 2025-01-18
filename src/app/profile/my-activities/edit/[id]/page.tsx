@@ -569,7 +569,19 @@ export default function MyActivitiesEditPage() {
                   )}
                 </div>
                 <h2 className={styles.inputTitle}>소개 이미지</h2>
-                <div className={styles.subImageContainer}>
+                <div
+                  className={
+                    getValues('subfileImage') === undefined ||
+                    getValues('subfileImage').length === 0 ||
+                    getValues('subfileImage').length === 1
+                      ? styles.subImageBox[0]
+                      : getValues('subfileImage').length === 2 || getValues('subfileImage').length === 3
+                        ? styles.subImageBox[2]
+                        : getValues('subfileImage').length === 4
+                          ? `${styles.subImageBox[4]}`
+                          : styles.baseSubImageContainer
+                  }
+                >
                   <div className={styles.subImageUploadBox} onClick={handleSubFileClick}>
                     <label htmlFor='subfile-upload' />
                     <div>
