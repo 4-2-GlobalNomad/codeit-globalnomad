@@ -1,5 +1,6 @@
 'use client';
 
+import Empty from '@/assets/icons/empty.svg';
 import StarIcon from '@/assets/icons/star-fill.svg';
 import DropDownA from '@/components/dropdown/DropDownA';
 import { useDeleteActivity } from '@/hooks/use-delete-activity';
@@ -60,6 +61,7 @@ export default function CardList() {
       }
     };
   }, [fetchNextPage]);
+
   return (
     <section>
       {isLoading && (
@@ -135,6 +137,16 @@ export default function CardList() {
       {isFetchingNextPage && (
         <div className={styles.loadingBarWrapper}>
           <CircularProgress color='inherit' />
+        </div>
+      )}
+
+      {/* 데이터가 없을 때 */}
+      {data?.pages[0].totalCount === 0 && (
+        <div className={styles.noDataLayout}>
+          <div className={styles.emptyBox}>
+            <Empty />
+          </div>
+          <p>아직 등록한 체험이 없어요</p>
         </div>
       )}
 

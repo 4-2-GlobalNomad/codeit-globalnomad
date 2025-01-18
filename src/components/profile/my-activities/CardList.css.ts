@@ -87,6 +87,28 @@ export const priceText = style([
   fontWeights.medium,
 ]);
 
+export const noDataLayout = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+});
+
+export const emptyBox = style({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  width: '24rem',
+  height: '24rem',
+
+  '@media': {
+    'screen and (min-width: 320px) and (max-width: 1199px)': {
+      width: '20rem',
+      height: '20rem',
+    },
+  },
+});
+
 export const loadingBarWrapper = style({
   display: 'flex',
   justifyContent: 'center',
