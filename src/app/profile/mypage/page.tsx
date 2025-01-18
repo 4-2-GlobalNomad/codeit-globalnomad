@@ -94,6 +94,7 @@ export default function ProfileEdit() {
 
         await updateUserInfo(requestData);
         router.push('/profile/mypage');
+        window.location.reload();
       } catch (error) {
         console.error(error);
       } finally {
