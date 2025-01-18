@@ -2,7 +2,7 @@ import { globalStyle, style } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
 export const menuContainer = style({
-  borderRadius: '0.6rem 0',
+  borderRadius: '6px 0',
 });
 
 export const button = style({
@@ -16,7 +16,7 @@ export const button = style({
 
 export const menuItem = style({
   color: global.color.gray[900],
-  padding: '1.8rem 4.6rem',
+  padding: '18px 46px',
   fontSize: global.fontSize.regular,
   lineHeight: global.lineHeights.small,
   fontWeight: 500,
@@ -24,6 +24,6 @@ export const menuItem = style({
 
 globalStyle('.css-1tktgsa-MuiPaper-root-MuiPopover-paper-MuiMenu-paper', {
   boxShadow: 'none',
-  borderRadius: '0.6rem 0',
+  borderRadius: '6px 0',
   border: `1px solid ${global.color.gray[300]}`,
 });

@@ -3,22 +3,22 @@ import { globalStyle, style, styleVariants } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
 export const activitiesPageContainer = style({
-  marginBottom: '12rem',
-  maxWidth: '80rem',
+  marginBottom: '120px',
+  maxWidth: '800px',
   margin: '0 auto',
 });
 
 export const topLayout = style({
   display: 'flex',
   justifyContent: 'space-between',
-  maxWidth: '80rem',
+  maxWidth: '800px',
   margin: '0 auto',
-  marginBottom: '3.4rem',
+  marginBottom: '34px',
 });
 
 export const mobileMenuTitle = style({
   display: 'flex',
-  gap: '0.2rem',
+  gap: '2px',
 });
 
 export const h2Title = style([fontSizes.text3xl, fontWeights.bold]);
@@ -27,8 +27,8 @@ export const submitButton = style([
   {
     backgroundColor: global.color.nomadBlack,
     color: '#fff',
-    padding: '0.8rem 1.6rem',
-    borderRadius: '0.4rem',
+    padding: '8px 16px',
+    borderRadius: '4px',
 
     '@media': {
       'screen and (max-width: 767px)': {
@@ -41,7 +41,7 @@ export const submitButton = style([
 ]);
 
 export const selectBoxContainer = style({
-  borderRadius: '0.4rem',
+  borderRadius: '4px',
   position: 'relative',
 });
 
@@ -64,7 +64,7 @@ export const dashedErrorStyle = style({
 });
 
 export const errorMessageStyle = style({
-  margin: '0.8rem 0 2.1rem',
+  margin: '8px 0 21px',
   color: global.color.red[300],
 });
 
@@ -73,16 +73,16 @@ export const inputTitle = style([{}, fontSizes.text2xl, fontWeights.bold]);
 export const addressContainer = style({
   display: 'grid',
   gridTemplateColumns: '1fr 59.6px',
-  columnGap: '2rem',
+  columnGap: '20px',
 
   '@media': {
     'screen and (min-width: 768px) and (max-width: 1199px)': {
       gridTemplateColumns: 'auto 59.6px',
-      columnGap: '0.5rem',
+      columnGap: '5px',
     },
     'screen and (max-width: 767px)': {
       gridTemplateColumns: 'auto 59.6px',
-      columnGap: '0.4rem',
+      columnGap: '4px',
     },
   },
 });
@@ -90,12 +90,12 @@ export const addressContainer = style({
 export const addressInputBox = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '1.2rem',
+  gap: '12px',
 
   '@media': {
     'screen and (max-width: 767px)': {
-      gap: '0rem',
-      marginBottom: '1.2rem',
+      gap: '0px',
+      marginBottom: '12px',
     },
   },
 });
@@ -103,24 +103,24 @@ export const addressInputBox = style({
 export const detailAddressInput = style({
   '@media': {
     'screen and (max-width: 767px)': {
-      marginTop: '0.4rem',
+      marginTop: '4px',
     },
   },
 });
 
 export const BtnAddressFinder = style({
-  flexBasis: '5.6rem',
+  flexBasis: '56px',
   whiteSpace: 'nowrap',
   backgroundColor: global.color.green[200],
   color: '#fff',
-  borderRadius: '0.8rem',
+  borderRadius: '8px',
 });
 
 export const subImageUploadBox = style({
   border: `1px dashed ${global.color.gray[900]}`,
-  borderRadius: '1.2rem',
-  width: '18rem',
-  height: '18rem',
+  borderRadius: '12px',
+  width: '180px',
+  height: '180px',
   cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
@@ -130,8 +130,8 @@ export const subImageUploadBox = style({
     'screen and (max-width: 767px)': {
       width: '100%',
       height: '100%',
-      padding: '1rem',
-      minHeight: '16.7rem',
+      padding: '10px',
+      minHeight: '167px',
     },
   },
 });
@@ -139,14 +139,14 @@ export const subImageUploadBox = style({
 export const baseSubImageContainer = style({
   display: 'flex',
   flexWrap: 'wrap',
-  gap: '2.4rem',
+  gap: '24px',
 
   '@media': {
     'screen and (max-width: 767px)': {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
-      gap: '0.8rem',
-      minHeight: '16.7rem',
+      gap: '8px',
+      minHeight: '167px',
     },
   },
 });
@@ -169,14 +169,14 @@ export const subImageBox = styleVariants({
 
 export const fileUploadLayout = style({
   display: 'flex',
-  gap: '1.6rem',
+  gap: '16px',
 
   '@media': {
     'screen and (max-width: 767px)': {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
-      gap: '0.8rem',
-      minHeight: '16.7rem',
+      gap: '8px',
+      minHeight: '167px',
     },
   },
 });
@@ -186,9 +186,9 @@ export const previewImageContainer = style({
 });
 
 export const previewImageBox = style({
-  borderRadius: '2.4rem',
-  width: '18rem',
-  height: '18rem',
+  borderRadius: '24px',
+  width: '180px',
+  height: '180px',
   overflow: 'hidden',
   position: 'relative',
 
@@ -202,8 +202,8 @@ export const previewImageBox = style({
 
 export const btnCanceled = style({
   position: 'absolute',
-  right: '-1.2rem',
-  top: '-1.6rem',
+  right: '-12px',
+  top: '-16px',
   cursor: 'pointer',
 });
 
@@ -212,16 +212,16 @@ export const fileUploadContainer = style({
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column',
-  borderRadius: '1.2rem',
-  width: '18rem',
-  height: '18rem',
+  borderRadius: '12px',
+  width: '180px',
+  height: '180px',
   cursor: 'pointer',
 
   '@media': {
     'screen and (max-width: 767px)': {
       width: '100%',
       height: '100%',
-      padding: '1rem',
+      padding: '10px',
     },
   },
 });
@@ -236,7 +236,7 @@ export const fileUploadtext = style([
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '3rem',
+    gap: '30px',
     color: global.color.gray[900],
   },
   fontSizes.text2xl,
@@ -269,9 +269,9 @@ export const endTimePickerContainer = style({
 export const descriptionInput = style({
   resize: 'none',
   width: '100%',
-  height: '34.6rem',
-  borderRadius: '0.4rem',
-  padding: '1.6rem 0.8rem 0 1.6rem',
+  height: '346px',
+  borderRadius: '4px',
+  padding: '16px 8px 0 16px',
 
   '::placeholder': {
     color: global.color.gray[600],
@@ -281,14 +281,14 @@ export const descriptionInput = style({
 export const inputContainer = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '1.6rem',
+  gap: '16px',
 });
 
 export const inputSectionContainer = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '2.4rem',
-  marginBottom: '42.9rem',
+  gap: '24px',
+  marginBottom: '429px',
 });
 
 export const waveSign = style({
@@ -310,12 +310,12 @@ export const waveSign = style({
 export const datePickerLabel = style([
   {
     gridColumn: 1,
-    fontSize: '2rem',
-    marginBottom: '1rem',
+    fontSize: '20px',
+    marginBottom: '10px',
 
     '@media': {
       'screen and (max-width: 767px)': {
-        fontSize: '1.6rem',
+        fontSize: '16px',
       },
     },
   },
@@ -332,10 +332,10 @@ export const startTimePickerLabel = style([
       },
       'screen and (max-width: 767px)': {
         gridColumn: 2,
-        fontSize: '1.6rem',
+        fontSize: '16px',
       },
     },
-    fontSize: '2rem',
+    fontSize: '20px',
   },
   fontWeights.medium,
   fontSizes.textXl,
@@ -362,10 +362,10 @@ export const endTimePickerLabel = style([
       },
       'screen and (max-width: 767px)': {
         gridColumn: 3,
-        fontSize: '1.6rem',
+        fontSize: '16px',
       },
     },
-    fontSize: '2rem',
+    fontSize: '20px',
   },
   fontWeights.medium,
   fontSizes.textXl,
@@ -394,23 +394,23 @@ export const categoryInput = style({
 
 export const selectBoxList = style({
   position: 'absolute',
-  top: '6.4rem',
+  top: '64px',
   width: '100%',
   background: '#fff',
-  borderRadius: '0.4rem',
+  borderRadius: '4px',
   zIndex: 1,
   boxShadow: '0 10px 30px 3px rgba(5, 16, 55, 0.15)',
-  padding: '0.8rem 0',
+  padding: '8px 0',
 });
 
 export const selectBoxItem = style({
-  padding: '0.8rem',
-  margin: '0.8rem',
-  borderRadius: '0.6rem',
+  padding: '8px',
+  margin: '8px',
+  borderRadius: '6px',
   cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
-  gap: '0.8rem',
+  gap: '8px',
 
   ':hover': {
     background: global.color.nomadBlack,
@@ -421,11 +421,11 @@ export const selectBoxItem = style({
 export const selectedOptionStyle = style({
   color: global.color.black,
   display: 'flex',
-  height: '5.4rem',
+  height: '54px',
   alignItems: 'center',
-  borderRadius: '0.4rem',
+  borderRadius: '4px',
   overflow: 'hidden',
-  padding: '1.5rem 1.6rem',
+  padding: '15px 16px',
   cursor: 'pointer',
 
   selectors: {
@@ -450,7 +450,7 @@ export const checkMark = style({
 
 // 달력 커스텀
 globalStyle('.react-datepicker__input-container .react-datepicker__calendar-icon', {
-  right: '1.6rem',
+  right: '16px',
 });
 
 globalStyle('.react-datepicker__view-calendar-icon input', {
@@ -493,14 +493,14 @@ export const horizon = style({
     },
   },
   border: `1px solid ${global.color.gray[300]}`,
-  marginBottom: '2.1rem',
+  marginBottom: '21px',
 });
 
 export const dateTimePickerContainer = style({
   display: 'grid',
   gridTemplateColumns: '1fr 1fr auto',
-  gap: '2rem',
-  height: '5.6rem',
+  gap: '20px',
+  height: '56px',
   alignItems: 'center',
 });
 
@@ -519,12 +519,12 @@ export const TimeButton = style({
 
 export const datePickerContainer = style({
   gridColumn: 1,
-  marginBottom: '2.1rem',
+  marginBottom: '21px',
 });
 
 export const timePickerContainer = style({
   display: 'flex',
-  gap: '1.2rem',
+  gap: '12px',
   alignItems: 'center',
 });
 
@@ -536,42 +536,42 @@ export const descPhrase = style([
 ]);
 
 globalStyle('.css-jupps9-MuiInputBase-root-MuiOutlinedInput-root', {
-  height: '5.6rem',
+  height: '56px',
 });
 
 // mui input placeholder 글씨 크기
 globalStyle('.css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input', {
-  fontSize: '1.6rem',
+  fontSize: '16px',
 });
 
 globalStyle('.css-17f9e7e-MuiTypography-root-MuiDayCalendar-weekDayLabel', {
-  fontSize: '1.4rem',
+  fontSize: '14px',
 });
 
 globalStyle('.css-4k4mmf-MuiButtonBase-root-MuiPickersDay-root', {
-  fontSize: '1.3rem',
+  fontSize: '13px',
 });
 
 globalStyle('.css-qct7wd-MuiButtonBase-root-MuiPickersDay-root:focus.Mui-selected', {
-  fontSize: '1.3rem',
+  fontSize: '13px',
 });
 
 globalStyle('.css-qct7wd-MuiButtonBase-root-MuiPickersDay-root:focus', {
-  fontSize: '1.3rem',
+  fontSize: '13px',
 });
 
 globalStyle('.css-1chuxo2-MuiPickersCalendarHeader-label', {
-  fontSize: '1.4rem',
+  fontSize: '14px',
 });
 
 // 시계 글씨 크기
 globalStyle('.css-ux17pc-MuiButtonBase-root-MuiMenuItem-root-MuiMultiSectionDigitalClockSection-item', {
-  fontSize: '1.3rem',
+  fontSize: '13px',
 });
 
 // 시계 ok 글씨 크기
 globalStyle('.css-1588512-MuiButtonBase-root-MuiButton-root', {
-  fontSize: '1.4rem',
+  fontSize: '14px',
 });
 
 // input 내, svg 크기

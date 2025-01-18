@@ -2,9 +2,9 @@ import { style } from '@vanilla-extract/css';
 
 export const profileImageContainer = style({
   position: 'relative',
-  width: '13rem',
-  height: '13rem',
-  margin: '2.4rem auto',
+  width: '130px',
+  height: '130px',
+  margin: '24px auto',
 });
 
 export const profileUserNameLayout = style({
@@ -38,6 +38,6 @@ export const defaultImage = style({
 export const drawerListLayout = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '2.4rem',
+  gap: '24px',
 });
 export const profileMenuListContainer = style({});
