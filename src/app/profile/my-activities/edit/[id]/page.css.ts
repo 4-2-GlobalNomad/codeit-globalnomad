@@ -114,9 +114,6 @@ export const BtnAddressFinder = style({
   backgroundColor: global.color.green[200],
   color: '#fff',
   borderRadius: '0.8rem',
-  padding: '0.8rem 1.6rem',
-
-  height: '59.6px',
 });
 
 export const subImageUploadBox = style({
