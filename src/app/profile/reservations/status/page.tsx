@@ -54,6 +54,7 @@ export default function StatusPage() {
   const [activityList, setActivityList] = useState<ActivityList>({ cursorId: null, totalCount: 0, activities: [] });
   const [eventResponse, setEventResponse] = useState<EventForDate[]>([]);
   const [selected, setSelected] = useState<string>('');
+  const [dropdownWidth, setDropdownWidth] = useState<string>('800px');
 
   useEffect(() => {
     fetchMyActivityList().then((res) => setActivityList(res));
@@ -106,6 +107,21 @@ export default function StatusPage() {
     setSelected(i);
   };
 
+  // 드롭다운 반응형(createPortal 때문에 width 100% 로 전달불가 / 개선 필요요)
+  const handleWindowSize = () => {
+    const winWidth = window.innerWidth;
+    if (winWidth < 1199) {
+      if (winWidth < 767) {
+        setDropdownWidth('342px');
+      } else {
+        setDropdownWidth('429px');
+      }
+    } else {
+      setDropdownWidth('800px');
+    }
+  };
+  window.addEventListener('resize', handleWindowSize);
+
   return (
     <div className={styles.content}>
       <h1 className={styles.header}>예약 현황</h1>
@@ -113,7 +129,7 @@ export default function StatusPage() {
         options={activityList.activities.map((item) => item.title)}
         placeholder='체험을 선택해 주세요'
         onSelect={handleActivitySelect}
-        width='800px'
+        width={dropdownWidth}
       />
       <MyActivityCalendar
         eventList={eventList}

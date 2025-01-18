@@ -5,6 +5,7 @@ import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import { createPortal } from 'react-dom';
 // import * as styles from './MyActivityCalendar.css';
 import './MyActivityCalendar.css';
+import './MyActivityCalendarMedia.css';
 import MyActivityModal from './MyActivityModal';
 import Toolbar from './Toolbar';
 
