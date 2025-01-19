@@ -2,6 +2,7 @@ import { Button } from '@/components/button/Button';
 import Modal from '@/components/modal/Modal';
 import { STATUS_STYLE as STATUS } from '@/constants/RESERVATION_STATUS';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import CancelModal from './CancelModal';
@@ -26,6 +27,7 @@ export interface ReservationData {
 }
 
 export default function ReservationCard(props: { data: ReservationData }) {
+  const router = useRouter();
   const [showCancelModal, setShowCancelModal] = useState(false);
   const handleCancelModalState = () => setShowCancelModal(!showCancelModal);
 
@@ -38,6 +40,10 @@ export default function ReservationCard(props: { data: ReservationData }) {
   const date = props.data.date.split('-').map(Number).join('. ');
   const price = (props.data.totalPrice / props.data.headCount).toLocaleString();
   const title = props.data.activity.title;
+
+  const handleTitleClick = () => {
+    router.push(`/activity/${props.data.activity.id}`);
+  };
 
   return (
     <div className={styles.card}>
@@ -53,7 +59,9 @@ export default function ReservationCard(props: { data: ReservationData }) {
         <p className={styles.status} style={{ color: `${color}` }}>
           {msg}
         </p>
-        <p className={styles.title}>{title}</p>
+        <p className={styles.title} onClick={handleTitleClick}>
+          {title}
+        </p>
         <p className={styles.subtitle}>
           {date} · {props.data.startTime} - {props.data.endTime} · {props.data.headCount}명
         </p>
