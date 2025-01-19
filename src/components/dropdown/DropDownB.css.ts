@@ -38,6 +38,8 @@ export const itemB = style({
   textAlign: 'center',
   cursor: 'pointer',
   transition: 'background-color 0.3s, color 0.3s',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
   selectors: {
     '&:hover': {
       backgroundColor: 'gray',

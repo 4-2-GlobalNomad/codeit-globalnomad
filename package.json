@@ -18,6 +18,7 @@
     "@tanstack/react-query-devtools": "^5.62.7",
     "@vanilla-extract/recipes": "^0.5.5",
     "axios": "^1.7.9",
+    "ci": "^2.3.0",
     "dayjs": "^1.11.13",
     "gitmoji-cli": "^9.5.0",
     "next": "15.1.0",

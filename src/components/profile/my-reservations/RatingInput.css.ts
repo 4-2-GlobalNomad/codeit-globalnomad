@@ -8,7 +8,7 @@ export const content = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: '1rem',
+  gap: '10px',
 });
 
 export const star = style({
