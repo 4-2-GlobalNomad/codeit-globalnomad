@@ -2,8 +2,6 @@ import Skeleton from '../Skeleton';
 import * as styles from './ReservationCardSkeleton.css';
 
 const ReservationCardSkeleton = () => {
-  console.log('스켈레톤 렌더링');
-
   return (
     <Skeleton className={styles.skeleton}>
       <div className={styles.img} />

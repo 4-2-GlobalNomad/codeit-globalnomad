@@ -22,8 +22,8 @@ export const contentHeader = style({
 
 export const history = style({
   fontWeight: '700',
-  fontSize: '3.2rem',
-  lineHeight: '3.8rem',
+  fontSize: '32px',
+  lineHeight: '38px',
 });
 
 export const dropdown = style({

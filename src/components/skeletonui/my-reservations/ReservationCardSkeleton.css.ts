@@ -11,7 +11,7 @@ export const skeleton = style({
   overflow: 'hidden',
 
   display: 'flex',
-  gap: '2rem',
+  gap: '20px',
   alignItems: 'center',
 
   boxShadow: '0 4px 16px 0 rgb(11 22 11 / 5%)',
@@ -20,13 +20,13 @@ export const skeleton = style({
     'screen and (min-width: 768px) and (max-width: 1199px)': {
       width: '429px',
       height: '156px',
-      gap: '1.6rem',
+      gap: '16px',
       borderRadius: '18px',
     },
     'screen and (min-width: 320px) and (max-width: 767px)': {
       width: '344px',
       height: '128px',
-      gap: '1.2rem',
+      gap: '12px',
       borderRadius: '12px',
     },
   },

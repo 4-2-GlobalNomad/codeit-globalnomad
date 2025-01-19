@@ -6,8 +6,8 @@ export const content = style({
   width: '800px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '3rem',
-  paddingBottom: '10rem',
+  gap: '30px',
+  paddingBottom: '100px',
 
   '@media': {
     'screen and (min-width: 768px) and (max-width: 1199px)': {
@@ -20,7 +20,7 @@ export const content = style({
 });
 
 export const header = style({
-  fontSize: '3.2rem',
+  fontSize: '32px',
   fontWeight: '700',
 });
 

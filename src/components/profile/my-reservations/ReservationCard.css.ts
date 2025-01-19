@@ -11,7 +11,7 @@ export const card = style({
   overflow: 'hidden',
 
   display: 'flex',
-  gap: '2rem',
+  gap: '20px',
   alignItems: 'center',
 
   boxShadow: '0 4px 16px 0 rgb(11 22 11 / 5%)',
@@ -20,13 +20,13 @@ export const card = style({
     'screen and (min-width: 768px) and (max-width: 1199px)': {
       width: '429px',
       height: '156px',
-      gap: '1.6rem',
+      gap: '16px',
       borderRadius: '18px',
     },
     'screen and (min-width: 320px) and (max-width: 767px)': {
       width: '344px',
       height: '128px',
-      gap: '1.2rem',
+      gap: '12px',
       borderRadius: '12px',
     },
   },
@@ -70,22 +70,22 @@ export const texts = style({
 
 export const status = style({
   fontWeight: '700',
-  fontSize: '1.6rem',
-  lineHeight: '2.6rem',
+  fontSize: '16px',
+  lineHeight: '26px',
   color: `${global.color.blue[200]}`,
 
   '@media': {
     'screen and (min-width: 320px) and (max-width: 767px)': {
-      fontSize: '1.4rem',
-      lineHeight: '2.4rem',
+      fontSize: '14px',
+      lineHeight: '24px',
     },
   },
 });
 
 export const title = style({
   fontWeight: '700',
-  fontSize: '2rem',
-  lineHeight: '3.2rem',
+  fontSize: '20px',
+  lineHeight: '32px',
   color: `${global.color.nomadBlack}`,
   paddingBottom: '4px',
   whiteSpace: 'nowrap',
@@ -95,50 +95,50 @@ export const title = style({
 
   '@media': {
     'screen and (min-width: 768px) and (max-width: 1199px)': {
-      fontSize: '1.8rem',
-      lineHeight: '2.6rem',
+      fontSize: '18px',
+      lineHeight: '26px',
     },
     'screen and (min-width: 320px) and (max-width: 767px)': {
-      fontSize: '1.4rem',
-      lineHeight: '2.4rem',
+      fontSize: '14px',
+      lineHeight: '24px',
     },
   },
 });
 
 export const subtitle = style({
   fontWeight: '400',
-  fontSize: '1.8rem',
-  lineHeight: '2.6rem',
+  fontSize: '18px',
+  lineHeight: '26px',
   color: `${global.color.nomadBlack}`,
   whiteSpace: 'nowrap',
 
   '@media': {
     'screen and (min-width: 768px) and (max-width: 1199px)': {
-      fontSize: '1.4rem',
-      lineHeight: '2.4rem',
+      fontSize: '14px',
+      lineHeight: '24px',
     },
     'screen and (min-width: 320px) and (max-width: 767px)': {
-      fontSize: '1.2rem',
-      lineHeight: '1.8rem',
+      fontSize: '12px',
+      lineHeight: '18px',
     },
   },
 });
 
 export const price = style({
   fontWeight: '500',
-  fontSize: '2.4rem',
-  lineHeight: '3.2rem',
+  fontSize: '24px',
+  lineHeight: '32px',
   color: `${global.color.black}`,
   paddingTop: '16px',
 
   '@media': {
     'screen and (min-width: 768px) and (max-width: 1199px)': {
-      fontSize: '2rem',
-      lineHeight: '3.2rem',
+      fontSize: '20px',
+      lineHeight: '32px',
     },
     'screen and (min-width: 320px) and (max-width: 767px)': {
-      fontSize: '1.6rem',
-      lineHeight: '2.6rem',
+      fontSize: '16px',
+      lineHeight: '26px',
     },
   },
 });
@@ -162,7 +162,7 @@ export const button = style({
     'screen and (min-width: 320px) and (max-width: 767px)': {
       width: '80px',
       height: '32px',
-      fontSize: '1.4rem',
+      fontSize: '14px',
       right: '10px',
       bottom: '10px',
     },
