@@ -84,8 +84,7 @@ export const AlarmModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             </button>
           </div>
         ))}
-        {loading && <div className={styles.loading}>로딩 중...</div>}
-        {!loading && alarms.length === 0 && <div className={styles.noAlarms}>알림이 없습니다.</div>}
+        {!loading && alarms.length === 0 && hasMore && <div style={{ display: 'none' }}></div>}
       </div>
     </div>
   );

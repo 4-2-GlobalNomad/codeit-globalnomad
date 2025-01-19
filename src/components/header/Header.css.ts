@@ -41,6 +41,17 @@ export const userInfo = style({
   justifyContent: 'space-between',
 });
 
+export const notificationContainer = style({
+  position: 'relative',
+});
+
+export const alarmModalContainer = style({
+  position: 'absolute',
+  top: '40px',
+  right: '200px',
+  zIndex: 10,
+});
+
 export const notificationButton = style({
   fontSize: '12px',
   background: 'none',

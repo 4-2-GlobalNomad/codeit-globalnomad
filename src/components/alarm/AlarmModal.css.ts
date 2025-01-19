@@ -3,16 +3,27 @@ import { global } from '@/styles/global.css';
 
 export const modal = style({
   position: 'absolute',
-  top: '80px',
-  right: '370px',
   width: '368px',
   height: '356px',
-  overflow: 'hidden',
+  overflowY: 'hidden',
   borderRadius: '10px',
   border: `1px solid ${global.color.gray[400]}`,
   backgroundColor: '#CED8D5',
-  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   padding: '24px',
+
+  '@media': {
+    'screen and (max-width: 767px)': {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      width: '100vw',
+      height: '100vh',
+      maxHeight: 'none',
+      padding: '16px',
+      borderRadius: '0',
+      zIndex: 9999,
+    },
+  },
 });
 
 export const header = style({
