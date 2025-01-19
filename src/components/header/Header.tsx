@@ -34,9 +34,17 @@ export const Header: React.FC = () => {
       {isLoggedIn ? (
         // 로그인
         <div className={styles.userInfo}>
-          <button className={styles.notificationButton} onClick={() => setModalOpen(true)}>
-            <AlarmIcon />
-          </button>
+          <div className={styles.notificationContainer}>
+            <button className={styles.notificationButton} onClick={() => setModalOpen(true)}>
+              <AlarmIcon />
+            </button>
+            {/* 알림 모달 */}
+            {isModalOpen && (
+              <div className={styles.alarmModalContainer}>
+                <AlarmModal onClose={() => setModalOpen(false)} />
+              </div>
+            )}
+          </div>
           <div className={styles.divider}></div>
           <Dropdown />
         </div>
@@ -51,8 +59,6 @@ export const Header: React.FC = () => {
           </button>
         </div>
       )}
-      {/* 알람 모달 */}
-      {isModalOpen && <AlarmModal onClose={() => setModalOpen(false)} />}
     </header>
   );
 };

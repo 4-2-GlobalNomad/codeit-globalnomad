@@ -7,6 +7,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import '@/styles/reset.css';
 import '@/styles/global.css';
+import * as styles from './layout.css';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -28,10 +29,12 @@ export default function RootLayout({
     <html lang='ko'>
       <body className={pretendard.className}>
         <TanStackProvider>
-          <Header />
-          <DynamicPortal />
-          {children}
-          <Footer />
+          <div className={styles.container}>
+            <Header />
+            <DynamicPortal />
+            <div className={styles.main}>{children}</div>
+            <Footer />
+          </div>
         </TanStackProvider>
       </body>
     </html>
