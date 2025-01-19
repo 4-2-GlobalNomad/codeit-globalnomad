@@ -1,6 +1,6 @@
 import { fetchMyReservations } from '@/apis/my-reservations';
 import { STATUS_TRANSLATE } from '@/constants/RESERVATION_STATUS';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 export const useMyReservations = (status: string | null) => {
   let engStatus = '';
@@ -17,7 +17,7 @@ export const useMyReservations = (status: string | null) => {
     engStatus = STATUS_TRANSLATE[status];
   }
 
-  return useInfiniteQuery({
+  return useSuspenseInfiniteQuery({
     queryKey: isFiltered ? [`my-reservations?status=${engStatus}`] : ['my-reservations'],
     queryFn: ({ pageParam = null, queryKey }) => fetchMyReservations(pageParam, queryKey, isFiltered),
     initialPageParam: null,
