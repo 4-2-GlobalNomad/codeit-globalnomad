@@ -3,18 +3,18 @@ import { style } from '@vanilla-extract/css';
 import { global } from '@/styles/global.css';
 
 export const activitiesPageContainer = style({
-  marginBottom: '12rem',
+  marginBottom: '120px',
 });
 
 export const topLayout = style({
   display: 'flex',
   justifyContent: 'space-between',
-  marginBottom: '3.4rem',
+  marginBottom: '34px',
 });
 
 export const mobileMenuTitle = style({
   display: 'flex',
-  gap: '0.2rem',
+  gap: '2px',
 });
 
 export const h2Title = style([fontSizes.text3xl, fontWeights.bold]);
@@ -23,8 +23,8 @@ export const createButton = style([
   {
     backgroundColor: global.color.nomadBlack,
     color: '#fff',
-    padding: '0.8rem 1.6rem',
-    borderRadius: '0.4rem',
+    padding: '8px 16px',
+    borderRadius: '4px',
 
     '@media': {
       'screen and (max-width: 767px)': {
