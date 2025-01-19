@@ -4,22 +4,48 @@ export const container = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  '@media': {
+    'screen and (max-width: 1199px)': {
+      marginTop: '20px',
+      padding: '20px',
+    },
+  },
 });
 
 export const loginBox = style({
   width: '640px',
   height: '100%',
   margin: '48px 640px 54px 640px',
+  '@media': {
+    'screen and (min-width: 768px) and (max-width: 1199px)': {
+      margin: 'auto',
+    },
+    'screen and (max-width: 767px)': {
+      margin: 'auto',
+      width: '89.3%',
+    },
+  },
 });
 export const logo = style({
   width: '340px',
   height: '192px',
+  '@media': {
+    'screen and (max-width: 767px)': {
+      width: '240px',
+      height: '135px',
+    },
+  },
 });
 export const logoContainer = style({
   display: 'flex',
   justifyContent: 'center',
   width: '100%',
   marginBottom: '56px',
+  '@media': {
+    'screen and (max-width: 767px)': {
+      marginBottom: '24px',
+    },
+  },
 });
 export const form = style({
   display: 'flex',
@@ -40,6 +66,16 @@ export const loginButton = style({
   height: '48px',
   borderRadius: '6px',
   marginBottom: '32px',
+  '@media': {
+    'screen and (min-width: 768px) and (max-width: 1199px)': {
+      width: '100%',
+    },
+    'screen and (max-width: 767px)': {
+      width: '100%',
+      height: '44px',
+      marginBottom: '24px',
+    },
+  },
 });
 export const footer = style({
   textAlign: 'center',
@@ -59,6 +95,12 @@ export const socialLoginContainer = style({
   color: ' #79747E',
   gap: '37.5px',
   marginBottom: '40px',
+  '@media': {
+    'screen and (max-width: 767px)': {
+      fontSize: '14px',
+      gap: '12px',
+    },
+  },
 });
 export const line = style({
   flex: 1,
@@ -69,4 +111,7 @@ export const socialButtons = style({
   display: 'flex',
   justifyContent: 'center',
   gap: '16px',
+  '@media': {
+    'screen and (max-width: 767px)': {},
+  },
 });

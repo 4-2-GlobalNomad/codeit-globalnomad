@@ -6,7 +6,7 @@ export const avatarContainer = style({
 });
 
 export const avatar = style({
-  backgroundColor: '#333',
+  backgroundColor: '#E3E5E8',
   width: '40px',
   height: '40px',
   objectFit: 'cover',
