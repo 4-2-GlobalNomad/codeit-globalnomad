@@ -16,7 +16,7 @@ export const icon = style({
 
 export const message = style({
   color: `${global.color.gray[800]}`,
-  fontSize: '2.4rem',
+  fontSize: '24px',
   fontWeight: '500',
-  lineHeight: '3.2rem',
+  lineHeight: '32px',
 });

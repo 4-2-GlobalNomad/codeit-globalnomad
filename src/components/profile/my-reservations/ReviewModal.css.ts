@@ -8,7 +8,7 @@ export const content = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'space-evenly',
-  gap: '1rem',
+  gap: '10px',
 });
 
 export const header = style({
@@ -19,9 +19,9 @@ export const header = style({
 });
 
 export const modalTitle = style({
-  fontSize: '2.4rem',
+  fontSize: '24px',
   fontWeight: '700',
-  lineHeight: '3.2rem',
+  lineHeight: '32px',
   color: `${global.color.black}`,
 });
 
@@ -52,8 +52,8 @@ export const texts = style({
 
 export const title = style({
   fontWeight: '700',
-  fontSize: '2rem',
-  lineHeight: '3.2rem',
+  fontSize: '20px',
+  lineHeight: '32px',
   color: `${global.color.nomadBlack}`,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
@@ -62,15 +62,15 @@ export const title = style({
 
 export const subtitle = style({
   fontWeight: '400',
-  fontSize: '1.8rem',
-  lineHeight: '2.6rem',
+  fontSize: '18px',
+  lineHeight: '26px',
   color: `${global.color.nomadBlack}`,
 });
 
 export const price = style({
   fontWeight: '700',
-  fontSize: '3.2rem',
-  lineHeight: '4.2rem',
+  fontSize: '32px',
+  lineHeight: '42px',
   color: `${global.color.black}`,
 });
 
@@ -88,11 +88,11 @@ export const input = style({
 });
 
 export const button = style({
-  marginTop: '2.5rem',
+  marginTop: '25px',
   display: 'block',
   width: '100%',
   height: '56px',
   borderRadius: '8px',
-  fontSize: '1.4rem',
+  fontSize: '14px',
   fontWeight: '500',
 });

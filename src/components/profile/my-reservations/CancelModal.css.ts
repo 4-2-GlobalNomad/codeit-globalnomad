@@ -7,7 +7,7 @@ export const content = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '1.7rem',
+  gap: '17px',
 });
 
 export const checkmark = style({
@@ -22,7 +22,7 @@ export const checkmark = style({
 
 export const message = style({
   textAlign: 'center',
-  fontSize: '1.6rem',
+  fontSize: '16px',
   fontWeight: '400',
   color: `${global.color.black}`,
 });
@@ -38,5 +38,5 @@ export const button = style({
   width: '80px',
   height: '38px',
   borderRadius: '8px',
-  fontSize: '1.4rem',
+  fontSize: '14px',
 });

@@ -16,9 +16,9 @@ export const item = style({
 export const text = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '1rem',
+  gap: '10px',
 
-  fontSize: '1.6rem',
+  fontSize: '16px',
   fontWeight: '500',
   color: `${global.color.gray[800]}`,
 });
@@ -26,7 +26,7 @@ export const text = style({
 export const textBold = style({
   fontWeight: '600',
   color: `${global.color.black}`,
-  paddingLeft: '0.5rem',
+  paddingLeft: '5px',
 });
 
 export const buttonBar = style({
@@ -39,7 +39,7 @@ export const button = style({
   height: '38px',
   borderRadius: '6px',
   marginLeft: '8px',
-  fontSize: '1.4rem',
+  fontSize: '14px',
 });
 
 export const confirmed = style({
@@ -47,8 +47,8 @@ export const confirmed = style({
   borderRadius: '50px',
   backgroundColor: `${global.color.orange[100]}`,
   color: `${global.color.orange[200]}`,
-  fontSize: '1.4rem',
-  lineHeight: '2.4rem',
+  fontSize: '14px',
+  lineHeight: '24px',
   fontWeight: '700',
 });
 
@@ -57,7 +57,7 @@ export const declined = style({
   borderRadius: '50px',
   backgroundColor: `${global.color.red[100]}`,
   color: `${global.color.red[300]}`,
-  fontSize: '1.4rem',
-  lineHeight: '2.4rem',
+  fontSize: '14px',
+  lineHeight: '24px',
   fontWeight: '700',
 });

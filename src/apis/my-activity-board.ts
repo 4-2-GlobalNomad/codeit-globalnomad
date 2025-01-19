@@ -59,3 +59,37 @@ export const fetchMyReservations = async (activityId: number, scheduleId: number
     throw new Error('fetchMyReservations에서 에러 발생');
   }
 };
+
+// confirm
+export const confirmReservation = async (activityId: number, reservationId: number) => {
+  try {
+    const url = `my-activities/${activityId}/reservations/${reservationId}`;
+    // console.log('url: ', url);
+
+    const response = await axiosInstance.patch(url, {
+      status: 'confirmed',
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('confirmReservation에서 에러 발생:', error);
+    throw new Error('confirmReservation에서 에러 발생');
+  }
+};
+
+// decline
+export const declineReservation = async (activityId: number, reservationId: number) => {
+  try {
+    const url = `my-activities/${activityId}/reservations/${reservationId}`;
+    // console.log('url: ', url);
+
+    const response = await axiosInstance.patch(url, {
+      status: 'declined',
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('declineReservation에서 에러 발생:', error);
+    throw new Error('declineReservation에서 에러 발생');
+  }
+};

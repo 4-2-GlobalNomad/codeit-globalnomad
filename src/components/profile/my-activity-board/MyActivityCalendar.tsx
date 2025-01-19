@@ -1,10 +1,12 @@
-import { CalendarEvent } from '@/app/profile/reservations/status/page';
+import { CalendarEvent } from '@/app/profile/my-activity-board/page';
+import Dialog from '@/components/modal/Dialog';
+import Modal from '@/components/modal/Modal';
 import dayjs from 'dayjs';
 import { useCallback, useState } from 'react';
 import { Calendar, dayjsLocalizer } from 'react-big-calendar';
 import { createPortal } from 'react-dom';
-// import * as styles from './MyActivityCalendar.css';
 import './MyActivityCalendar.css';
+import './MyActivityCalendarMedia.css';
 import MyActivityModal from './MyActivityModal';
 import Toolbar from './Toolbar';
 
@@ -12,12 +14,15 @@ export default function MyActivityCalendar(props: { eventList: CalendarEvent[]; 
   const localizer = dayjsLocalizer(dayjs);
   const [date, setDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
+  const [showCompletedDialog, setShowCompletedDialog] = useState(false);
   const [modalProps, setModalProps] = useState<{ date: Date | null; activityId: number }>({
     date: null,
     activityId: 0,
   });
 
   const handleModalState = () => setShowModal(!showModal);
+
+  const handleDialogState = () => setShowCompletedDialog(!showCompletedDialog);
 
   const onNavigate = useCallback((newDate: Date) => setDate(newDate), [setDate]);
 
@@ -42,23 +47,24 @@ export default function MyActivityCalendar(props: { eventList: CalendarEvent[]; 
 
   const onSelectEvent = useCallback(
     (event: CalendarEvent) => {
-      setModalProps({ date: event.start, activityId: props.activityId });
-      // console.log('modal props: ', modalProps);
-      setShowModal(!showModal);
-      // 완료된 체험인 경우 -> 모달x 다이얼로그 처리('완료된 체험 입니다')
+      if (event.title.slice(0, 2) === '완료') {
+        // 완료된 체험 -> 조회api x, 다이얼로그로 연결
+        setShowCompletedDialog(!showCompletedDialog);
+      } else {
+        // 미완료 체험
+        setModalProps({ date: event.start, activityId: props.activityId });
+        setShowModal(!showModal);
+      }
     },
-    [props.activityId, showModal],
+    [props.activityId, showCompletedDialog, showModal],
   );
 
   return (
     <div>
       <Calendar<CalendarEvent>
-        // className={styles.calendar}
         date={date}
         localizer={localizer}
         events={props.eventList}
-        // startAccessor='start'
-        // endAccessor='end'
         onNavigate={onNavigate}
         onSelectEvent={onSelectEvent}
         eventPropGetter={eventPropGetter}
@@ -68,6 +74,14 @@ export default function MyActivityCalendar(props: { eventList: CalendarEvent[]; 
       />
       {showModal &&
         createPortal(<MyActivityModal handleModalState={handleModalState} modalProps={modalProps} />, document.body)}
+      {showCompletedDialog &&
+        createPortal(
+          <Modal
+            handleModalState={handleDialogState}
+            content={<Dialog handleModalState={handleDialogState} message='이미 완료된 체험입니다' />}
+          />,
+          document.body,
+        )}
     </div>
   );
 }
