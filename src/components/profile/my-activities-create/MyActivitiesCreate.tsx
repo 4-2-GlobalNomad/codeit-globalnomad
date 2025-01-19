@@ -186,9 +186,9 @@ export default function MyActivitiesCreate({
       <div className={styles.inputContainer}>
         <h2 className={styles.inputTitle}>주소</h2>
         <div className={styles.addressContainer}>
-          <div className={styles.addressInputBox}>
+          <div>
             <Input
-              placeholder='기본 주소'
+              placeholder='주소를 입력해주세요'
               {...register('address', { required: '주소는 필수 입력 사항입니다.' })}
               error={Boolean(errors.address)}
               errorMessage={errors.address?.message as string | undefined}
@@ -196,16 +196,6 @@ export default function MyActivitiesCreate({
               value={address}
               readOnly
             />
-            <div className={styles.detailAddressInput}>
-              <Input
-                placeholder='상세주소'
-                {...register('extraAddress')}
-                onChange={(e) => {
-                  setValue('extraAddress', e.target.value);
-                  trigger('extraAddress');
-                }}
-              />
-            </div>
           </div>
           <button type='button' className={styles.BtnAddressFinder} onClick={handleClick}>
             검색

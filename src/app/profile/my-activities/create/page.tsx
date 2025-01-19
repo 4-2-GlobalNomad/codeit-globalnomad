@@ -65,8 +65,6 @@ export default function MyActivitiesCreatePage() {
       return;
     }
 
-    // console.log(bannerImageUrl);
-
     const subImageUrls: string[] = [];
     if (data.subfileImage) {
       for await (const image of data.subfileImage) {
@@ -90,8 +88,6 @@ export default function MyActivitiesCreatePage() {
       subImageUrls: subImageUrls,
     };
 
-    // console.log(myActivitiesCreateData);
-
     mutation.mutate(myActivitiesCreateData, {
       onSuccess: () => {
         setShowCreateModal(true);
@@ -101,7 +97,7 @@ export default function MyActivitiesCreatePage() {
   };
 
   const [isMobile, setIsMobile] = useState(false);
-  const [isPCOrTablet, setIsPCOrTablet] = useState(false);
+  const [isPCOrTablet, setIsPCOrTablet] = useState(true);
   const mobileQuery = useMediaQuery({ query: '(max-width: 767px)' });
   const PCOrTabletQuery = useMediaQuery({ query: '(min-width: 768px)' });
 
@@ -115,11 +111,6 @@ export default function MyActivitiesCreatePage() {
       <div className={styles.activitiesPageContainer}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.topLayout}>
-            {/* <h2 className={styles.h2Title}>내 체험 등록</h2>
-            <button className={styles.createButton} type='submit'>
-              등록하기
-            </button> */}
-
             {isPCOrTablet && (
               <>
                 <h2 className={styles.h2Title}>내 체험 등록</h2>
