@@ -91,7 +91,6 @@ export const title = style({
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-  cursor: 'pointer',
 
   '@media': {
     'screen and (min-width: 768px) and (max-width: 1199px)': {
