@@ -2,6 +2,7 @@
 
 import { fetchMyActivityList, fetchMyCalendarEvent } from '@/apis/my-activity-board';
 import DropDownB from '@/components/dropdown/DropDownB';
+import EmptyCard from '@/components/profile/my-activity-board/EmptyCard';
 import MyActivityCalendar from '@/components/profile/my-activity-board/MyActivityCalendar';
 import { useEffect, useMemo, useState } from 'react';
 import * as styles from './page.css';
@@ -53,6 +54,7 @@ export default function StatusPage() {
   // eventResponse -> eventList -> 달력에 그려질 이벤트
   const [activityList, setActivityList] = useState<ActivityList>({ cursorId: null, totalCount: 0, activities: [] });
   const [eventResponse, setEventResponse] = useState<EventForDate[]>([]);
+  const [isExist, setIsExist] = useState<boolean>(true);
   const [selected, setSelected] = useState<string>('');
   // const [dropdownWidth, setDropdownWidth] = useState<string>('800px');
   const dropdownWidth = '800px';
@@ -62,6 +64,14 @@ export default function StatusPage() {
   }, []);
 
   // console.log('fetchMyActivityList: ', activityList);
+
+  useEffect(() => {
+    if (activityList.totalCount === 0) {
+      setIsExist(false);
+    } else {
+      setIsExist(true);
+    }
+  }, [activityList]);
 
   useEffect(() => {
     const activityId = activityList.activities.find((item) => item.title === selected)?.id || 0;
@@ -126,16 +136,21 @@ export default function StatusPage() {
   return (
     <div className={styles.content}>
       <h1 className={styles.header}>예약 현황</h1>
-      <DropDownB
-        options={activityList.activities.map((item) => item.title)}
-        placeholder='체험을 선택해 주세요'
-        onSelect={handleActivitySelect}
-        width={dropdownWidth}
-      />
-      <MyActivityCalendar
-        eventList={eventList}
-        activityId={activityList.activities.find((item) => item.title === selected)?.id || 0}
-      />
+      {!isExist && <EmptyCard />}
+      {isExist && (
+        <div className={styles.content}>
+          <DropDownB
+            options={activityList.activities.map((item) => item.title)}
+            placeholder='체험을 선택해 주세요'
+            onSelect={handleActivitySelect}
+            width={dropdownWidth}
+          />
+          <MyActivityCalendar
+            eventList={eventList}
+            activityId={activityList.activities.find((item) => item.title === selected)?.id || 0}
+          />
+        </div>
+      )}
     </div>
   );
 }
