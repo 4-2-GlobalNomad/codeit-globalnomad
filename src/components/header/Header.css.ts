@@ -7,13 +7,13 @@ export const header = style({
   alignItems: 'center',
   width: '100%',
   height: '70px',
-  padding: '2rem 36rem',
+  padding: '20px 360px',
   borderBottom: `0.1rem solid ${global.color.gray[300]}`,
   backgroundColor: '#FFFFFF',
 
   '@media': {
     'screen and (min-width: 768px) and (max-width: 1199px)': {
-      padding: '1rem 4rem',
+      padding: '10px 40px',
     },
     'screen and (max-width: 767px)': {
       padding: '0 20px',
@@ -26,7 +26,13 @@ export const logoContainer = style({
   alignItems: 'center',
 });
 
-export const logoImage = style({});
+export const logoImage = style({
+  '@media': {
+    'screen and (max-width: 767px)': {
+      width: '140px',
+    },
+  },
+});
 
 export const title = style({
   marginLeft: '10px',
@@ -57,6 +63,11 @@ export const notificationButton = style({
   background: 'none',
   border: 'none',
   cursor: 'pointer',
+  '@media': {
+    'screen and (max-width: 767px)': {
+      fontSize: '10px',
+    },
+  },
 });
 
 export const icon = style({});
