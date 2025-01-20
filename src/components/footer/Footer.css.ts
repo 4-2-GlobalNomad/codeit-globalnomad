@@ -7,8 +7,10 @@ export const footer = style({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+  position: 'relative',
   height: '160px',
   width: '100%',
+
   '@media': {
     'screen and (min-width: 768px) and (max-width: 1199px)': {
       maxWidth: '1199px',
