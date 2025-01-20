@@ -17,6 +17,7 @@ export const useMyReservations = (status: string | null) => {
     engStatus = STATUS_TRANSLATE[status];
   }
 
+  // useSuspenseInfiniteQuery로 교체 필요
   return useInfiniteQuery({
     queryKey: isFiltered ? [`my-reservations?status=${engStatus}`] : ['my-reservations'],
     queryFn: ({ pageParam = null, queryKey }) => fetchMyReservations(pageParam, queryKey, isFiltered),

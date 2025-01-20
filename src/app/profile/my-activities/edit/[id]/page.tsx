@@ -7,6 +7,7 @@ import MinusTimeBtn from '@/assets/icons/btn-minus-time.svg';
 import CheckMark from '@/assets/icons/check-mark.svg';
 import IconPlus from '@/assets/icons/plus.svg';
 import Input from '@/components/Input';
+import CustomDrawer from '@/components/drawer/CustomDrawer';
 import Dialog from '@/components/modal/Dialog';
 import Modal from '@/components/modal/Modal';
 import useDetectClose from '@/hooks/use-detect-close';
@@ -22,20 +23,56 @@ import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-picker
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { createPortal } from 'react-dom';
 import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { useMediaQuery } from 'react-responsive';
 import * as styles from './page.css';
 
 export default function MyActivitiesEditPage() {
-  const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isPCOrTablet, setIsPCOrTablet] = useState(true);
+  const mobileQuery = useMediaQuery({ query: '(max-width: 767px)' });
+  const PCOrTabletQuery = useMediaQuery({ query: '(min-width: 768px)' });
+
+  useEffect(() => {
+    setIsPCOrTablet(PCOrTabletQuery);
+    setIsMobile(mobileQuery);
+  }, [PCOrTabletQuery, mobileQuery]);
+
+  const open = useDaumPostcodePopup();
   const mutation = useMyActivitiesEdit();
+
   const { id } = useParams();
   const { data: currentData, status } = useMyActivitiesDetails(Number(id));
   const { imageSrc, setImageSrc, handleSingleImagePreview } = useSingleImageUpload();
 
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showModifyModal, setShowModifyModal] = useState(false);
+
+  const handleComplete = (data: { address: string; addressType: string; bname: string; buildingName: string }) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+
+    setValue('address', fullAddress);
+    setValue('extraAddress', '');
+    trigger('address');
+  };
+
+  const handleClick = () => {
+    open({ onComplete: handleComplete });
+  };
 
   const encodeFileToBase64 = (file: File) => {
     return new Promise<string>((resolve) => {
@@ -58,6 +95,7 @@ export default function MyActivitiesEditPage() {
     getValues,
     clearErrors,
     control,
+    trigger,
   } = useForm();
 
   useEffect(() => {
@@ -112,9 +150,8 @@ export default function MyActivitiesEditPage() {
     subFileRef?.current?.click();
   };
 
-  const handleCreateModalState = () => {
-    setShowCreateModal(!showCreateModal);
-    router.push('/profile/my-activities');
+  const handleModifyModalState = () => {
+    setShowModifyModal(!showModifyModal);
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (newData) => {
@@ -209,17 +246,10 @@ export default function MyActivitiesEditPage() {
       { activityId: Number(id), data: myActivitiesEditData },
       {
         onSuccess: () => {
-          alert('내 체험 정보 수정을 성공하였습니다.');
+          setShowModifyModal(true);
         },
       },
     );
-
-    // mutation.mutate(myActivitiesCreateData, {
-    //   onSuccess: () => {
-    //     setShowCreateModal(true);
-    //     queryClient.invalidateQueries({ queryKey: ['my-activities'] });
-    //   },
-    // });
   };
 
   return (
@@ -227,11 +257,23 @@ export default function MyActivitiesEditPage() {
       <div className={styles.activitiesPageContainer}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.topLayout}>
-            <h2 className={styles.h2Title}>내 체험 수정</h2>
-            <button className={styles.createButton} type='submit'>
-              수정하기
-            </button>
+            {isPCOrTablet && (
+              <>
+                <h2 className={styles.h2Title}>내 체험 수정</h2>
+                <button className={styles.submitButton}>수정하기</button>
+              </>
+            )}
           </div>
+          {isMobile && (
+            <>
+              <div className={styles.topLayout}>
+                <div className={styles.mobileMenuTitle}>
+                  <CustomDrawer />
+                  <h2 className={styles.h2Title}>내 체험 수정</h2>
+                </div>
+              </div>
+            </>
+          )}
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='ko'>
             <StyledEngineProvider injectFirst>
               <section className={styles.inputSectionContainer}>
@@ -314,13 +356,17 @@ export default function MyActivitiesEditPage() {
                 </div>
                 <div className={styles.inputContainer}>
                   <h2 className={styles.inputTitle}>주소</h2>
-                  <div>
+                  <div className={styles.addressContainer}>
                     <Input
                       placeholder='주소'
                       {...register('address', { required: '주소는 필수 입력 사항입니다.' })}
                       error={Boolean(errors.address)}
                       errorMessage={errors.address?.message as string | undefined}
+                      readOnly
                     />
+                    <button type='button' className={styles.BtnAddressFinder} onClick={handleClick}>
+                      검색
+                    </button>
                   </div>
                 </div>
                 <h2 className={styles.inputTitle}>예약 가능한 시간대</h2>
@@ -379,98 +425,96 @@ export default function MyActivitiesEditPage() {
                     return (
                       <div>
                         <div className={styles.datePickerLabelContainer}>
-                          <div className={`${styles.datePickerLabel}`}>날짜</div>
-                          <div className={`${styles.datePickerLabel}`}>시작 시간</div>
-                          <div className={styles.datePickerLabel}>종료 시간</div>
+                          <div className={styles.datePickerLabel}>날짜</div>
+                          <div className={styles.startTimePickerLabel}>시작 시간</div>
+                          <div className={styles.endTimePickerLabel}>종료 시간</div>
                         </div>
                         {field.value.map((availableDateTime: ReservationDateTime, index: number) => (
-                          <div key={index}>
+                          <div className={styles.datePickerLabelContainer} key={index}>
                             {index === 1 && <div className={styles.horizon}></div>}
-                            <div className={styles.dateTimePickerContainer}>
-                              <DatePicker
-                                sx={{
-                                  '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                      borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('날짜') ? '#FF472E' : '#79747E'}`,
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                      borderColor: '#0B3B2D',
-                                    },
+                            <DatePicker
+                              sx={{
+                                '& .MuiOutlinedInput-root': {
+                                  '& fieldset': {
+                                    borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('날짜') ? '#FF472E' : '#79747E'}`,
                                   },
-                                }}
-                                readOnly={Boolean(id)}
-                                className={`${styles.datePickerContainer}`}
-                                value={availableDateTime.date}
-                                onChange={(v) => {
-                                  field.value[index].date = v;
-                                  field.onChange([...field.value]);
-                                }}
-                                slotProps={{ textField: { placeholder: 'YYYY/MM/DD' } }}
-                              />
-                              <div className={styles.timePickerContainer}>
-                                <div>
-                                  <TimePicker
-                                    sx={{
-                                      '& .MuiOutlinedInput-root': {
-                                        '& fieldset': {
-                                          borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('시작') ? '#FF472E' : '#79747E'}`,
-                                        },
-                                        '&.Mui-focused fieldset': {
-                                          borderColor: '#0B3B2D',
-                                        },
-                                      },
-                                    }}
-                                    readOnly={Boolean(id)}
-                                    value={availableDateTime.startTime}
-                                    onChange={(v) => {
-                                      field.value[index].startTime = v;
-                                      field.onChange([...field.value]);
-                                    }}
-                                  />
-                                </div>
-                                <div>~</div>
-                                <TimePicker
-                                  sx={{
-                                    '& .MuiOutlinedInput-root': {
-                                      '& fieldset': {
-                                        borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('종료') ? '#FF472E' : '#79747E'}`,
-                                      },
-                                      '&.Mui-focused fieldset': {
-                                        borderColor: '#0B3B2D',
-                                      },
-                                    },
-                                  }}
-                                  readOnly={Boolean(id)}
-                                  value={availableDateTime.endTime}
-                                  onChange={(v) => {
-                                    field.value[index].endTime = v;
-                                    field.onChange([...field.value]);
-                                  }}
-                                />
-                              </div>
+                                  '&.Mui-focused fieldset': {
+                                    borderColor: '#0B3B2D',
+                                  },
+                                },
+                              }}
+                              readOnly={Boolean(availableDateTime.id)}
+                              className={`${styles.datePickerContainer}`}
+                              value={availableDateTime.date}
+                              onChange={(v) => {
+                                field.value[index].date = v;
+                                field.onChange([...field.value]);
+                              }}
+                              slotProps={{ textField: { placeholder: 'YYYY/MM/DD' } }}
+                            />
+                            <TimePicker
+                              sx={{
+                                '& .MuiOutlinedInput-root': {
+                                  '& fieldset': {
+                                    borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('시작') ? '#FF472E' : '#79747E'}`,
+                                  },
+                                  '&.Mui-focused fieldset': {
+                                    borderColor: '#0B3B2D',
+                                  },
+                                },
+                              }}
+                              readOnly={Boolean(availableDateTime.id)}
+                              value={availableDateTime.startTime}
+                              onChange={(v) => {
+                                field.value[index].startTime = v;
+                                field.onChange([...field.value]);
+                              }}
+                              className={styles.startTimePickerContainer}
+                            />
 
-                              {index === 0 ? (
-                                <div
-                                  className={styles.TimeButton}
-                                  onClick={() => {
-                                    field.onChange([{ date: null, startTime: null, endTime: null }, ...field.value]);
-                                  }}
-                                >
-                                  <AddTimeBtn />
-                                </div>
-                              ) : (
-                                <div
-                                  className={styles.TimeButton}
-                                  onClick={() => {
-                                    field.onChange(
-                                      field.value.filter((v: ReservationDateTime, i: number) => i !== index),
-                                    );
-                                  }}
-                                >
-                                  <MinusTimeBtn />
-                                </div>
-                              )}
-                            </div>
+                            <div className={styles.waveSign}>~</div>
+                            <TimePicker
+                              sx={{
+                                '& .MuiOutlinedInput-root': {
+                                  '& fieldset': {
+                                    borderColor: `${errors !== null && errors[index] !== null && errors[index]?.includes('종료') ? '#FF472E' : '#79747E'}`,
+                                  },
+                                  '&.Mui-focused fieldset': {
+                                    borderColor: '#0B3B2D',
+                                  },
+                                },
+                              }}
+                              className={styles.endTimePickerContainer}
+                              readOnly={Boolean(availableDateTime.id)}
+                              value={availableDateTime.endTime}
+                              onChange={(v) => {
+                                field.value[index].endTime = v;
+                                field.onChange([...field.value]);
+                              }}
+                            />
+
+                            {index === 0 ? (
+                              <div
+                                className={styles.TimeButton}
+                                onClick={() => {
+                                  field.onChange([{ date: null, startTime: null, endTime: null }, ...field.value]);
+                                }}
+                              >
+                                <AddTimeBtn />
+                              </div>
+                            ) : (
+                              <div
+                                className={styles.TimeButton}
+                                onClick={() => {
+                                  field.onChange(
+                                    field.value.filter((v: ReservationDateTime, i: number) => i !== index),
+                                  );
+                                }}
+                              >
+                                <MinusTimeBtn />
+                              </div>
+                            )}
+
                             {errors !== null && errors[index] !== null && (
                               <p className={styles.errorMessageStyle}>{errors[index]}</p>
                             )}
@@ -512,7 +556,12 @@ export default function MyActivitiesEditPage() {
                     {imageSrc && (
                       <div className={styles.previewImageContainer}>
                         <div className={styles.previewImageBox}>
-                          <Image fill src={imageSrc} alt='배너 이미지' />
+                          <Image
+                            fill
+                            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                            src={imageSrc}
+                            alt='배너 이미지'
+                          />
                         </div>
                         {imageSrc !== null && (
                           <BtnCanceled className={styles.btnCanceled} onClick={handleSingleImageCancelClick} />
@@ -525,7 +574,19 @@ export default function MyActivitiesEditPage() {
                   )}
                 </div>
                 <h2 className={styles.inputTitle}>소개 이미지</h2>
-                <div className={styles.subImageContainer}>
+                <div
+                  className={
+                    getValues('subfileImage') === undefined ||
+                    getValues('subfileImage').length === 0 ||
+                    getValues('subfileImage').length === 1
+                      ? styles.subImageBox[0]
+                      : getValues('subfileImage').length === 2 || getValues('subfileImage').length === 3
+                        ? styles.subImageBox[2]
+                        : getValues('subfileImage').length === 4
+                          ? `${styles.subImageBox[4]}`
+                          : styles.baseSubImageContainer
+                  }
+                >
                   <div className={styles.subImageUploadBox} onClick={handleSubFileClick}>
                     <label htmlFor='subfile-upload' />
                     <div>
@@ -567,7 +628,12 @@ export default function MyActivitiesEditPage() {
                   {getValues('subfileImage')?.map(({ src }: { src: string }, index: number) => (
                     <div key={index} className={styles.previewImageContainer}>
                       <div className={styles.previewImageBox}>
-                        <Image fill src={src} alt={`소개 이미지 미리보기 ${index + 1}`} />
+                        <Image
+                          fill
+                          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                          src={src}
+                          alt={`소개 이미지 미리보기 ${index + 1}`}
+                        />
                       </div>
                       <BtnCanceled
                         className={styles.btnCanceled}
@@ -587,16 +653,22 @@ export default function MyActivitiesEditPage() {
                   ))}
                 </div>
                 <p className={styles.descPhrase}>*이미지는 최대 4개까지 등록 가능합니다.</p>
+                {isMobile && (
+                  <button type='submit' className={styles.submitButton}>
+                    수정하기
+                  </button>
+                )}
               </section>
             </StyledEngineProvider>
           </LocalizationProvider>
         </form>
       </div>
-      {showCreateModal &&
+
+      {showModifyModal &&
         createPortal(
           <Modal
-            content={<Dialog message='체험 등록이 완료되었습니다' handleModalState={handleCreateModalState} />}
-            handleModalState={handleCreateModalState}
+            content={<Dialog message='체험 수정이 완료되었습니다' handleModalState={handleModifyModalState} />}
+            handleModalState={handleModifyModalState}
           />,
           document.body,
         )}

@@ -1,10 +1,11 @@
 'use client';
 
 import DropDownB from '@/components/dropdown/DropDownB';
-import EmptyCard from '@/components/profile/reservations/history/EmptyCard';
-import ReservationCard, { ReservationData } from '@/components/profile/reservations/history/ReservationCard';
+import EmptyCard from '@/components/profile/my-reservations/EmptyCard';
+import ReservationCard, { ReservationData } from '@/components/profile/my-reservations/ReservationCard';
 import { useMyReservations } from '@/hooks/use-my-reservations';
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import Loading from './loading';
 import * as styles from './page.css';
 
 export default function ReservationPage() {
@@ -56,28 +57,31 @@ export default function ReservationPage() {
   };
 
   return (
-    <div className={styles.content}>
-      <div className={styles.contentHeader}>
-        <h2 className={styles.history}>예약 내역</h2>
-        {(filter !== null || isExist) && (
-          <div onClick={handleUnselect}>
-            <DropDownB options={options} placeholder='필터' onSelect={handleSelect} />
-          </div>
-        )}
-      </div>
-      <div className={styles.list}>
-        {isExist || data === undefined || <EmptyCard />}
-        {isExist &&
-          data !== undefined &&
-          data.pages.map((group, i) => (
-            <div className={styles.list} key={i * 100}>
-              {group.reservations.map((res: ReservationData, j: number) => (
-                <ReservationCard data={res} key={j} />
-              ))}
+    <Suspense fallback={<Loading />}>
+      <div className={styles.content}>
+        <div className={styles.contentHeader}>
+          <h2 className={styles.history}>예약 내역</h2>
+          {(filter !== null || isExist) && (
+            <div onClick={handleUnselect}>
+              <DropDownB options={options} placeholder='필터' onSelect={handleSelect} />
             </div>
-          ))}
-        {<div className={styles.ref} ref={targetRef} />}
+          )}
+        </div>
+        <div className={styles.list}>
+          {isExist || data === undefined || <EmptyCard />}
+          {isExist &&
+            data !== undefined &&
+            data.pages.map((group, i) => (
+              <div className={styles.list} key={i * 100}>
+                {group.reservations.map((res: ReservationData, j: number) => (
+                  <ReservationCard data={res} key={j} />
+                ))}
+              </div>
+            ))}
+
+          {<div className={styles.ref} ref={targetRef} />}
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 }

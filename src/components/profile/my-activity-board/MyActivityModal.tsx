@@ -3,6 +3,7 @@
 import { fetchMyReservations, fetchMyReservedSchedule } from '@/apis/my-activity-board';
 import ButtonX from '@/assets/icons/btn-x.svg';
 import DropDownB from '@/components/dropdown/DropDownB';
+import ReservationItemSkeleton from '@/components/skeletonui/my-activity-board/ReservationItemSkeleton';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import * as styles from './MyActivityModal.css';
@@ -103,12 +104,16 @@ export default function MyActivityModal(props: {
     setSelected(i);
   };
 
+  const handleClose = () => {
+    props.handleModalState();
+  };
+
   return (
     <div className={styles.background} onClick={props.handleModalState}>
       <div className={styles.modalArea} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <h3 className={styles.title}>{`${month}월 ${date}일 예약 정보`}</h3>
-          <ButtonX className={styles.btnX} />
+          <ButtonX className={styles.btnX} onClick={handleClose} />
         </div>
         <div className={styles.context}>
           <div className={styles.bundle}>
@@ -116,21 +121,32 @@ export default function MyActivityModal(props: {
             <DropDownB
               options={scheduleList.map((item) => `${item.startTime} ~ ${item.endTime}`)}
               onSelect={handleSelect}
-              placeholder='00:00 ~ 00:00'
-              width='300px'
+              placeholder='체험 시간을 선택해주세요'
+              width='250px'
             />
           </div>
           <div className={styles.bundle}>
             <p className={styles.miniHeader}>예약 목록</p>
-            {reservationList1.map((item: Reservation, j: number) => (
-              <ReservationItem item={item} key={j} />
-            ))}
-            {reservationList2.map((item: Reservation, j: number) => (
-              <ReservationItem item={item} key={j} />
-            ))}
-            {reservationList3.map((item: Reservation, j: number) => (
-              <ReservationItem item={item} key={j} />
-            ))}
+            {selected === '' && (
+              <div className={styles.bundle}>
+                {new Array(3).fill('').map((value, i) => (
+                  <ReservationItemSkeleton key={i} />
+                ))}
+              </div>
+            )}
+            {selected !== '' && (
+              <div className={styles.bundle}>
+                {reservationList1.map((item: Reservation, j: number) => (
+                  <ReservationItem item={item} key={j} />
+                ))}
+                {reservationList2.map((item: Reservation, j: number) => (
+                  <ReservationItem item={item} key={j} />
+                ))}
+                {reservationList3.map((item: Reservation, j: number) => (
+                  <ReservationItem item={item} key={j} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

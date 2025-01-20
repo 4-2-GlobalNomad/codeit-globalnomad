@@ -9,11 +9,11 @@ export const profileSideNavMenu = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '2.4rem',
-  padding: '2.4rem 0',
+  gap: '24px',
+  padding: '24px 0',
   backgroundColor: '#fff',
   border: `1px solid ${global.color.gray[300]}`,
-  borderRadius: '1.2rem',
+  borderRadius: '12px',
   width: '100%',
   height: 'fit-content',
   boxShadow: '0px 4px 16px rgba(17, 34, 17, 0.05)',
@@ -48,13 +48,13 @@ export const profileImage = style({
 
 export const profileImageContainer = style({
   position: 'relative',
-  width: '16rem',
-  height: '16rem',
+  width: '160px',
+  height: '160px',
 });
 
 export const penIconBox = style({
-  width: '4.4rem',
-  height: '4.4rem',
+  width: '44px',
+  height: '44px',
   borderRadius: '50%',
   backgroundColor: global.color.green[200],
   position: 'absolute',
@@ -75,14 +75,14 @@ export const navListBox = style({
   gap: '8px',
   display: 'flex',
   flexDirection: 'column',
-  borderRadius: '1.2rem',
+  borderRadius: '12px',
 });
 
 export const navTextBox = style({
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
-  borderRadius: '1.2rem',
+  borderRadius: '12px',
   overflow: 'hidden',
   transition: 'all 0.2s ease',
 
@@ -95,9 +95,9 @@ export const navText = style({
   color: global.color.gray[700],
   display: 'flex',
   alignItems: 'center',
-  padding: '0.9rem 0',
-  paddingLeft: '1.6rem',
-  gap: '1.4rem',
+  padding: '9px 0',
+  paddingLeft: '16px',
+  gap: '14px',
   transition: 'all 0.2s ease',
 
   ':hover': {
