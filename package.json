@@ -21,7 +21,7 @@
     "ci": "^2.3.0",
     "dayjs": "^1.11.13",
     "gitmoji-cli": "^9.5.0",
-    "next": "15.1.0",
+    "next": "15.1.6",
     "react": "^18.3.1",
     "react-big-calendar": "^1.17.1",
     "react-datepicker": "^7.5.0",
