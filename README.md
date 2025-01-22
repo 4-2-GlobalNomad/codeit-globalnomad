@@ -17,7 +17,9 @@
 <br>
 
 ## 기술 스택
-
+<div style="display: inline-block; background-color: #4CAF50; color: white; padding: 5px 10px; border-radius: 5px;">
+  GitHub Actions
+</div>
 <br>
 
 ## URL
